@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Type = VacancyService.Domain.Entities.Models.Type;
 
-namespace VacancyService.Infastrucrure.Configurations
+namespace VacancyService.Infrastructure.Configurations
 {
     public class TypeConfiguration : IEntityTypeConfiguration<Type>
     {

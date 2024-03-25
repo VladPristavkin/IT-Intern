@@ -2,7 +2,7 @@
 {
     public class KeySkill
     {
-        public string Name { get; set; }
+        public required string Name { get; set; }
         public IEnumerable<Vacancy>? Vacancies { get; set; }
     }
 }

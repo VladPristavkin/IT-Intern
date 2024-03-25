@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VacancyService.Domain.Entities.Models;
-using VacancyService.Infastrucrure.Configurations;
+using VacancyService.Infrastructure.Configurations;
 
-namespace VacancyService.Infastrucrure.DbContexts
+namespace VacancyService.Infrastructure.DbContexts
 {
     public class ApplicationDbContext : DbContext
     {
@@ -10,32 +10,22 @@ namespace VacancyService.Infastrucrure.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Vacancy>()
-                .HasMany(v => v.ProfessionalRoles)
-                .WithMany(p=>p.Vacancies)
-                .UsingEntity(j => j.ToTable("VacancyProfessionalRole"));
-
-            modelBuilder.Entity<Address>()
-                .HasMany(a=>a.MetroStations)
-                .WithMany(m=>m.Addresses)
-                .UsingEntity(j => j.ToTable("AddressMetroStation"));
-
-            modelBuilder.Entity<Vacancy>()
-                 .HasMany(v => v.KeySkills)
-                 .WithMany(k=>k.Vacancies)
-                 .UsingEntity(j => j.ToTable("VacancyKeySkill"));
-
-            modelBuilder.Entity<Vacancy>()
-                .HasMany(v => v.Languages)
-                .WithMany(l=>l.Vacancies)
-                .UsingEntity(j => j.ToTable("VacancyLanguage"));
-
-            modelBuilder.Entity<Language>()
-                .HasMany(l => l.Levels)
-                .WithMany(l => l.Languages)
-                .UsingEntity(j => j.ToTable("LanguageLevel"));
-
+            modelBuilder.ApplyConfiguration(new AddressConfiguration());
             modelBuilder.ApplyConfiguration(new AreaConfiguration());
+            modelBuilder.ApplyConfiguration(new EmployerConfiguration());
+            modelBuilder.ApplyConfiguration(new EmploymentConfiguration());
+            modelBuilder.ApplyConfiguration(new ExperienceConfiguration());
+            modelBuilder.ApplyConfiguration(new KeySkillConfiguration());
+            modelBuilder.ApplyConfiguration(new LanguageConfiguration());
+            modelBuilder.ApplyConfiguration(new LevelConfiguration());
+            modelBuilder.ApplyConfiguration(new MetroLineConfiguration());
+            modelBuilder.ApplyConfiguration(new MetroStationConfiguration());
+            modelBuilder.ApplyConfiguration(new ProfessionalRoleConfiguration());
+            modelBuilder.ApplyConfiguration(new SalaryConfiguration());
+            modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
+            modelBuilder.ApplyConfiguration(new TypeConfiguration());
+            modelBuilder.ApplyConfiguration(new VacancyConfiguration());
+
             base.OnModelCreating(modelBuilder);
         }
 

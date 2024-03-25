@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\VacancyService.Application\VacancyService.Application.csproj" />
     <ProjectReference Include="..\VacancyService.Domain\VacancyService.Domain.csproj" />
+    <ProjectReference Include="..\VacancyService.Infrastructure\VacancyService.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

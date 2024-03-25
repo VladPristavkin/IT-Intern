@@ -1,9 +1,9 @@
 ﻿using VacancyService.Domain.Interfaces;
 using VacancyService.Domain.Interfaces.RepositoryInterfaces;
-using VacancyService.Infastrucrure.DbContexts;
-using VacancyService.Infastrucrure.VacancyModelsRepositories;
+using VacancyService.Infrastructure.DbContexts;
+using VacancyService.Infrastructure.VacancyModelsRepositories;
 
-namespace VacancyService.Infastrucrure.Repositories
+namespace VacancyService.Infrastructure.Repositories
 {
     public class RepositoryManager : IRepositoryManager
     {

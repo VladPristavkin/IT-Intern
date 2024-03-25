@@ -2,9 +2,8 @@
 {
     public class Language
     {
-        public string Id { get; set; }
-        public IEnumerable<Level> Levels { get; set; }
-        public string Name { get; set; }
-        public IEnumerable<Vacancy>? Vacancies { get; set; }
+        public required string Id { get; set; }
+        public required IEnumerable<Level> Levels { get; set; }
+        public required string Name { get; set; }
     }
 }

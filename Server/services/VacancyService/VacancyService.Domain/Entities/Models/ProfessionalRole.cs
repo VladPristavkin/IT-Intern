@@ -2,9 +2,8 @@
 {
     public class ProfessionalRole
     {
-        public long Id { get; set; }
-        public string Name { get; set; }
+        public required long Id { get; set; }
+        public required string Name { get; set; }
         public IEnumerable<ProfessionalRole>? Roles { get; set; }
-        public IEnumerable<Vacancy>? Vacancies { get; set; }
     }
 }

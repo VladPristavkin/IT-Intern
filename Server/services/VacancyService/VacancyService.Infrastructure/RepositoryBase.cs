@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using VacancyService.Domain.Interfaces.RepositoryInterfaces;
-using VacancyService.Infastrucrure.DbContexts;
+using VacancyService.Domain.Interfaces;
+using VacancyService.Infrastructure.DbContexts;
 
-namespace VacancyService.Infastrucrure
+namespace VacancyService.Infrastructure
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {

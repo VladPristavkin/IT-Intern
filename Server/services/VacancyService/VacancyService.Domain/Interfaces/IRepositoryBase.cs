@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace VacancyService.Domain.Interfaces.RepositoryInterfaces
+namespace VacancyService.Domain.Interfaces
 {
     public interface IRepositoryBase<T> where T : class
     {

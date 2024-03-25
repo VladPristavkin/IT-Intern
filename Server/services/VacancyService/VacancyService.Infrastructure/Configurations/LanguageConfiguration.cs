@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using VacancyService.Domain.Entities.Models;
 
-namespace VacancyService.Infastrucrure.Configurations
+namespace VacancyService.Infrastructure.Configurations
 {
     public class LanguageConfiguration : IEntityTypeConfiguration<Language>
     {
