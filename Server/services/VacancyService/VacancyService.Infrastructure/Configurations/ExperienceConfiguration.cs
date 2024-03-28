@@ -8,7 +8,15 @@ namespace VacancyService.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Experience> builder)
         {
+            builder.ToTable(nameof(Experience));
 
+            builder.HasKey(exp => exp.Id);
+
+            builder.Property(exp => exp.Id).HasColumnName("ExperienceId").IsRequired();
+
+            builder.HasIndex(exp=> exp.Id).IsUnique();
+
+            builder.Property(exp=>exp.Name).IsRequired();
         }
     }
 }

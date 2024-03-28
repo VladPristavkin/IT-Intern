@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using VacancyService.Domain.Entities.Models;
 using VacancyService.Infrastructure.Configurations;
 
@@ -6,7 +7,7 @@ namespace VacancyService.Infrastructure.DbContexts
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,7 +22,6 @@ namespace VacancyService.Infrastructure.DbContexts
             modelBuilder.ApplyConfiguration(new MetroLineConfiguration());
             modelBuilder.ApplyConfiguration(new MetroStationConfiguration());
             modelBuilder.ApplyConfiguration(new ProfessionalRoleConfiguration());
-            modelBuilder.ApplyConfiguration(new SalaryConfiguration());
             modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
             modelBuilder.ApplyConfiguration(new TypeConfiguration());
             modelBuilder.ApplyConfiguration(new VacancyConfiguration());
@@ -30,11 +30,14 @@ namespace VacancyService.Infrastructure.DbContexts
         }
 
         #region DbSets
+        public DbSet<Address> Addresses { get; set; } = null!;
         public DbSet<Area> Areas { get; set; } = null!;
         public DbSet<Employer> Employers { get; set; } = null!;
         public DbSet<Employment> Employments { get; set; } = null!;
         public DbSet<Experience> Experiences { get; set; } = null!;
+        public DbSet<KeySkill> KeySkills { get; set; } = null!;
         public DbSet<Language> Languages { get; set; } = null!;
+        public DbSet<Level> Levels { get; set; } = null!;
         public DbSet<MetroLine> MetroLines { get; set; } = null!;
         public DbSet<MetroStation> MetroStations { get; set; } = null!;
         public DbSet<ProfessionalRole> ProfessionalRoles { get; set; } = null!;

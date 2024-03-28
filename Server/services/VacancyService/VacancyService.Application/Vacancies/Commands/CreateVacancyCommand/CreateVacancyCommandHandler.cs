@@ -18,7 +18,7 @@ namespace VacancyService.Application.Vacancies.Commands.CreateVacancyCommand
 
         public Task<VacancyDto> Handle(CreateVacancyCommand request, CancellationToken cancellationToken)
         {
-            var 
+           throw new NotImplementedException();
         }
     }
 }

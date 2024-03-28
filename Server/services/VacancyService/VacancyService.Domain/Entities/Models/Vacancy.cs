@@ -26,6 +26,11 @@
         public bool Archived { get; set; }
 
         /// <summary>
+        /// Gets or sets the time when the vacancy was published.
+        /// </summary>
+        public DateTime PublishedAt { get; set; }
+
+        /// <summary>
         /// Gets or sets the address of vacancy.
         /// </summary>
         public Address? Address { get; set; }
@@ -51,26 +56,6 @@
         public Experience? Experience { get; set; }
 
         /// <summary>
-        /// Gets or sets the collection of key skills.
-        /// </summary>
-        public IEnumerable<KeySkill>? KeySkills { get; set; }
-
-        /// <summary>
-        /// Gets or sets the collection of languages for the vacancy.
-        /// </summary>
-        public IEnumerable<Language>? Languages { get; set; }
-
-        /// <summary>
-        /// Gets or sets the collection of professtionl roles for the vacancy.
-        /// </summary>
-        public IEnumerable<ProfessionalRole>? ProfessionalRoles { get; set; }
-
-        /// <summary>
-        /// Gets or sets the time when the vacancy was published.
-        /// </summary>
-        public DateTime PublishedAt { get; set; }
-
-        /// <summary>
         /// Gets or sets the salary of vacancy.
         /// </summary>
         public Salary? Salary { get; set; }
@@ -84,6 +69,21 @@
         /// Gets or sets the type of vacancy.
         /// </summary>
         public Type? Type { get; set; }
+
+        /// <summary>
+        /// Gets or sets the collection of key skills.
+        /// </summary>
+        public IEnumerable<KeySkill>? KeySkills { get; set; }
+
+        /// <summary>
+        /// Gets or sets the collection of languages for the vacancy.
+        /// </summary>
+        public IEnumerable<Language>? Languages { get; set; }
+
+        /// <summary>
+        /// Gets or sets the collection of professtionl roles for the vacancy.
+        /// </summary>
+        public IEnumerable<ProfessionalRole>? ProfessionalRoles { get; set; }
 
         #region Parsing metadata fields
 

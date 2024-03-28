@@ -8,5 +8,6 @@
         public double? Lng { get; set; }
         public int? Order { get; set; }
         public MetroLine? Line { get; set; }
+        public IEnumerable<Address>? Addresses { get; set; }
     }
 }

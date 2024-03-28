@@ -6,6 +6,10 @@
     public class Address
     {
         /// <summary>
+        /// Gets or sets the id of address.
+        /// </summary>
+        public required long Id { get; set; }
+        /// <summary>
         /// Gets or sets the number of building.
         /// </summary>
         public required string Building { get; set; }

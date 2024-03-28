@@ -8,7 +8,15 @@ namespace VacancyService.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Schedule> builder)
         {
+            builder.ToTable(nameof(Schedule));
 
+            builder.HasKey(sch => sch.Id);
+
+            builder.Property(sch => sch.Id).HasColumnName("ScheduleId").IsRequired();
+
+            builder.HasIndex(sch => sch.Id).IsUnique();
+
+            builder.Property(sch => sch.Name).IsRequired();
         }
     }
 }

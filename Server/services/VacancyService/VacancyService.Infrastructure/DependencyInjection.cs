@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 using VacancyService.Domain.Interfaces;
 using VacancyService.Infrastructure.DbContexts;
 using VacancyService.Infrastructure.Repositories;
@@ -14,7 +15,7 @@ namespace VacancyService.Infrastructure
             var connectionString = configuration.GetConnectionString("DbConnectionString");
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseNpgsql(connectionString);
+                options.UseNpgsql(connectionString, b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName));
             });
             services.AddScoped<IRepositoryManager, RepositoryManager>();
         }

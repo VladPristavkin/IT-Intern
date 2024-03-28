@@ -9,10 +9,24 @@ namespace VacancyService.Infrastructure.Configurations
         public void Configure(EntityTypeBuilder<Area> builder)
         {
             builder.ToTable(nameof(Area));
+
             builder.HasKey(area => area.Id);
-            builder.Property(area => area.Id).HasColumnName("AreaId");
+
+            builder.Property(area => area.Id).HasColumnName("AreaId").IsRequired();
+
             builder.HasIndex(area => area.Id).IsUnique();
-            builder.Property(area=>area.Name).IsRequired().HasMaxLength(255);
+
+            builder.Property(area=>area.Name).IsRequired();
+
+            builder.HasOne(area => area.Parent)
+                .WithMany(area => area.Areas)
+                .HasForeignKey("ParentId")
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.HasMany(area => area.Lines)
+                .WithOne(line=>line.Area)
+                .HasForeignKey("AreaId")
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
