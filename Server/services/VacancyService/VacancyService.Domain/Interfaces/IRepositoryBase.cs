@@ -8,6 +8,6 @@ namespace VacancyService.Domain.Interfaces
         public void Update(T entity);
         public void Delete(T entity);
         public IQueryable<T> FindAll(bool trackChanges);
-        public IQueryable<T> FingByExpression(Expression<Func<T, bool>> expression, bool trackChanges);
+        public IQueryable<T> FindByExpression(Expression<Func<T, bool>> expression, bool trackChanges);
     }
 }

@@ -23,7 +23,7 @@ namespace VacancyService.Infrastructure
         public IQueryable<T> FindAll(bool trackChanges) =>
             !trackChanges ? _dbContext.Set<T>().AsNoTracking() : _dbContext.Set<T>();
 
-        public IQueryable<T> FingByExpression(Expression<Func<T, bool>> expression, bool trackChanges) =>
+        public IQueryable<T> FindByExpression(Expression<Func<T, bool>> expression, bool trackChanges) =>
             !trackChanges ? _dbContext.Set<T>().Where(expression).AsNoTracking() : _dbContext.Set<T>().Where(expression);
 
         public void Update(T entity)

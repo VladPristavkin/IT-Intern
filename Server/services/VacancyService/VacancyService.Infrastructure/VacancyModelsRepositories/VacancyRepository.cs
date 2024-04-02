@@ -20,11 +20,11 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
            await FindAll(trackChanges).OrderBy(v => v.Name).ToListAsync(cancellationToken);
 
         public Vacancy? GetVacancyById(long id, bool trackChanges) =>
-            FingByExpression(v => v.Id.Equals(id), trackChanges).SingleOrDefault();
+            FindByExpression(v => v.Id.Equals(id), trackChanges).SingleOrDefault();
 
         public async Task<Vacancy?> GetVacancyByIdAsync(long id, bool trackChanges, CancellationToken cancellationToken = default) =>
-           await FingByExpression(v => v.Id.Equals(id), trackChanges).SingleOrDefaultAsync(cancellationToken);
+           await FindByExpression(v => v.Id.Equals(id), trackChanges).SingleOrDefaultAsync(cancellationToken);
 
-        public void UpdateVacancy(long id, Vacancy vacancy) => Update(vacancy);
+        public void UpdateVacancy(Vacancy vacancy) => Update(vacancy);
     }
 }
