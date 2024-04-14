@@ -9,7 +9,7 @@ namespace VacancyService.Domain.Interfaces.RepositoryInterfaces
         public void DeleteMetroStation(MetroStation metroStation);
         public IEnumerable<MetroStation> GetAll(bool trackChanges);
         public Task<IEnumerable<MetroStation>> GetAllAsync(bool trackChanges, CancellationToken token = default);
-        public MetroStation? GetMetroStationById(long id, bool trackChanges);
-        public Task<MetroStation?> GetMetroStationByIdAsync(long id, bool trackChanges, CancellationToken token = default);
+        public MetroStation? GetMetroStationById(double id, bool trackChanges);
+        public Task<MetroStation?> GetMetroStationByIdAsync(double id, bool trackChanges, CancellationToken token = default);
     }
 }

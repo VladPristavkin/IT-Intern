@@ -14,16 +14,32 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
         public void DeleteProfessionalRole(ProfessionalRole professionalRole) => Delete(professionalRole);
 
         public IEnumerable<ProfessionalRole> GetAll(bool trackChanges) =>
-            FindAll(trackChanges).ToList();
+            FindAll(trackChanges)
+            .Include(p=>p.Parent)
+            .ThenInclude(p=>p.Roles)
+            .ThenInclude(p=>p.Roles)
+            .ToList();
 
         public async Task<IEnumerable<ProfessionalRole>> GetAllAsync(bool trackChanges, CancellationToken token = default) =>
-            await FindAll(trackChanges).ToListAsync(token);
+            await FindAll(trackChanges)
+            .Include(p => p.Parent)
+            .ThenInclude(p => p.Roles)
+            .ThenInclude(p => p.Roles)
+            .ToListAsync(token);
 
         public ProfessionalRole? GetProfessionalRoleById(long id, bool trackChanges) =>
-            FindByExpression(p => p.Id.Equals(id), trackChanges).SingleOrDefault();
+            FindByExpression(p => p.Id.Equals(id), trackChanges)
+            .Include(p => p.Parent)
+            .ThenInclude(p => p.Roles)
+            .ThenInclude(p => p.Roles)
+            .SingleOrDefault();
 
         public async Task<ProfessionalRole?> GetProfessionalRoleByIdAsync(long id, bool trackChanges, CancellationToken token = default) =>
-            await FindByExpression(p => p.Id.Equals(id), trackChanges).SingleOrDefaultAsync(token);
+            await FindByExpression(p => p.Id.Equals(id), trackChanges)
+            .Include(p => p.Parent)
+            .ThenInclude(p => p.Roles)
+            .ThenInclude(p => p.Roles)
+            .SingleOrDefaultAsync(token);
 
         public void UpdateProfessionalRole(ProfessionalRole professionalRole) => Update(professionalRole);
     }

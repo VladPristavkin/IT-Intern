@@ -16,6 +16,7 @@ namespace VacancyService.Infrastructure
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseNpgsql(connectionString, b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName));
+                options.EnableSensitiveDataLogging();
             });
             services.AddScoped<IRepositoryManager, RepositoryManager>();
         }

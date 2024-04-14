@@ -19,10 +19,10 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
         public async Task<IEnumerable<MetroStation>> GetAllAsync(bool trackChanges, CancellationToken token = default) =>
             await FindAll(trackChanges).ToListAsync(token);
 
-        public MetroStation? GetMetroStationById(long id, bool trackChanges) =>
+        public MetroStation? GetMetroStationById(double id, bool trackChanges) =>
             FindByExpression(m => m.Id.Equals(id), trackChanges).SingleOrDefault();
 
-        public async Task<MetroStation?> GetMetroStationByIdAsync(long id, bool trackChanges, CancellationToken token = default) =>
+        public async Task<MetroStation?> GetMetroStationByIdAsync(double id, bool trackChanges, CancellationToken token = default) =>
             await FindByExpression(m => m.Id.Equals(id), trackChanges).SingleOrDefaultAsync(token);
 
         public void UpdateMetroStation(MetroStation metroStation) => Update(metroStation);

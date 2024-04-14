@@ -1,8 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using VacancyService.Application.DataTransferObjects.DTOs.Vacancy;
-using VacancyService.Application.Vacancies.Queries.GetVacancyCollection;
-using VacancyService.Application.Vacancies.Queries.GetVacancyDetails;
+using Microsoft.AspNetCore.Mvc.Filters;
+using VacancyService.Application.CQRS.Vacancies.Commands.CreateVacancyCommand;
+using VacancyService.Application.CQRS.Vacancies.Queries.GetVacancyCollection;
+using VacancyService.Application.CQRS.Vacancies.Queries.GetVacancyDetails;
+using VacancyService.Application.DataTransferObjects;
+using VacancyService.Domain.RequestFeatures;
 
 namespace VacancyService.RESTWebApi.Controllers
 {
@@ -15,21 +18,32 @@ namespace VacancyService.RESTWebApi.Controllers
         public VacancyController(ISender sender) => _sender = sender;
 
         [HttpGet]
-        public async Task<IActionResult> GetAllVacancies()
+        public async Task<IActionResult> GetAllVacancies([FromQuery] VacancyParameters vacancyParameters)
         {
-            var vacancies = await _sender.Send(new GetVacancyCollectionQuery(TrackChanges: false));
+            var resultInfo = await _sender.Send(
+                new GetVacancyCollectionQuery(VacancyParameters: vacancyParameters, TrackChanges: false));
 
-            vacancies = new List<VacancyDto>() { new VacancyDto() { Id = 1 } };
-
-            return Ok(vacancies);
+            return Ok(resultInfo);
         }
 
         [HttpGet("{id:long}", Name = "VacancyById")]
-        public async Task<IActionResult> GetVacancyById(long id)
+        public async Task<IActionResult> GetVacancyById(long id, [FromQuery] VacancyParameters vacancyParameters)
         {
-            var vacancy = await _sender.Send(new GetVacancyDetailsQuery(Id: id, TrackChanges: false));
+            var vacancy = await _sender.Send(
+                new GetVacancyDetailsQuery(Id: id, VacancyParameters: vacancyParameters, TrackChanges: false));
 
             return Ok(vacancy);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateVacancy([FromBody] VacancyForCreationDto vacancyForCreation)
+        {
+            if (vacancyForCreation == null)
+                return BadRequest("");
+
+            var vacancy = await _sender.Send(new CreateVacancyCommand(vacancyForCreation));
+
+            return CreatedAtRoute("VacancyById", new { id = vacancy.Id }, vacancy);
         }
     }
 }

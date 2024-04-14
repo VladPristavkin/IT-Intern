@@ -1,29 +1,111 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using VacancyService.Domain.Entities.Models;
 using VacancyService.Domain.Interfaces.RepositoryInterfaces;
+using VacancyService.Domain.RequestFeatures;
 using VacancyService.Infrastructure.DbContexts;
+using VacancyService.Infrastructure.RepositoryExtensions;
 
 namespace VacancyService.Infrastructure.VacancyModelsRepositories
 {
-    public class VacancyRepository : RepositoryBase<Vacancy>, IVacancyRepository
+    internal class VacancyRepository : RepositoryBase<Vacancy>, IVacancyRepository
     {
         public VacancyRepository(ApplicationDbContext dbContext) : base(dbContext) { }
+
+        public async Task<long> CountAsync(VacancyParameters vacancyParameters, CancellationToken cancellationToken = default) =>
+           await FindAll(false)
+            .FilterVacancy(vacancyParameters)
+            .Search(vacancyParameters)
+            .CountAsync(cancellationToken);
 
         public void CreateVacancy(Vacancy vacancy) => Create(vacancy);
 
         public void DeleveVacancy(Vacancy vacancy) => Delete(vacancy);
 
-        public IEnumerable<Vacancy> GetAll(bool trackChanges) =>
-            FindAll(trackChanges).OrderBy(v => v.Name).ToList();
+        public IEnumerable<Vacancy> GetAll(VacancyParameters vacancyParameters, bool trackChanges) =>
+            FindAll(trackChanges)
+            .Include(v => v.Address)
+            .Include(v => v.Area)
+            .Include(v => v.Employer)
+            .Include(v => v.Employment)
+            .Include(v => v.Experience)
+            .Include(v => v.Salary)
+            .Include(v => v.Schedule)
+            .Include(v => v.Type)
+            .Include(v => v.KeySkills)
+            .Include(v => v.Languages)
+            .Include(v => v.ProfessionalRoles)
+            .Include(v => v.Languages)
+            .ThenInclude(l => l.Levels)
+            .FilterVacancy(vacancyParameters)
+            .Search(vacancyParameters)
+            .OrderBy(v => v.Name)
+            .Skip((vacancyParameters.Page- 1) * vacancyParameters.PageSize)
+            .Take(vacancyParameters.PageSize)
+            .ToList();
 
-        public async Task<IEnumerable<Vacancy>> GetAllAsync(bool trackChanges, CancellationToken cancellationToken = default) =>
-           await FindAll(trackChanges).OrderBy(v => v.Name).ToListAsync(cancellationToken);
+        public async Task<IEnumerable<Vacancy>> GetAllAsync(VacancyParameters vacancyParameters, bool trackChanges, CancellationToken cancellationToken = default) =>
+           await FindAll(trackChanges)
+            .Include(v => v.Address)
+            .Include(v => v.Area)
+            .Include(v => v.Employer)
+            .Include(v => v.Employment)
+            .Include(v => v.Experience)
+            .Include(v => v.Salary)
+            .Include(v => v.Schedule)
+            .Include(v => v.Type)
+            .Include(v => v.KeySkills)
+            .Include(v => v.Languages)
+            .Include(v => v.ProfessionalRoles)
+            .Include(v => v.Languages)
+            .ThenInclude(l => l.Levels)
+            .FilterVacancy(vacancyParameters)
+            .Search(vacancyParameters)
+            .OrderBy(v => v.Name)
+            .Skip((vacancyParameters.Page - 1) * vacancyParameters.PageSize)
+            .Take(vacancyParameters.PageSize)
+            .ToListAsync(cancellationToken);
 
-        public Vacancy? GetVacancyById(long id, bool trackChanges) =>
-            FindByExpression(v => v.Id.Equals(id), trackChanges).SingleOrDefault();
+        public Vacancy? GetVacancyById(VacancyParameters vacancyParameters, long id, bool trackChanges) =>
+            FindByExpression(v => v.Id.Equals(id), trackChanges)
+            .Include(v => v.Address)
+            .Include(v => v.Area)
+            .Include(v => v.Employer)
+            .Include(v => v.Employment)
+            .Include(v => v.Experience)
+            .Include(v => v.Salary)
+            .Include(v => v.Schedule)
+            .Include(v => v.Type)
+            .Include(v => v.KeySkills)
+            .Include(v => v.Languages)
+            .Include(v => v.ProfessionalRoles)
+            .Include(v => v.Languages)
+            .ThenInclude(l => l.Levels)
+            .FilterVacancy(vacancyParameters)
+            .Search(vacancyParameters)
+            .Skip((vacancyParameters.Page - 1) * vacancyParameters.PageSize)
+            .Take(vacancyParameters.PageSize)
+            .SingleOrDefault();
 
-        public async Task<Vacancy?> GetVacancyByIdAsync(long id, bool trackChanges, CancellationToken cancellationToken = default) =>
-           await FindByExpression(v => v.Id.Equals(id), trackChanges).SingleOrDefaultAsync(cancellationToken);
+        public async Task<Vacancy?> GetVacancyByIdAsync(VacancyParameters vacancyParameters, long id, bool trackChanges, CancellationToken cancellationToken = default) =>
+           await FindByExpression(v => v.Id.Equals(id), trackChanges)
+            .Include(v => v.Address)
+            .Include(v => v.Area)
+            .Include(v => v.Employer)
+            .Include(v => v.Employment)
+            .Include(v => v.Experience)
+            .Include(v => v.Salary)
+            .Include(v => v.Schedule)
+            .Include(v => v.Type)
+            .Include(v => v.KeySkills)
+            .Include(v => v.Languages)
+            .Include(v => v.ProfessionalRoles)
+            .Include(v=>v.Languages)
+            .ThenInclude(l=>l.Levels)
+            .FilterVacancy(vacancyParameters)
+            .Search(vacancyParameters)
+            .Skip((vacancyParameters.Page - 1) * vacancyParameters.PageSize)
+            .Take(vacancyParameters.PageSize)
+            .SingleOrDefaultAsync(cancellationToken);
 
         public void UpdateVacancy(Vacancy vacancy) => Update(vacancy);
     }

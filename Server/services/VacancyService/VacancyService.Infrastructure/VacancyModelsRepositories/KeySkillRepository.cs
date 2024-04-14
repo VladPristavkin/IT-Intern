@@ -14,16 +14,24 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
         public void DeleteKeySkill(KeySkill keySkill) => Delete(keySkill);
 
         public IEnumerable<KeySkill> GetAll(bool trackChanges) =>
-            FindAll(trackChanges).ToList();
+            FindAll(trackChanges)
+            .Include(k=>k.Vacancies)
+            .ToList();
 
         public async Task<IEnumerable<KeySkill>> GetAllAsync(bool trackChanges, CancellationToken token = default) =>
-            await FindAll(trackChanges).ToListAsync(token);
+            await FindAll(trackChanges)
+            .Include(k => k.Vacancies)
+            .ToListAsync(token);
 
         public KeySkill? GetSkillById(string name, bool trackChanges) =>
-            FindByExpression(k => k.Name.Equals(name), trackChanges).SingleOrDefault();
+            FindByExpression(k => k.Name.Equals(name), trackChanges)
+            .Include(k => k.Vacancies)
+            .SingleOrDefault();
 
         public async Task<KeySkill?> GetSkillByIdAsync(string name, bool trackChanges, CancellationToken token = default) =>
-            await FindByExpression(k => k.Name.Equals(name), trackChanges).SingleOrDefaultAsync(token);
+            await FindByExpression(k => k.Name.Equals(name), trackChanges)
+            .Include(k => k.Vacancies)
+            .SingleOrDefaultAsync(token);
 
         public void UpdateKeySkill(KeySkill keySkill) => Update(keySkill);
     }

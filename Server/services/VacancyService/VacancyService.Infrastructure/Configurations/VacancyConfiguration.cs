@@ -19,6 +19,7 @@ namespace VacancyService.Infrastructure.Configurations
             builder.Property(vac => vac.Archived).IsRequired().HasDefaultValue(false);
 
             builder.Property(vac => vac.PublishedAt).IsRequired();
+            builder.Property(vac => vac.PublishedAt).HasConversion(v => v.ToUniversalTime(), v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
 
             builder.HasOne(vac => vac.Address)
                 .WithOne()
@@ -36,23 +37,23 @@ namespace VacancyService.Infrastructure.Configurations
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(vac => vac.Employment)
-                .WithOne()
-                .HasForeignKey<Vacancy>("EmploymentId")
+                .WithMany()
+                .HasForeignKey("EmploymentId")
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(vac => vac.Experience)
-                .WithOne()
-                .HasForeignKey<Vacancy>("ExperienceId")
+                .WithMany()
+                .HasForeignKey("ExperienceId")
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(vac => vac.Schedule)
-                .WithOne()
-                .HasForeignKey<Vacancy>("ScheduleId")
+                .WithMany()
+                .HasForeignKey("ScheduleId")
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasOne(vac => vac.Type)
-                .WithOne()
-                .HasForeignKey<Vacancy>("TypeId")
+                .WithMany()
+                .HasForeignKey("TypeId")
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.HasMany(vac => vac.KeySkills)

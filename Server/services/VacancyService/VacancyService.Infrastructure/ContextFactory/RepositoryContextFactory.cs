@@ -15,7 +15,7 @@ namespace VacancyService.Infrastructure.ContextFactory
                 .AddJsonFile("appsettings.json")
                 .Build();
             var buiilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseSqlServer(configuration.GetConnectionString("DbConnectionString"),
+                .UseNpgsql(configuration.GetConnectionString("DbConnectionString"),
                 b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName));
 
             return new ApplicationDbContext(buiilder.Options);

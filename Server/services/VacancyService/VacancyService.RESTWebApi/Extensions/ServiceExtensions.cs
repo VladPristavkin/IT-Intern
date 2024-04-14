@@ -1,4 +1,6 @@
-﻿namespace VacancyService.RESTWebApi.Extensions
+﻿using VacancyService.RESTWebApi.MIddlewares;
+
+namespace VacancyService.RESTWebApi.Extensions
 {
     public static class ServiceExtensions
     {
@@ -19,25 +21,5 @@
         {
             services.Configure<IISOptions>(options => { });
         }
-
-        //public static void ConfigureDbContext(this IServiceCollection services, IConfigurationRoot configuration)
-        //{
-        //    services.AddDbContext<RepositoryDbContext>(options => options.UseNpgsql(configuration.GetConnectionString("PostgresqlConnectionString")));
-        //}
-
-        //public static void ConfigureLoggerManager(this IServiceCollection services)
-        //{
-        //    services.AddSingleton<ILoggerManager, LoggerManager>();
-        //}
-
-        //public static void ConfigureRepositoryManager(this IServiceCollection services)
-        //{
-        //    services.AddScoped<IRepositoryManager, RepositoryManager>();
-        //}
-
-        //public static void ConfigureServiceManager(this IServiceCollection services)
-        //{
-        //    services.AddScoped<IServiceManager, ServiceManager>();
-        //}
     }
 }

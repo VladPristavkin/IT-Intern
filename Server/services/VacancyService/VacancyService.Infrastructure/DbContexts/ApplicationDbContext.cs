@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Reflection;
 using VacancyService.Domain.Entities.Models;
 using VacancyService.Infrastructure.Configurations;
 
