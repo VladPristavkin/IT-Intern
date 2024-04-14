@@ -14,16 +14,23 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
         public void DeleteLevel(Level level) => Delete(level);
 
         public IEnumerable<Level> GetAll(bool trackChanges) =>
-            FindAll(trackChanges).ToList();
+            FindAll(trackChanges)
+            .ToList();
 
-        public async Task<IEnumerable<Level>> GetAllAsync(bool trackChanges, CancellationToken token = default) =>
-            await FindAll(trackChanges).ToListAsync(token);
+        public async Task<IEnumerable<Level>> GetAllAsync(bool trackChanges,
+            CancellationToken token = default) =>
+            await FindAll(trackChanges)
+            .ToListAsync(token);
 
         public Level? GetLevelById(string id, bool trackChanges) =>
-            FindByExpression(l => l.Id.Equals(id), trackChanges).SingleOrDefault();
+            FindByExpression(l => l.Id.Equals(id), trackChanges)
+            .SingleOrDefault();
 
-        public async Task<Level?> GetLevelByIdAsync(string id, bool trackChanges, CancellationToken token = default) =>
-            await FindByExpression(l => l.Id.Equals(id), trackChanges).SingleOrDefaultAsync(token);
+        public async Task<Level?> GetLevelByIdAsync(string id,
+            bool trackChanges,
+            CancellationToken token = default) =>
+            await FindByExpression(l => l.Id.Equals(id), trackChanges)
+            .SingleOrDefaultAsync(token);
 
         public void UpdateLevel(Level level) => Update(level);
     }

@@ -14,16 +14,23 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
         public void DeleteExperience(Experience experience) => Delete(experience);
 
         public IEnumerable<Experience> GetAllExperience(bool trackChanges) =>
-            FindAll(trackChanges).ToList();
+            FindAll(trackChanges)
+            .ToList();
 
-        public async Task<IEnumerable<Experience>> GetAllExperienceAsync(bool trackChanges, CancellationToken token = default) =>
-            await FindAll(trackChanges).ToListAsync(token);
+        public async Task<IEnumerable<Experience>> GetAllExperienceAsync(bool trackChanges,
+            CancellationToken token = default) =>
+            await FindAll(trackChanges)
+            .ToListAsync(token);
 
         public Experience? GetExperienceById(string id, bool trackChanges) =>
-            FindByExpression(e => e.Id.Equals(id), trackChanges).SingleOrDefault();
+            FindByExpression(e => e.Id.Equals(id), trackChanges)
+            .SingleOrDefault();
 
-        public async Task<Experience?> GetExperienceByIdAsync(string id, bool trackChanges, CancellationToken token = default) =>
-            await FindByExpression(e => e.Id.Equals(id), trackChanges).SingleOrDefaultAsync(token);
+        public async Task<Experience?> GetExperienceByIdAsync(string id,
+            bool trackChanges,
+            CancellationToken token = default) =>
+            await FindByExpression(e => e.Id.Equals(id), trackChanges)
+            .SingleOrDefaultAsync(token);
 
         public void UpdateExperience(Experience experience) => Update(experience);
     }

@@ -2,6 +2,8 @@
 {
     public record AddressForUpdateDto
     {
+        public required long Id { get; set; }
+
         public required string Building { get; set; }
 
         public required string City { get; set; }

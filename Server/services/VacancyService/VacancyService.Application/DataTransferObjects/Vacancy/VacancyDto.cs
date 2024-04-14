@@ -1,6 +1,4 @@
-﻿using VacancyService.Application.DataTransferObjects.Area;
-
-namespace VacancyService.Application.DataTransferObjects
+﻿namespace VacancyService.Application.DataTransferObjects
 {
     public class VacancyDto
     {

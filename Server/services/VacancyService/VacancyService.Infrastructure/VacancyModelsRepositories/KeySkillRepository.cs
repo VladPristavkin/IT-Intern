@@ -15,10 +15,11 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
 
         public IEnumerable<KeySkill> GetAll(bool trackChanges) =>
             FindAll(trackChanges)
-            .Include(k=>k.Vacancies)
+            .Include(k => k.Vacancies)
             .ToList();
 
-        public async Task<IEnumerable<KeySkill>> GetAllAsync(bool trackChanges, CancellationToken token = default) =>
+        public async Task<IEnumerable<KeySkill>> GetAllAsync(bool trackChanges,
+            CancellationToken token = default) =>
             await FindAll(trackChanges)
             .Include(k => k.Vacancies)
             .ToListAsync(token);
@@ -28,7 +29,9 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
             .Include(k => k.Vacancies)
             .SingleOrDefault();
 
-        public async Task<KeySkill?> GetSkillByIdAsync(string name, bool trackChanges, CancellationToken token = default) =>
+        public async Task<KeySkill?> GetSkillByIdAsync(string name,
+            bool trackChanges,
+            CancellationToken token = default) =>
             await FindByExpression(k => k.Name.Equals(name), trackChanges)
             .Include(k => k.Vacancies)
             .SingleOrDefaultAsync(token);

@@ -14,16 +14,23 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
         public void DeleteLanguage(Language language) => Delete(language);
 
         public IEnumerable<Language> GetAll(bool trackChanges) =>
-            FindAll(trackChanges).ToList();
+            FindAll(trackChanges)
+            .ToList();
 
-        public async Task<IEnumerable<Language>> GetAllAsync(bool trackChanges, CancellationToken token = default) =>
-            await FindAll(trackChanges).ToListAsync(token);
+        public async Task<IEnumerable<Language>> GetAllAsync(bool trackChanges,
+            CancellationToken token = default) =>
+            await FindAll(trackChanges)
+            .ToListAsync(token);
 
         public Language? GetLanguageById(string id, bool trackChanges) =>
-            FindByExpression(l => l.Id.Equals(id), trackChanges).SingleOrDefault();
+            FindByExpression(l => l.Id.Equals(id), trackChanges)
+            .SingleOrDefault();
 
-        public async Task<Language?> GetLanguageByIdAsync(string id, bool trackChanges, CancellationToken token = default) =>
-            await FindByExpression(l => l.Id.Equals(id), trackChanges).SingleOrDefaultAsync(token);
+        public async Task<Language?> GetLanguageByIdAsync(string id,
+            bool trackChanges,
+            CancellationToken token = default) =>
+            await FindByExpression(l => l.Id.Equals(id), trackChanges)
+            .SingleOrDefaultAsync(token);
 
         public void UpdateLanguage(Language language) => Update(language);
     }

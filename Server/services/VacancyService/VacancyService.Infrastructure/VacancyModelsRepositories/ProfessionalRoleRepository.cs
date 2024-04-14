@@ -13,31 +13,35 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
 
         public void DeleteProfessionalRole(ProfessionalRole professionalRole) => Delete(professionalRole);
 
+#pragma warning disable CS8620 
         public IEnumerable<ProfessionalRole> GetAll(bool trackChanges) =>
             FindAll(trackChanges)
-            .Include(p=>p.Parent)
-            .ThenInclude(p=>p.Roles)
-            .ThenInclude(p=>p.Roles)
+            .Where(p => p.Parent == null)
+            .Include(p => p.Roles)
+            .ThenInclude(p => p.Roles)
             .ToList();
 
-        public async Task<IEnumerable<ProfessionalRole>> GetAllAsync(bool trackChanges, CancellationToken token = default) =>
+        public async Task<IEnumerable<ProfessionalRole>> GetAllAsync(bool trackChanges,
+            CancellationToken token = default) =>
             await FindAll(trackChanges)
-            .Include(p => p.Parent)
-            .ThenInclude(p => p.Roles)
+            .Where(p => p.Parent == null)
+            .Include(p => p.Roles)
             .ThenInclude(p => p.Roles)
             .ToListAsync(token);
 
         public ProfessionalRole? GetProfessionalRoleById(long id, bool trackChanges) =>
             FindByExpression(p => p.Id.Equals(id), trackChanges)
-            .Include(p => p.Parent)
-            .ThenInclude(p => p.Roles)
+            .Where(p => p.Parent == null)
+            .Include(p => p.Roles)
             .ThenInclude(p => p.Roles)
             .SingleOrDefault();
 
-        public async Task<ProfessionalRole?> GetProfessionalRoleByIdAsync(long id, bool trackChanges, CancellationToken token = default) =>
+        public async Task<ProfessionalRole?> GetProfessionalRoleByIdAsync(long id,
+            bool trackChanges,
+            CancellationToken token = default) =>
             await FindByExpression(p => p.Id.Equals(id), trackChanges)
-            .Include(p => p.Parent)
-            .ThenInclude(p => p.Roles)
+            .Where(p => p.Parent == null)
+            .Include(p => p.Roles)
             .ThenInclude(p => p.Roles)
             .SingleOrDefaultAsync(token);
 

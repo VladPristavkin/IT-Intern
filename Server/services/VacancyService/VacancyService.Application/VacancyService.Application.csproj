@@ -16,9 +16,4 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CQRS\Vacancies\Commands\DeleteVacancyCommand\" />
-    <Folder Include="CQRS\Vacancies\Commands\UpdateVacancyCommand\" />
-  </ItemGroup>
-
 </Project>

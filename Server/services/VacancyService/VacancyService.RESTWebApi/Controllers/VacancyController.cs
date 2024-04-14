@@ -1,9 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using VacancyService.Application.CQRS.Vacancies.Commands.CreateVacancyCommand;
-using VacancyService.Application.CQRS.Vacancies.Queries.GetVacancyCollection;
-using VacancyService.Application.CQRS.Vacancies.Queries.GetVacancyDetails;
+using VacancyService.Application.CQRS.Commands.Vacancy.CreateVacancyCommand;
+using VacancyService.Application.CQRS.Commands.Vacancy.DeleteVacancyCommand;
+using VacancyService.Application.CQRS.Commands.Vacancy.UpdateVacancyCommand;
+using VacancyService.Application.CQRS.Queries.Vacancy.GetVacancyCollection;
+using VacancyService.Application.CQRS.Queries.Vacancy.GetVacancyDetails;
 using VacancyService.Application.DataTransferObjects;
 using VacancyService.Domain.RequestFeatures;
 
@@ -39,11 +40,30 @@ namespace VacancyService.RESTWebApi.Controllers
         public async Task<IActionResult> CreateVacancy([FromBody] VacancyForCreationDto vacancyForCreation)
         {
             if (vacancyForCreation == null)
-                return BadRequest("");
+                return BadRequest("VacancyForCreationDto cannot be null.");
 
             var vacancy = await _sender.Send(new CreateVacancyCommand(vacancyForCreation));
 
             return CreatedAtRoute("VacancyById", new { id = vacancy.Id }, vacancy);
+        }
+
+        [HttpDelete("{id:long}")]
+        public async Task<IActionResult> DeleteVacancy(long id)
+        {
+            await _sender.Send(new DeleteVacancyCommand(Id: id, TrackChanges: false));
+
+            return NoContent();
+        }
+
+        [HttpPut("{id:long}")]
+        public async Task<IActionResult> UpdateVacancy(long id, [FromBody] VacancyForUpdateDto vacancyForUpdate)
+        {
+            if (vacancyForUpdate == null)
+                return BadRequest("VacancyForUpdateDto cannot be null.");
+
+            await _sender.Send(new UpdateVacancyCommand(id, vacancyForUpdate, TrackChanges: true));
+
+            return NoContent();
         }
     }
 }

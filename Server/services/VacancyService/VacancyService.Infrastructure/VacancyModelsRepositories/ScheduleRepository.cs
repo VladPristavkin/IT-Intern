@@ -14,16 +14,23 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
         public void DeleteSchedule(Schedule schedule) => Delete(schedule);
 
         public IEnumerable<Schedule> GetAll(bool trackChanges) =>
-            FindAll(trackChanges).ToList();
+            FindAll(trackChanges)
+            .ToList();
 
-        public async Task<IEnumerable<Schedule>> GetAllAsync(bool trackChanges, CancellationToken token = default) =>
-            await FindAll(trackChanges).ToListAsync(token);
+        public async Task<IEnumerable<Schedule>> GetAllAsync(bool trackChanges,
+            CancellationToken token = default) =>
+            await FindAll(trackChanges)
+            .ToListAsync(token);
 
         public Schedule? GetScheduleById(string id, bool trackChanges) =>
-            FindByExpression(s => s.Id.Equals(id), trackChanges).SingleOrDefault();
+            FindByExpression(s => s.Id.Equals(id), trackChanges)
+            .SingleOrDefault();
 
-        public async Task<Schedule?> GetScheduleByIdAsync(string id, bool trackChanges, CancellationToken token = default) =>
-            await FindByExpression(s => s.Id.Equals(id), trackChanges).SingleOrDefaultAsync(token);
+        public async Task<Schedule?> GetScheduleByIdAsync(string id,
+            bool trackChanges,
+            CancellationToken token = default) =>
+            await FindByExpression(s => s.Id.Equals(id), trackChanges)
+            .SingleOrDefaultAsync(token);
 
         public void UpdateSchedule(Schedule schedule) => Update(schedule);
     }

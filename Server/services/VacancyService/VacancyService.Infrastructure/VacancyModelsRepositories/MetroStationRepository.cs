@@ -14,16 +14,23 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
         public void DeleteMetroStation(MetroStation metroStation) => Delete(metroStation);
 
         public IEnumerable<MetroStation> GetAll(bool trackChanges) =>
-            FindAll(trackChanges).ToList();
+            FindAll(trackChanges)
+            .ToList();
 
-        public async Task<IEnumerable<MetroStation>> GetAllAsync(bool trackChanges, CancellationToken token = default) =>
-            await FindAll(trackChanges).ToListAsync(token);
+        public async Task<IEnumerable<MetroStation>> GetAllAsync(bool trackChanges,
+            CancellationToken token = default) =>
+            await FindAll(trackChanges)
+            .ToListAsync(token);
 
         public MetroStation? GetMetroStationById(double id, bool trackChanges) =>
-            FindByExpression(m => m.Id.Equals(id), trackChanges).SingleOrDefault();
+            FindByExpression(m => m.Id.Equals(id), trackChanges)
+            .SingleOrDefault();
 
-        public async Task<MetroStation?> GetMetroStationByIdAsync(double id, bool trackChanges, CancellationToken token = default) =>
-            await FindByExpression(m => m.Id.Equals(id), trackChanges).SingleOrDefaultAsync(token);
+        public async Task<MetroStation?> GetMetroStationByIdAsync(double id,
+            bool trackChanges,
+            CancellationToken token = default) =>
+            await FindByExpression(m => m.Id.Equals(id), trackChanges)
+            .SingleOrDefaultAsync(token);
 
         public void UpdateMetroStation(MetroStation metroStation) => Update(metroStation);
     }

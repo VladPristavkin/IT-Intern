@@ -1,4 +1,4 @@
-﻿namespace VacancyService.Application.DataTransferObjects.Area
+﻿namespace VacancyService.Application.DataTransferObjects
 {
     public class AreaForVacancyDto
     {

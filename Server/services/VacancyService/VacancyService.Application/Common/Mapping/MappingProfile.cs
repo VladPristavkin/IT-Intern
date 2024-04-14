@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using VacancyService.Application.DataTransferObjects;
-using VacancyService.Application.DataTransferObjects.Area;
 using VacancyService.Domain.Entities.Models;
 using Type = VacancyService.Domain.Entities.Models.Type;
 

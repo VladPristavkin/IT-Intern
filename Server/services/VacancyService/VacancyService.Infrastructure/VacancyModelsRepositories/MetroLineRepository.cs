@@ -14,16 +14,27 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
         public void DeleteMetroLine(MetroLine metroLine) => Delete(metroLine);
 
         public IEnumerable<MetroLine> GetAll(bool trackChanges) =>
-            FindAll(trackChanges).ToList();
+            FindAll(trackChanges)
+            .Include(m => m.Stations)
+            .ToList();
 
-        public async Task<IEnumerable<MetroLine>> GetAllAsync(bool trackChanges, CancellationToken token = default) =>
-            await FindAll(trackChanges).ToListAsync(token);
+        public async Task<IEnumerable<MetroLine>> GetAllAsync(bool trackChanges,
+            CancellationToken token = default) =>
+            await FindAll(trackChanges)
+            .Include(m => m.Stations)
+            .ToListAsync(token);
 
         public MetroLine? GetMetroLineById(long id, bool trackChanges) =>
-            FindByExpression(m => m.Id.Equals(id), trackChanges).SingleOrDefault();
+            FindByExpression(m => m.Id.Equals(id), trackChanges)
+            .Include(m => m.Stations)
+            .SingleOrDefault();
 
-        public async Task<MetroLine?> GetMetroLineByIdAsync(long id, bool trackChanges, CancellationToken token = default) =>
-            await FindByExpression(m => m.Id.Equals(id), trackChanges).SingleOrDefaultAsync(token);
+        public async Task<MetroLine?> GetMetroLineByIdAsync(long id,
+            bool trackChanges,
+            CancellationToken token = default) =>
+            await FindByExpression(m => m.Id.Equals(id), trackChanges)
+            .Include(m => m.Stations)
+            .SingleOrDefaultAsync(token);
 
         public void UpdateMetroLine(MetroLine metroLine) => Update(metroLine);
     }
