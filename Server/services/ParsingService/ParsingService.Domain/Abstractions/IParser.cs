@@ -2,10 +2,10 @@
 
 namespace ParsingService.Domain.Abstractions
 {
-    public abstract class Parser
+    public interface IParser
     {
         protected abstract string BaseUri { get; set; }
 
-        public abstract IEnumerable<Vacancy> Parse();
+        public Task Parse();
     }
 }

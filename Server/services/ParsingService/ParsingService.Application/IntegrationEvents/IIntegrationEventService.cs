@@ -4,7 +4,7 @@ namespace ParsingService.Application.IntegrationEvents
 {
     public interface IIntegrationEventService
     {
-        public Task PublishEventsThroughEventBusAsync(IntegrationEvent @event);
+        public Task PublishEventsThroughEventBusAsync();
         public Task SaveEventAsync(IntegrationEvent @event);
     }
 }

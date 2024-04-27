@@ -5,11 +5,8 @@ namespace ParsingService.Application.IntegrationEvents.Events
 {
     public record VacancyCreatedIntegrationEvent : IntegrationEvent
     {
-        public IEnumerable<Vacancy> Vacancies { get; set; }
+        public IEnumerable<Vacancy>? Vacancies { get; set; }
 
-        public VacancyCreatedIntegrationEvent()
-        {
-
-        }
+        public VacancyCreatedIntegrationEvent(IEnumerable<Vacancy> vacancies) => Vacancies = vacancies;
     }
 }

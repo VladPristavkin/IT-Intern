@@ -3,7 +3,7 @@ using ParsingService.Application.IntegrationEvents.Events;
 
 namespace ParsingService.Application.IntegrationEvents.EventHandlers
 {
-    internal class ParsingConfigurationLoadedIntegrationEventHandler
+    public sealed class ParsingConfigurationLoadedIntegrationEventHandler
         : IIntegrationEventHandler<ParsingConfigurationLoadedIntegrationEvent>
     {
         public Task Handle(ParsingConfigurationLoadedIntegrationEvent @event)

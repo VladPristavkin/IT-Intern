@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ParsingService.Application\ParsingService.Application.csproj" />
     <ProjectReference Include="..\ParsingService.Domain\ParsingService.Domain.csproj" />
+    <ProjectReference Include="..\ParsingService.Infrastructure\ParsingService.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

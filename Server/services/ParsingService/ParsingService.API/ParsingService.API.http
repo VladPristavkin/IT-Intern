@@ -1,6 +1,0 @@
-@ParsingService.API_HostAddress = http://localhost:5134
-
-GET {{ParsingService.API_HostAddress}}/
-Accept: application/json
-
-###

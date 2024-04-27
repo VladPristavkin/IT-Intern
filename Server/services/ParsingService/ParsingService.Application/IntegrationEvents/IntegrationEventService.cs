@@ -13,13 +13,13 @@ namespace ParsingService.Application.IntegrationEvents
         private readonly ILogger<IntegrationEventService> _logger = logger;
         private readonly IIntegrationEventLogService _integrationEventLog = integrationEventLog;
 
-        public async Task PublishEventsThroughEventBusAsync(IntegrationEvent @event)
+        public async Task PublishEventsThroughEventBusAsync()
         {
             var pendingEvents = await _integrationEventLog.RetrieveEventLogsPendingToPublishAsync();
             foreach (var pendingEvent in pendingEvents)
             {
                 _logger.LogInformation("Publishing integration event: {IntegrationEventId} - ({@IntegrationEvent})",
-                    @event.Id, @event);
+                    pendingEvent.EventId, pendingEvent.IntegrationEvent);
 
                 try
                 {

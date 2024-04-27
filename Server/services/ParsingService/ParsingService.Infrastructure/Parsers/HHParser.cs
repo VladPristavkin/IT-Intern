@@ -5,7 +5,7 @@ using ParsingService.Domain.Abstractions;
 
 namespace ParsingService.Infrastructure.Parsers
 {
-    public class HHParser : Parser
+    public class HHParser : IParser
     {
         protected override string BaseUri {  get; set; }
 
