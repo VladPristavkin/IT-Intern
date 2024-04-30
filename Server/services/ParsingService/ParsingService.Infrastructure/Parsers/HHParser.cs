@@ -2,14 +2,26 @@
 using Newtonsoft.Json;
 using ParsingService.Domain.Entities.Models;
 using ParsingService.Domain.Abstractions;
+using ParsingService.Application.Common.Helpers;
+using Microsoft.Extensions.Configuration;
 
 namespace ParsingService.Infrastructure.Parsers
 {
     public class HHParser : IParser
     {
-        protected override string BaseUri {  get; set; }
+        private string BaseUri { get; set; }
 
-        public override IEnumerable<Vacancy> Parse()
+        private IDictionary<string, IList<string>> _parameters;
+
+        public HHParser(IConfiguration configuration)
+        {
+            string path = configuration.GetSection(IParser.ResourceFiles).GetSection(GetType().Name).Value
+                ?? throw new ArgumentNullException($"Section with name {GetType().Name} have not a value.");
+
+
+        }
+
+        public Task Parse()
         {
             //ToDo: нужно доделать
             List<Vacancy> vacancies = new List<Vacancy>();
@@ -53,7 +65,7 @@ namespace ParsingService.Infrastructure.Parsers
                 }
             }
 
-            return vacancies;
+            return Task.CompletedTask;
         }
 
         private List<int> GetIdsDynamic()
@@ -67,9 +79,9 @@ namespace ParsingService.Infrastructure.Parsers
             {
                 client.DefaultRequestHeaders.Add("User-Agent", "application/json");
 
-                foreach (var subParameter in Parameters_1["professional_role"])
+                foreach (var subParameter in _parameters["professional_role"])
                 {
-                    string uri = baseUrl + "experience=noExperience&experience=between1And3&professional_role=" + subParameter;
+                    string uri = BaseUri + "experience=noExperience&experience=between1And3&professional_role=" + subParameter;
                     FetchVacanciesUntilLimit(ref ids, client, uri, 1);
                 }
             }
@@ -89,9 +101,9 @@ namespace ParsingService.Infrastructure.Parsers
 
             if (baseVacanies.found > 2000)
             {
-                foreach (var parameter in Parameters_1.Values.ToList()[numberOfParameter])
+                foreach (var parameter in _parameters.Values.ToList()[numberOfParameter])
                 {
-                    var tempUri = uri + $"&{Parameters_1.Keys.ToList()[numberOfParameter]}={parameter}";
+                    var tempUri = uri + $"&{_parameters.Keys.ToList()[numberOfParameter]}={parameter}";
 
                     FetchVacanciesUntilLimit(ref ids, client, tempUri, numberOfParameter + 1);
                 }
@@ -131,20 +143,20 @@ namespace ParsingService.Infrastructure.Parsers
 
             return true;
         }
-    }
 
-    internal sealed class VacancyCollection
-    {
-        public Item[] items { get; set; }
-        public int found { get; set; }
-        public int pages { get; set; }
-        public int per_page { get; set; }
-        public int page { get; set; }
-        public string alternate_url { get; set; }
-
-        internal sealed class Item
+        private sealed class VacancyCollection
         {
-            public int id { get; set; }
+            public Item[] items { get; set; }
+            public int found { get; set; }
+            public int pages { get; set; }
+            public int per_page { get; set; }
+            public int page { get; set; }
+            public string alternate_url { get; set; }
+
+            public sealed class Item
+            {
+                public int id { get; set; }
+            }
         }
     }
 }

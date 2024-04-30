@@ -1,6 +1,3 @@
-
-using EventBus;
-using EventBus.Extensions;
 using ParsingService.Application;
 using ParsingService.Infrastructure;
 namespace ParsingService.API
@@ -18,7 +15,7 @@ namespace ParsingService.API
 
             var app = builder.Build();
 
-            app.ConfigureVacancyProcessingScheduler(app.Lifetime);
+            app.ConfigureVacancyProcessingService(app.Lifetime);
 
             app.Run();
         }

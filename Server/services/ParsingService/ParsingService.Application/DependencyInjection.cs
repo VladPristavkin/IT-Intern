@@ -1,11 +1,8 @@
 ﻿using EventBus;
-using EventBus.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ParsingService.Application.IntegrationEvents;
-using ParsingService.Application.IntegrationEvents.EventHandlers;
-using ParsingService.Application.IntegrationEvents.Events;
 using ParsingService.Application.Services;
 using ParsingService.Domain.Abstractions;
 
@@ -26,13 +23,12 @@ namespace ParsingService.Application
 
         public static IHostApplicationBuilder ConfigureEventHandling(this IHostApplicationBuilder builder)
         {
-            builder.AddRabbitMqEventBus()
-                .AddSubscription<ParsingConfigurationLoadedIntegrationEvent, ParsingConfigurationLoadedIntegrationEventHandler>();
+            builder.AddRabbitMqEventBus();
 
             return builder;
         }
 
-        public static IApplicationBuilder ConfigureVacancyProcessingScheduler(this IApplicationBuilder app,
+        public static IApplicationBuilder ConfigureVacancyProcessingService(this IApplicationBuilder app,
             IHostApplicationLifetime lifetime)
         {
             var cancellationTokenSource = new CancellationTokenSource();

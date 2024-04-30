@@ -52,6 +52,18 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
             .ThenInclude(a => a.Areas)
             .ToListAsync(token);
 
+        public async Task<Area?> GetCountryByAreaAsync(long id, CancellationToken token = default)
+        {
+            var area = await GetAreaByIdAsync(id, false);
+
+            while (area.Parent != null)
+            {
+                area = area.Parent;
+            }
+
+            return area;
+        }
+
         public void UpdateArea(Area area) => Update(area);
     }
 }

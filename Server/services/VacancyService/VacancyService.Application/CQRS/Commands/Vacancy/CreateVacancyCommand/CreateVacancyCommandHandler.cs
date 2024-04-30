@@ -55,6 +55,13 @@ namespace VacancyService.Application.CQRS.Commands.Vacancy.CreateVacancyCommand
 
             var vacancyToReturn = _mapper.Map<VacancyDto>(entity);
 
+            if (vacancyToReturn.Area != null)
+            {
+                var country = await _repositoryManager.Area.GetCountryByAreaAsync(vacancyToReturn.Area.Id, cancellationToken);
+
+                vacancyToReturn.Country = _mapper.Map<AreaForVacancyDto>(country);
+            }
+
             return vacancyToReturn;
         }
 

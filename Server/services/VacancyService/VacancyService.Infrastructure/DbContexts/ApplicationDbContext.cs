@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EventBus.IntegrationEventLog;
+using Microsoft.EntityFrameworkCore;
 using VacancyService.Domain.Entities.Models;
 using VacancyService.Infrastructure.Configurations;
 
@@ -24,6 +25,7 @@ namespace VacancyService.Infrastructure.DbContexts
             modelBuilder.ApplyConfiguration(new ScheduleConfiguration());
             modelBuilder.ApplyConfiguration(new TypeConfiguration());
             modelBuilder.ApplyConfiguration(new VacancyConfiguration());
+            modelBuilder.AddEventLogTable();
 
             base.OnModelCreating(modelBuilder);
         }

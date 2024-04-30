@@ -16,6 +16,8 @@
 
         public AreaForVacancyDto? Area { get; set; }
 
+        public AreaForVacancyDto? Country { get; set; }
+
         public EmployerDto? Employer { get; set; }
 
         public EmploymentDto? Employment { get; set; }

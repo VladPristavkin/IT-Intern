@@ -4,8 +4,7 @@ namespace ParsingService.Domain.Abstractions
 {
     public interface IParser
     {
-        protected abstract string BaseUri { get; set; }
-
+        protected static string ResourceFiles { get { return "ResourceFilesPaths"; } }
         public Task Parse();
     }
 }

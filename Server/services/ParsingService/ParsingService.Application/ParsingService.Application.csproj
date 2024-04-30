@@ -16,4 +16,8 @@
     <ProjectReference Include="..\ParsingService.Domain\ParsingService.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="IntegrationEvents\EventHandlers\" />
+  </ItemGroup>
+
 </Project>

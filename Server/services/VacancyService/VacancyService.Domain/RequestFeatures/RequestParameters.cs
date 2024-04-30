@@ -1,4 +1,6 @@
-﻿namespace VacancyService.Domain.RequestFeatures
+﻿using VacancyService.Domain.Enums;
+
+namespace VacancyService.Domain.RequestFeatures
 {
     public abstract class RequestParameters
     {
@@ -16,7 +18,7 @@
             }
         }
 
-        public string? OrderBy { get;set; }
-        public string? SearchPeriod {  get; set; }
+        public OrderBy OrderBy { get; set; }
+        public SearchPeriod SearchPeriod { get; set; }
     }
 }
