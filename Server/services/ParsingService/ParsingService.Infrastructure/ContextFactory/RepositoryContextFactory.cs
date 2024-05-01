@@ -8,7 +8,7 @@ namespace VacancyService.Infrastructure.ContextFactory
 {
     public class RepositoryContextFactory : IDesignTimeDbContextFactory<ParsingDbContext>
     {
-        ParsingDbContext IDesignTimeDbContextFactory<ParsingDbContext>.CreateDbContext(string[] args)
+        public ParsingDbContext CreateDbContext(string[] args)
         {
             var configuration = new ConfigurationBuilder()
               .SetBasePath(Directory.GetCurrentDirectory())

@@ -1,5 +1,7 @@
 ﻿using EventBus;
+using EventBus.IntegrationEventLog.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ParsingService.Application.IntegrationEvents;
@@ -12,11 +14,9 @@ namespace ParsingService.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            //services.AddMediatR(config=>config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
-            //services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
-            services.AddSingleton<IVacancyProcessingService, VacancyProcessingService>();
             services.AddSingleton<IIntegrationEventService, IntegrationEventService>();
+            services.AddSingleton<IIntegrationEventLogService, IntegrationEventLogService<DbContext>>();
+            services.AddSingleton<IVacancyProcessingService, VacancyProcessingService>();
 
             return services;
         }

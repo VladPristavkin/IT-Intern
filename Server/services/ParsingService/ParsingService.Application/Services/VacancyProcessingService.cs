@@ -19,14 +19,15 @@ namespace ParsingService.Application.Services
         private readonly IIntegrationEventService _integrationEventService = integrationEventService;
         private readonly ParsingOptions _parsingOptions = parsingOptions.Value;
         private readonly IVacancyRepository _vacancyRepository = vacancyRepository;
+        private readonly IServiceProvider _serviceProvider = serviceProvider;
 
         public async Task ProcessVacanciesAsync(CancellationToken token)
         {
             _logger.LogInformation("VacancyProcessingService is running.");
 
-            await PublishVacancies(token);
+            await new TaskFactory().StartNew(() => PublishVacancies(token));
 
-            using var scope = serviceProvider.CreateScope();
+            using var scope = _serviceProvider.CreateScope();
 
             while (!token.IsCancellationRequested)
             {
@@ -40,7 +41,7 @@ namespace ParsingService.Application.Services
                         tasks.Add(parser.Parse());
                     }
 
-                    Task.WaitAll(tasks.ToArray(), token);
+                    await Task.WhenAll(tasks);
                 }
                 catch (Exception ex)
                 {

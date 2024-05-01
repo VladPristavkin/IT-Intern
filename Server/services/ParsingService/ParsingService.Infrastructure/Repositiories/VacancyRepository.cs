@@ -5,9 +5,9 @@ using ParsingService.Infrastructure.DbContexts;
 
 namespace ParsingService.Infrastructure.Repositiories
 {
-    public sealed class VacancyRepository(ParsingDbContext dbContext) : IVacancyRepository
+    public sealed class VacancyRepository(DbContext dbContext) : IVacancyRepository
     {
-        private ParsingDbContext _context = dbContext;
+        private readonly ParsingDbContext _context = (ParsingDbContext)dbContext;
 
         public async Task CreateVacancyAsync(Vacancy vacancy)
         {

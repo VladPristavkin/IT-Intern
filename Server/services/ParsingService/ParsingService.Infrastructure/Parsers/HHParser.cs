@@ -15,10 +15,47 @@ namespace ParsingService.Infrastructure.Parsers
 
         public HHParser(IConfiguration configuration)
         {
-            string path = configuration.GetSection(IParser.ResourceFiles).GetSection(GetType().Name).Value
+            _parameters = new Dictionary<string, IList<string>>();
+
+            BaseUri = configuration.GetSection(IParser.OptionsForParsing)
+                .GetSection(GetType().Name)
+                .GetSection(IParser.BaseUri).Value
+                 ?? throw new ArgumentNullException($"Section with name {GetType().Name} have not a value.");
+
+            string path = configuration.GetSection(IParser.OptionsForParsing)
+                .GetSection(GetType().Name)
+                .GetSection(IParser.PathForOptionsFile).Value
                 ?? throw new ArgumentNullException($"Section with name {GetType().Name} have not a value.");
 
+            var prioritiesPairs = configuration.GetSection(IParser.OptionsForParsing)
+                .GetSection(GetType().Name)
+                .GetSection(IParser.Priorities).GetChildren().ToList();
 
+            var priorities = new List<string>();
+
+            foreach (var priority in prioritiesPairs)
+            {
+                if (priority.Value != null)
+                    priorities.Add(priority.Value);
+            }
+
+            if (!File.Exists(path)) throw new FileNotFoundException($"File with {path} not found.");
+
+            var HHConfiguration = new ConfigurationBuilder()
+                .AddJsonFile(path, optional: true, reloadOnChange: true)
+                .Build();
+
+            foreach (var section in HHConfiguration.GetChildren())
+            {
+                var list = new List<string>();
+                foreach (var optionValue in section.GetChildren())
+                {
+                    list.Add(optionValue.Value ?? string.Empty);
+                }
+                _parameters.Add(section.Key, list);
+            }
+
+            ParameterHelper.MovingByPriorityArray(ref _parameters, priorityArray: priorities.ToArray());
         }
 
         public Task Parse()
@@ -70,9 +107,6 @@ namespace ParsingService.Infrastructure.Parsers
 
         private List<int> GetIdsDynamic()
         {
-            ParameterHelper.MovingByPriorityArray(ref _parameters, new string[] { "professional_role","area", "industry",
-            "employment","schedule","education","accept_temporary","only_with_salary","salary","experience"});
-
             List<int> ids = new List<int>();
 
             using (HttpClient client = new HttpClient())
@@ -94,7 +128,7 @@ namespace ParsingService.Infrastructure.Parsers
             string result = "";
 
             result = client.GetStringAsync(uri).Result;
-            Console.WriteLine(uri);
+
             Thread.Sleep(500);
 
             var baseVacanies = JsonConvert.DeserializeObject<VacancyCollection>(result);

@@ -5,26 +5,33 @@ using ParsingService.Application.Models;
 using ParsingService.Domain.Abstractions;
 using ParsingService.Infrastructure.DbContexts;
 using ParsingService.Infrastructure.Parsers;
+using ParsingService.Infrastructure.Repositiories;
 using System.Reflection;
 
 namespace ParsingService.Infrastructure
 {
     public static class DependencyInjection
     {
-        public static void AddInfractructure(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfractructure(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DbConnectionString");
-            services.AddDbContext<ParsingDbContext>(options =>
+
+            services.AddSingleton<DbContext, ParsingDbContext>(provider =>
             {
-                options.UseNpgsql(connectionString, b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName));
-                options.EnableSensitiveDataLogging();
+                var optionsBuilder = new DbContextOptionsBuilder<ParsingDbContext>();
+                optionsBuilder.UseNpgsql(connectionString, b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName));
+                return new ParsingDbContext(optionsBuilder.Options);
             });
 
+            services.AddKeyedSingleton<IParser, HHParser>(typeof(HHParser));
             services.Configure<ParsingOptions>(po =>
             {
-                services.AddKeyedSingleton<IParser, HHParser>(typeof(HHParser));
                 po.ParserTypes[typeof(HHParser).Name] = typeof(HHParser);
             });
+
+            services.AddSingleton<IVacancyRepository, VacancyRepository>();
+
+            return services;
         }
     }
 }
