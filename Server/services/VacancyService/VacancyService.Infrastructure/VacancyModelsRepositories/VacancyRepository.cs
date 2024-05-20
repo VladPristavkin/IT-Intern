@@ -49,6 +49,7 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
              .ThenInclude(l => l.Levels)
              .FilterVacancy(vacancyParameters)
              .Search(vacancyParameters)
+             .Sort(vacancyParameters)
              .OrderBy(v => v.Name)
              .Skip((vacancyParameters.Page - 1) * vacancyParameters.PageSize)
              .Take(vacancyParameters.PageSize)
@@ -77,6 +78,7 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
               .ThenInclude(l => l.Levels)
               .FilterVacancy(vacancyParameters)
               .Search(vacancyParameters)
+              .Sort(vacancyParameters)
               .OrderBy(v => v.Name)
               .Skip((vacancyParameters.Page - 1) * vacancyParameters.PageSize)
               .Take(vacancyParameters.PageSize)
@@ -105,6 +107,7 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
             .ThenInclude(l => l.Levels)
             .FilterVacancy(vacancyParameters)
             .Search(vacancyParameters)
+            .Sort(vacancyParameters)
             .Skip((vacancyParameters.Page - 1) * vacancyParameters.PageSize)
             .Take(vacancyParameters.PageSize)
             .SingleOrDefault();
@@ -133,6 +136,7 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
             .ThenInclude(l => l.Levels)
             .FilterVacancy(vacancyParameters)
             .Search(vacancyParameters)
+            .Sort(vacancyParameters)
             .Skip((vacancyParameters.Page - 1) * vacancyParameters.PageSize)
             .Take(vacancyParameters.PageSize)
             .SingleOrDefaultAsync(cancellationToken);

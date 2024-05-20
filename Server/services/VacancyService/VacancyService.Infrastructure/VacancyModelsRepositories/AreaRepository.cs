@@ -27,6 +27,10 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
             bool trackChanges,
             CancellationToken token = default) =>
             await FindByExpression(a => a.Id.Equals(id), trackChanges)
+            .Include(a=>a.Parent)
+            .ThenInclude(a=>a.Parent)
+            .ThenInclude(a => a.Parent)
+            .ThenInclude(a => a.Parent)
             .Include(a => a.Areas)
             .ThenInclude(a => a.Areas)
             .ThenInclude(a => a.Areas)
