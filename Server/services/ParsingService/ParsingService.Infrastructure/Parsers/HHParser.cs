@@ -4,17 +4,21 @@ using ParsingService.Domain.Entities.Models;
 using ParsingService.Domain.Abstractions;
 using ParsingService.Application.Common.Helpers;
 using Microsoft.Extensions.Configuration;
+using ParsingService.Application.IntegrationEvents;
+using ParsingService.Application.IntegrationEvents.Events;
 
 namespace ParsingService.Infrastructure.Parsers
 {
     public class HHParser : IParser
     {
+        private readonly IIntegrationEventService _integrationEventService;
         private string BaseUri { get; set; }
         private IDictionary<string, IList<string>> _parameters;
         private readonly IVacancyRepository _vacancyRepository;
 
-        public HHParser(IVacancyRepository vacancyRepository,IConfiguration configuration)
+        public HHParser(IIntegrationEventService integrationEventService,IVacancyRepository vacancyRepository,IConfiguration configuration)
         {
+            _integrationEventService= integrationEventService;
             _vacancyRepository = vacancyRepository;
             _parameters = new Dictionary<string, IList<string>>();
 
@@ -445,8 +449,18 @@ namespace ParsingService.Infrastructure.Parsers
                         baseVacancy.WebsiteUrl = "https://hh.ru/";
                         baseVacancy.OriginalVacancyUrl = BaseUri + $"/{id}";
                         baseVacancy.ParsingTime = DateTime.UtcNow;
+                        baseVacancy.Salary.From = 0;
 
-                        _vacancyRepository.CreateVacancyAsync(baseVacancy);
+                        vacancies.Add(baseVacancy);
+
+                        //_vacancyRepository.CreateVacancyAsync(baseVacancy);
+
+                        if (vacancies.Count > 10)
+                        {
+                            _integrationEventService.SaveEventAsync(new VacancyCreatedIntegrationEvent(vacancies));
+                            vacancies= new List<Vacancy>();
+                            _integrationEventService.PublishEventsThroughEventBusAsync();
+                        }
 
                         Thread.Sleep(500);
                     }
