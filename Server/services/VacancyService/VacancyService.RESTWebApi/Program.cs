@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIIS();
 
-builder.ConfigureEventHandling();
+//builder.ConfigureEventHandling();
 
 builder.Services.AddApplication();
 builder.Services.AddInfractructure(builder.Configuration);
