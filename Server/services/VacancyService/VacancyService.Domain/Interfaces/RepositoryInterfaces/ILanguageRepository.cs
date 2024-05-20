@@ -11,5 +11,6 @@ namespace VacancyService.Domain.Interfaces.RepositoryInterfaces
         public Task<IEnumerable<Language>> GetAllAsync(bool trackChanges, CancellationToken token = default);
         public Language? GetLanguageById(string id, bool trackChanges);
         public Task<Language?> GetLanguageByIdAsync(string id, bool trackChanges, CancellationToken token = default);
+        public Task<Language?> GetLanguageByWithLevelIdAsync(string id, string levelId, bool trackChanges, CancellationToken token = default);
     }
 }

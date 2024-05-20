@@ -3,6 +3,10 @@ using System.Reflection;
 using MediatR;
 using Microsoft.Extensions.Hosting;
 using EventBus;
+using EventBus.Interfaces;
+using EventBus.Extensions;
+using VacancyService.Application.Events;
+using VacancyService.Application.EventHandlers;
 
 namespace VacancyService.Application
 {
@@ -18,7 +22,8 @@ namespace VacancyService.Application
 
         public static IHostApplicationBuilder ConfigureEventHandling(this IHostApplicationBuilder builder)
         {
-            builder.AddRabbitMqEventBus();
+            builder.AddRabbitMqEventBus()
+                .AddSubscription<VacancyCreatedIntegrationEvent, VacancyCreatedIntegrationEventHandler>();
 
             return builder;
         }

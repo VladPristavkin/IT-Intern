@@ -12,8 +12,8 @@ using ParsingService.Infrastructure.DbContexts;
 namespace ParsingService.Infrastructure.Migrations
 {
     [DbContext(typeof(ParsingDbContext))]
-    [Migration("20240501163135_Init")]
-    partial class Init
+    [Migration("20240520102448_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

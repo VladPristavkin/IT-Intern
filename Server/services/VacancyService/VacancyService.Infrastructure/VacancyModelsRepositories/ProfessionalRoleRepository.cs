@@ -31,7 +31,7 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
 
         public ProfessionalRole? GetProfessionalRoleById(long id, bool trackChanges) =>
             FindByExpression(p => p.Id.Equals(id), trackChanges)
-            .Where(p => p.Parent == null)
+             .Include(p => p.Parent)
             .Include(p => p.Roles)
             .ThenInclude(p => p.Roles)
             .SingleOrDefault();
@@ -40,7 +40,7 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
             bool trackChanges,
             CancellationToken token = default) =>
             await FindByExpression(p => p.Id.Equals(id), trackChanges)
-            .Include(p=>p.Parent)
+            .Include(p => p.Parent)
             .Include(p => p.Roles)
             .ThenInclude(p => p.Roles)
             .SingleOrDefaultAsync(token);
