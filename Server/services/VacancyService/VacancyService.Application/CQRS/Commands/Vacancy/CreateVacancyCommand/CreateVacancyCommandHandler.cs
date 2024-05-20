@@ -114,18 +114,13 @@ namespace VacancyService.Application.CQRS.Commands.Vacancy.CreateVacancyCommand
                 {
                     var Levels = (List<Level>)Languages[i].Levels;
 
-                    Languages[i] = await _repositoryManager.Language
-                        .GetLanguageByIdAsync(Languages[i].Id, true, cancellationToken)
-                        ?? throw new LanguageNotFoundException(Languages[i].Id);
 
                     for (int j = 0; j < Levels.Count; j++)
                     {
-                        Levels[j] = await _repositoryManager.Level
-                             .GetLevelByIdAsync(Levels[j].Id, true, cancellationToken)
-                             ?? throw new LevelNotFoundException(Levels[j].Id);
+                        Languages[i] = await _repositoryManager.Language
+                            .GetLanguageByWithLevelIdAsync(Languages[i].Id, Levels[j].Id, true, cancellationToken)
+                            ?? throw new LanguageNotFoundException(Languages[i].Id);
                     }
-
-                    Languages[i].Levels = Levels;
                 }
             }
 

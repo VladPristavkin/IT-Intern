@@ -10,7 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIIS();
 
-//builder.ConfigureEventHandling();
+builder.ConfigureEventHandling();
+
+builder.Services.ConfigureJWT(builder.Configuration);
 
 builder.Services.AddApplication();
 builder.Services.AddInfractructure(builder.Configuration);
@@ -43,6 +45,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 
 app.UseCors("CorsPolicy");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

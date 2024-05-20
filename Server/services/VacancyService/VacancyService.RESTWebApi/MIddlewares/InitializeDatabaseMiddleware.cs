@@ -155,7 +155,7 @@ namespace VacancyService.RESTWebApi.MIddlewares
 
                     level.Languages ??= new List<Language>();
 
-                    level.Languages.ToList().Add(language);
+                    ((List<Language>)level.Languages).Add(language);
                 }
             }
 
