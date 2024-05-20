@@ -1,0 +1,6 @@
+@VacancyService.RESTWebApi_HostAddress = http://localhost:5293
+
+GET {{VacancyService.RESTWebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
