@@ -15,8 +15,10 @@ namespace ParsingService.Infrastructure.Parsers
 {
     public class HHParser : IParser
     {
+        private List<int> ids = new List<int>();
         private readonly IIntegrationEventService _integrationEventService;
-        private string BaseUri { get; set; }
+        private string BaseUri;
+        private readonly DbContext _dbContext;
         private IDictionary<string, IList<string>> _parameters;
         private readonly IVacancyRepository _vacancyRepository;
 
@@ -69,8 +71,9 @@ namespace ParsingService.Infrastructure.Parsers
 
         public Task Parse()
         {
-            //ToDo: нужно доделать
-            List<Vacancy> vacancies = new List<Vacancy>();
+            try
+            {
+                GetIdsDynamic();
 
             List<int> ids = /*GetIdsDynamic()*/new List<int>() {95683721,
 93029089,
@@ -97,6 +100,22 @@ namespace ParsingService.Infrastructure.Parsers
             {
                 client.DefaultRequestHeaders.Add("User-Agent", "application/json");
 
+                foreach (var subParameter in _parameters["professional_role"])
+                {
+                    string uri = BaseUri + "?experience=noExperience&experience=between1And3&professional_role=" + subParameter;
+                    FetchVacanciesUntilLimit(ref ids, client, uri, 1);
+                }
+            }
+
+            return ids;
+        }
+
+        private bool FetchVacanciesUntilLimit(ref List<int> ids, HttpClient client, string uri, int numberOfParameter)
+        {
+            if (ids.Count > 300)
+            {
+                client.DefaultRequestHeaders.Add("User-Agent", "application/json");
+
                 JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
                 {
                     ContractResolver = new DefaultContractResolver
@@ -105,13 +124,11 @@ namespace ParsingService.Infrastructure.Parsers
                     }
                 };
 
-                try
+                foreach (var id in ids)
                 {
-                    foreach (var id in ids)
-                    {
-                        var result = client.GetStringAsync(BaseUri + $"/{id}").Result;
+                    var request = client.GetStringAsync(BaseUri + $"/{id}").Result;
 
-                        var baseVacancy = JsonConvert.DeserializeObject<Vacancy>(result, jsonSerializerSettings);
+                    var baseVacancy = JsonConvert.DeserializeObject<Vacancy>(request, jsonSerializerSettings);
 
                         baseVacancy.WebsiteName = "HH";
                         baseVacancy.WebsiteLogoUrl = "https://i.hh.ru/webpackBuild/fee0d431ce023a3b9b0e.svg";//ToDo: Find true uri
@@ -145,35 +162,21 @@ namespace ParsingService.Infrastructure.Parsers
                     throw new Exception("HHParser.Parse\n" + e.Message);
                 }
 
-                return Task.CompletedTask;
-            }
-        }
+                        var employer = client.GetStringAsync("https://api.hh.ru/employers" + $"/{baseVacancy.Employer.Id}").Result;
 
-        private List<int> GetIdsDynamic()
-        {
-            List<int> ids = new List<int>();
+                        var employerEntity = JsonConvert.DeserializeObject<Employer>(employer, jsonSerializerSettings);
 
-            using (HttpClient client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add("User-Agent", "application/json");
+                        string pattern = @"""90"":\s*""([^""]+)""";
 
-                foreach (var subParameter in _parameters["professional_role"])
-                {
-                    string uri = BaseUri + "?experience=noExperience&experience=between1And3&professional_role=" + subParameter;
-                    FetchVacanciesUntilLimit(ref ids, client, uri, 1);
-                }
-            }
+                        baseVacancy.Employer.LogoUrl = Regex.Match(request, pattern).Groups[1].Value;
+                        baseVacancy.Employer.IdFromBasicWebsite = baseVacancy.Employer.Id.ToString();
+                        baseVacancy.Employer.Id = 0;
+                        baseVacancy.Employer.Description = employerEntity.Description;
+                    }
 
-            return ids;
-        }
+                    new CreateVacancyHandler(_vacancyRepository, _dbContext).Handle(baseVacancy, default).Wait();
 
-        private bool FetchVacanciesUntilLimit(ref List<int> ids, HttpClient client, string uri, int numberOfParameter)
-        {
-            if (ids.Count > 300)
-            {
-                foreach (var id in ids)
-                {
-                    Console.WriteLine(id);
+                    Thread.Sleep(500);
                 }
             }
 

@@ -12,8 +12,8 @@ using ParsingService.Infrastructure.DbContexts;
 namespace ParsingService.Infrastructure.Migrations
 {
     [DbContext(typeof(ParsingDbContext))]
-    [Migration("20240520102448_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240524220030_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -126,24 +126,21 @@ namespace ParsingService.Infrastructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Building")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<double>("Lat")
+                    b.Property<double?>("Lat")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("Lng")
+                    b.Property<double?>("Lng")
                         .HasColumnType("double precision");
 
                     b.Property<string>("Street")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -313,7 +310,6 @@ namespace ParsingService.Infrastructure.Migrations
                         .HasColumnType("character varying(7)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -332,17 +328,16 @@ namespace ParsingService.Infrastructure.Migrations
                         .HasColumnType("double precision")
                         .HasColumnName("MetroStationId");
 
-                    b.Property<double>("Lat")
+                    b.Property<double?>("Lat")
                         .HasColumnType("double precision");
 
                     b.Property<long?>("LineId")
                         .HasColumnType("bigint");
 
-                    b.Property<double>("Lng")
+                    b.Property<double?>("Lng")
                         .HasColumnType("double precision");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int?>("Order")
@@ -450,6 +445,10 @@ namespace ParsingService.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("ExperienceId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("IdFromWebwite")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -670,7 +669,7 @@ namespace ParsingService.Infrastructure.Migrations
                                 .HasColumnType("text")
                                 .HasColumnName("Currency");
 
-                            b1.Property<int>("From")
+                            b1.Property<int?>("From")
                                 .HasColumnType("integer")
                                 .HasColumnName("From");
 

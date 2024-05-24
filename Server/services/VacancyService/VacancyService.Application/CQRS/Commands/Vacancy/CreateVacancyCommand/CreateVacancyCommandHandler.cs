@@ -135,7 +135,7 @@ namespace VacancyService.Application.CQRS.Commands.Vacancy.CreateVacancyCommand
                     }
                 }
             }
-
+                
             return vacancy;
         }
 
