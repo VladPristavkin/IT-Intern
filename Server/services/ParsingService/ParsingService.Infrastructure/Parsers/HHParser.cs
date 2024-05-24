@@ -5,11 +5,9 @@ using ParsingService.Domain.Abstractions;
 using ParsingService.Application.Common.Helpers;
 using Microsoft.Extensions.Configuration;
 using ParsingService.Application.IntegrationEvents;
-using ParsingService.Application.IntegrationEvents.Events;
-using EventBus.Interfaces;
-using EventBus.IntegrationEventLog.Services;
-using EventBus.Events;
-using System.Reflection;
+using ParsingService.Application.Logic;
+using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace ParsingService.Infrastructure.Parsers
 {
@@ -22,8 +20,12 @@ namespace ParsingService.Infrastructure.Parsers
         private IDictionary<string, IList<string>> _parameters;
         private readonly IVacancyRepository _vacancyRepository;
 
-        public HHParser(IIntegrationEventService integrationEventService, IVacancyRepository vacancyRepository, IConfiguration configuration)
+        public HHParser(IIntegrationEventService integrationEventService,
+            IVacancyRepository vacancyRepository,
+            IConfiguration configuration,
+            DbContext dbContext)
         {
+            _dbContext = dbContext;
             _integrationEventService = integrationEventService;
             _vacancyRepository = vacancyRepository;
             _parameters = new Dictionary<string, IList<string>>();
@@ -75,26 +77,18 @@ namespace ParsingService.Infrastructure.Parsers
             {
                 GetIdsDynamic();
 
-            List<int> ids = /*GetIdsDynamic()*/new List<int>() {95683721,
-93029089,
-90561511,
-94663168,
-90728680,
-91255465,
-92205633,
-93213372,
-98068912,
-90479977,
-93541496,
-95294264,
-97988620,
-95290524,
-98525962,
-86724674,
-97866220,
-95415291,
-92317265,
-95413272 };
+                return Task.CompletedTask;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new Exception(e.Source);
+            }
+        }
+
+        private List<int> GetIdsDynamic()
+        {
+            ids = new List<int>();
 
             using (HttpClient client = new HttpClient())
             {
@@ -130,37 +124,17 @@ namespace ParsingService.Infrastructure.Parsers
 
                     var baseVacancy = JsonConvert.DeserializeObject<Vacancy>(request, jsonSerializerSettings);
 
-                        baseVacancy.WebsiteName = "HH";
-                        baseVacancy.WebsiteLogoUrl = "https://i.hh.ru/webpackBuild/fee0d431ce023a3b9b0e.svg";//ToDo: Find true uri
-                        baseVacancy.WebsiteUrl = "https://hh.ru/";
-                        baseVacancy.OriginalVacancyUrl = BaseUri + $"/{id}";
-                        baseVacancy.ParsingTime = DateTime.UtcNow;
-                        baseVacancy.Salary = new Salary() { Currency = "", From = 1000 };
+                    baseVacancy.WebsiteName = "HH";
+                    baseVacancy.WebsiteLogoUrl = "https://i.hh.ru/webpackBuild/fee0d431ce023a3b9b0e.svg";//ToDo: Find true uri
+                    baseVacancy.WebsiteUrl = "https://hh.ru/";
+                    baseVacancy.OriginalVacancyUrl = BaseUri + $"/{id}";
+                    baseVacancy.ParsingTime = DateTime.UtcNow;
+                    baseVacancy.IdFromWebwite = baseVacancy.Id.ToString();
+                    baseVacancy.Id = 0;
 
-                        vacancies.Add(baseVacancy);
-
-                        //_vacancyRepository.CreateVacancyAsync(baseVacancy);
-
-                        if (vacancies.Count > 10)
-                        {
-                             _integrationEventService.SaveEventAsync(new VacancyCreatedIntegrationEvent(vacancies));
-
-                            _vacancyRepository.DeleteVacancies(vacancies.ToArray());
-
-                             _integrationEventService.PublishEventsThroughEventBusAsync();
-
-                            vacancies = new List<Vacancy>();
-                        }
-
+                    if (baseVacancy.Employer != null)
+                    {
                         Thread.Sleep(500);
-                    }
-
-                    return Task.CompletedTask;
-                }
-                catch (Exception e)
-                {
-                    throw new Exception("HHParser.Parse\n" + e.Message);
-                }
 
                         var employer = client.GetStringAsync("https://api.hh.ru/employers" + $"/{baseVacancy.Employer.Id}").Result;
 
