@@ -16,7 +16,7 @@ namespace ParsingService.Infrastructure.Configurations
 
             builder.HasIndex(ml => ml.Id).IsUnique();
 
-            builder.Property(ml => ml.Name).IsRequired();
+            builder.Property(ml => ml.Name);
 
             builder.Property(ml=>ml.HexColor).HasMaxLength(7);
 

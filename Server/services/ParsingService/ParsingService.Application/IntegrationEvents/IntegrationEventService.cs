@@ -15,7 +15,8 @@ namespace ParsingService.Application.IntegrationEvents
 
         public async Task PublishEventsThroughEventBusAsync()
         {
-            var pendingEvents = await _integrationEventLog.RetrieveEventLogsPendingToPublishAsync();
+            var pendingEvents = _integrationEventLog.RetrieveEventLogsPendingToPublishAsync().Result;
+
             foreach (var pendingEvent in pendingEvents)
             {
                 _logger.LogInformation("Publishing integration event: {IntegrationEventId} - ({@IntegrationEvent})",

@@ -2,9 +2,9 @@
 {
     public class Salary
     {
-        public required string Currency { get; set; }
-        public required int From { get; set; }
+        public string? Currency { get; set; }
+        public int? From { get; set; }
         public int? To { get; set; }
-        public bool Gross {  get; set; }
+        public bool Gross { get; set; }
     }
 }

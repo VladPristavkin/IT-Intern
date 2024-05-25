@@ -1,26 +1,32 @@
-﻿using EventBus.Interfaces;
+﻿using AutoMapper;
+using EventBus.Interfaces;
+using MediatR;
+using VacancyService.Application.CQRS.Commands.Vacancy.CreateVacancyCommand;
+using VacancyService.Application.DataTransferObjects;
 using VacancyService.Application.Events;
+using VacancyService.Domain.Entities.Exceptions;
 using VacancyService.Domain.Interfaces;
 
 namespace VacancyService.Application.EventHandlers
 {
     internal sealed class VacancyCreatedIntegrationEventHandler : IIntegrationEventHandler<VacancyCreatedIntegrationEvent>
     {
-        private readonly IRepositoryManager _repositoryManager;
+        private readonly ISender _sender;
+        private readonly IMapper _mapper;
 
-        public VacancyCreatedIntegrationEventHandler(IRepositoryManager repositoryManager)
+        public VacancyCreatedIntegrationEventHandler(ISender sender, IMapper mapper)
         {
-            _repositoryManager = repositoryManager;
+            _sender = sender;
+            _mapper = mapper;
         }
 
         public async Task Handle(VacancyCreatedIntegrationEvent @event)
         {
-            foreach (var vacancy in @event.Vacancies)
+            foreach (var vacancy in @event.Vacancies ?? throw new VacancyNotFoundException("Vacancies not exists."))
             {
-                _repositoryManager.Vacancy.CreateVacancy(vacancy);
+                await _sender.Send(new CreateVacancyCommand(_mapper.Map<VacancyForCreationDto>(vacancy)));
             }
 
-            await _repositoryManager.SaveAsync();
         }
     }
 }

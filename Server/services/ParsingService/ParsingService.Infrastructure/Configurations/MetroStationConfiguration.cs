@@ -16,7 +16,7 @@ namespace ParsingService.Infrastructure.Configurations
 
             builder.HasIndex(ms=>ms.Id).IsUnique();
 
-            builder.Property(ms=>ms.Name).IsRequired();
+            builder.Property(ms=>ms.Name);
         }
     }
 }

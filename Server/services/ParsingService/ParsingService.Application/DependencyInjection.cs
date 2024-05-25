@@ -15,7 +15,12 @@ namespace ParsingService.Application
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
             services.AddSingleton<IIntegrationEventService, IntegrationEventService>();
-            services.AddSingleton<IIntegrationEventLogService, IntegrationEventLogService<DbContext>>();
+            services.AddSingleton<IIntegrationEventLogService, EFIntegrationEventLogService>(options =>
+            {
+                var serviceProvider = services.BuildServiceProvider();
+                var dbContext = serviceProvider.GetService<DbContext>();
+                return new EFIntegrationEventLogService(dbContext, typeof(DependencyInjection));
+            });
             services.AddSingleton<IVacancyProcessingService, VacancyProcessingService>();
 
             return services;

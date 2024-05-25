@@ -1,3 +1,4 @@
+using ParsingService.API.MIddlewares;
 using ParsingService.Application;
 using ParsingService.Infrastructure;
 namespace ParsingService.API
@@ -14,6 +15,8 @@ namespace ParsingService.API
             builder.ConfigureEventHandling();
 
             var app = builder.Build();
+
+            new InitializeDatabaseMiddleware(builder.Configuration).Invoke(builder.Services.BuildServiceProvider());
 
             app.ConfigureVacancyProcessingService(app.Lifetime);
 

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ParsingService.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,12 +18,12 @@ namespace ParsingService.Infrastructure.Migrations
                 {
                     AddressId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Building = table.Column<string>(type: "text", nullable: false),
-                    City = table.Column<string>(type: "text", nullable: false),
-                    Street = table.Column<string>(type: "text", nullable: false),
+                    Building = table.Column<string>(type: "text", nullable: true),
+                    City = table.Column<string>(type: "text", nullable: true),
+                    Street = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    Lat = table.Column<double>(type: "double precision", nullable: false),
-                    Lng = table.Column<double>(type: "double precision", nullable: false)
+                    Lat = table.Column<double>(type: "double precision", nullable: true),
+                    Lng = table.Column<double>(type: "double precision", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -190,7 +190,7 @@ namespace ParsingService.Infrastructure.Migrations
                 {
                     MetrolLineId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
                     HexColor = table.Column<string>(type: "character varying(7)", maxLength: 7, nullable: true),
                     AreaId = table.Column<long>(type: "bigint", nullable: true)
                 },
@@ -234,6 +234,7 @@ namespace ParsingService.Infrastructure.Migrations
                 {
                     VacancyId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IdFromWebwite = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Archived = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
@@ -300,9 +301,9 @@ namespace ParsingService.Infrastructure.Migrations
                 columns: table => new
                 {
                     MetroStationId = table.Column<double>(type: "double precision", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Lat = table.Column<double>(type: "double precision", nullable: false),
-                    Lng = table.Column<double>(type: "double precision", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Lat = table.Column<double>(type: "double precision", nullable: true),
+                    Lng = table.Column<double>(type: "double precision", nullable: true),
                     Order = table.Column<int>(type: "integer", nullable: true),
                     LineId = table.Column<long>(type: "bigint", nullable: true)
                 },
