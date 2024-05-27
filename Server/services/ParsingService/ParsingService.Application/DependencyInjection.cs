@@ -2,12 +2,16 @@
 using EventBus.IntegrationEventLog.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Npgsql;
 using ParsingService.Application.IntegrationEvents;
 using ParsingService.Application.Services;
 using ParsingService.Domain.Abstractions;
+using System.Data;
+using System.Data.Common;
 
 namespace ParsingService.Application
 {
@@ -16,11 +20,13 @@ namespace ParsingService.Application
         public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<IIntegrationEventService, IntegrationEventService>();
+
             services.AddSingleton<IIntegrationEventLogService, DapperIntegrationEventLogService>(options =>
             {
                 var connectionString = configuration.GetConnectionString("DbConnectionString");
                 return new DapperIntegrationEventLogService(connectionString, "Npgsql", typeof(DependencyInjection));
             });
+
             services.AddSingleton<IVacancyProcessingService, VacancyProcessingService>();
 
             return services;

@@ -1,12 +1,12 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+﻿using EventBus;
+using EventBus.IntegrationEventLog.Services;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using EventBus;
-using EventBus.Interfaces;
-using EventBus.Extensions;
-using VacancyService.Application.Events;
+using ParsingService.Application.Services;
+using System.Reflection;
 using VacancyService.Application.EventHandlers;
+using VacancyService.Application.Events;
 
 namespace VacancyService.Application
 {
@@ -17,13 +17,18 @@ namespace VacancyService.Application
             services.AddMediatR(config => config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+            services.AddIntegrationEventLogService<EFIntegrationEventLogService>(scoped: true, singleton: false);
+
+            services.AddScoped<IIntegrationEventService, IntegrationEventService>();
+
             return services;
         }
 
         public static IHostApplicationBuilder ConfigureEventHandling(this IHostApplicationBuilder builder)
         {
             builder.AddRabbitMqEventBus()
-                .AddSubscription<VacancyCreatedIntegrationEvent, VacancyCreatedIntegrationEventHandler>();
+                .AddSubscription<VacancyCreatedIntegrationEvent, VacancyCreatedIntegrationEventHandler>()
+                .AddSubscription<GetMetroLinesIntegrationEvent, GetMetroLinesIntegrationEventHandler>();
 
             return builder;
         }

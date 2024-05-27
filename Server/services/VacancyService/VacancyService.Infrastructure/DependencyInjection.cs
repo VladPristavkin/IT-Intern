@@ -13,7 +13,7 @@ namespace VacancyService.Infrastructure
         public static void AddInfractructure(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("DbConnectionString");
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<DbContext, ApplicationDbContext>(options =>
             {
                 options.UseNpgsql(connectionString, b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName));
                 options.EnableSensitiveDataLogging();

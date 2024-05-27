@@ -6,7 +6,7 @@ using ParsingService.Application.IntegrationEvents;
 using ParsingService.Application.IntegrationEvents.Events;
 
 namespace ParsingService.Infrastructure;
-public class DatabaseInitializer(string connectionString, ILogger logger, IIntegrationEventService integrationEventService)
+public class DatabaseInitializer(string connectionString, ILogger<DatabaseInitializer> logger, IIntegrationEventService integrationEventService)
 {
     private readonly string _connectionString = connectionString;
     private readonly ILogger _logger = logger;
@@ -17,22 +17,20 @@ public class DatabaseInitializer(string connectionString, ILogger logger, IInteg
     {
         var connectionStringBuilder = new NpgsqlConnectionStringBuilder(_connectionString);
         var initialDatabase = connectionStringBuilder.Database;
+        connectionStringBuilder.Database = "postgres";
 
-        using (var connection = new NpgsqlConnection(_connectionString))
+        using (var connection = new NpgsqlConnection(connectionStringBuilder.ConnectionString))
         {
             await connection.OpenAsync();
 
-            var createDatabaseSql = $@"
-                DO $$
-                BEGIN
-                    IF NOT EXISTS (SELECT 1 FROM pg_database WHERE datname = '{initialDatabase}') THEN
-                        CREATE DATABASE ""{initialDatabase}"";
-                    END IF;
-                END
-                $$;";
+            var databaseExists = await connection.ExecuteScalarAsync<bool>(
+                "SELECT EXISTS (SELECT 1 FROM pg_database WHERE datname = @DatabaseName)",
+                new { DatabaseName = initialDatabase });
 
-
-            await connection.ExecuteAsync(createDatabaseSql);
+            if (!databaseExists)
+            {
+                await connection.ExecuteAsync($"CREATE DATABASE \"{initialDatabase}\"");
+            }
 
             connection.ChangeDatabase(initialDatabase);
 
@@ -51,14 +49,16 @@ public class DatabaseInitializer(string connectionString, ILogger logger, IInteg
                         Id BIGSERIAL PRIMARY KEY,
                         Name VARCHAR(255),
                         HexColor VARCHAR(7)
-                    );
+                    );";
 
-                    CREATE TABLE IF NOT EXISTS MetroStation (
-                        Id DOUBLE PRIMARY KEY,
+            await connection.ExecuteAsync(createTablesSql);
+
+            createTablesSql = @" CREATE TABLE IF NOT EXISTS MetroStation (
+                        Id DOUBLE PRECISION PRIMARY KEY,
                         Name VARCHAR(255),
                         Lat DOUBLE PRECISION,
                         Lng DOUBLE PRECISION,
-                        Order INT,
+                         ""Order"" INT,
                         LineId BIGSERIAL,
                         FOREIGN KEY (LineId) REFERENCES MetroLine(Id)
                     );";

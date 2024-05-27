@@ -15,9 +15,9 @@ namespace VacancyService.Infrastructure.ContextFactory
               .AddJsonFile("appsettings.json")
               .Build();
 
-            var builder = new DbContextOptionsBuilder<ParsingDbContext>()
-               .UseNpgsql(configuration.GetConnectionString("DbConnectionString"),
-               b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName));
+            var builder = new DbContextOptionsBuilder<ParsingDbContext>();
+               //.UseNpgsql(configuration.GetConnectionString("DbConnectionString"),
+               //b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName));
 
             return new ParsingDbContext(builder.Options);
         }
