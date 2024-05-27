@@ -4,6 +4,8 @@
     {
         public required string Name { get; set; }
 
+        public required string IdFromWebsite { get; set; }
+
         public string? Description { get; set; }
 
         public bool Archived { get; set; }

@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using ParsingService.Infrastructure.DbContexts;
+using VacancyService.Infrastructure.DbContexts;
 
 #nullable disable
 
-namespace ParsingService.Infrastructure.Migrations
+namespace VacancyService.Infrastructure.Migrations
 {
-    [DbContext(typeof(ParsingDbContext))]
-    [Migration("20240524220030_init")]
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20240527205122_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace ParsingService.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.0-preview.3.24172.4")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -116,7 +116,22 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("LanguageVacancy");
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.Address", b =>
+            modelBuilder.Entity("ProfessionalRoleVacancy", b =>
+                {
+                    b.Property<long>("ProfessionalRolesId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("VacancyId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ProfessionalRolesId", "VacancyId");
+
+                    b.HasIndex("VacancyId");
+
+                    b.ToTable("ProfessionalRoleVacancy");
+                });
+
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.Address", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -151,7 +166,7 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("Address", (string)null);
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.Area", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.Area", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -177,7 +192,7 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("Area", (string)null);
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.Employer", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.Employer", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -207,7 +222,7 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("Employer", (string)null);
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.Employment", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.Employment", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text")
@@ -225,7 +240,7 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("Employment", (string)null);
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.Experience", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.Experience", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text")
@@ -243,7 +258,7 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("Experience", (string)null);
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.KeySkill", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.KeySkill", b =>
                 {
                     b.Property<string>("Name")
                         .HasColumnType("text")
@@ -257,7 +272,7 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("KeySkill", (string)null);
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.Language", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.Language", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text")
@@ -275,7 +290,7 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("Language", (string)null);
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.Level", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.Level", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text")
@@ -293,7 +308,7 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("Level", (string)null);
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.MetroLine", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.MetroLine", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -322,19 +337,19 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("MetroLine", (string)null);
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.MetroStation", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.MetroStation", b =>
                 {
                     b.Property<double>("Id")
                         .HasColumnType("double precision")
                         .HasColumnName("MetroStationId");
 
-                    b.Property<double?>("Lat")
+                    b.Property<double>("Lat")
                         .HasColumnType("double precision");
 
                     b.Property<long?>("LineId")
                         .HasColumnType("bigint");
 
-                    b.Property<double?>("Lng")
+                    b.Property<double>("Lng")
                         .HasColumnType("double precision");
 
                     b.Property<string>("Name")
@@ -353,7 +368,7 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("MetroStation", (string)null);
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.ProfessionalRole", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.ProfessionalRole", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -379,7 +394,7 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("ProfessionalRole", (string)null);
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.Schedule", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.Schedule", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text")
@@ -397,7 +412,7 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("Schedule", (string)null);
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.Type", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.Type", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text")
@@ -415,7 +430,7 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("Type", (string)null);
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.Vacancy", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.Vacancy", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -447,7 +462,7 @@ namespace ParsingService.Infrastructure.Migrations
                     b.Property<string>("ExperienceId")
                         .HasColumnType("text");
 
-                    b.Property<string>("IdFromWebwite")
+                    b.Property<string>("IdFromWebsite")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -507,30 +522,15 @@ namespace ParsingService.Infrastructure.Migrations
                     b.ToTable("Vacancy", (string)null);
                 });
 
-            modelBuilder.Entity("ProfessionalRoleVacancy", b =>
-                {
-                    b.Property<long>("ProfessionalRolesId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("VacancyId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("ProfessionalRolesId", "VacancyId");
-
-                    b.HasIndex("VacancyId");
-
-                    b.ToTable("ProfessionalRoleVacancy");
-                });
-
             modelBuilder.Entity("AddressMetroStation", b =>
                 {
-                    b.HasOne("ParsingService.Domain.Entities.Models.Address", null)
+                    b.HasOne("VacancyService.Domain.Entities.Models.Address", null)
                         .WithMany()
                         .HasForeignKey("AddressId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ParsingService.Domain.Entities.Models.MetroStation", null)
+                    b.HasOne("VacancyService.Domain.Entities.Models.MetroStation", null)
                         .WithMany()
                         .HasForeignKey("MetroStationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -539,13 +539,13 @@ namespace ParsingService.Infrastructure.Migrations
 
             modelBuilder.Entity("KeySkillVacancy", b =>
                 {
-                    b.HasOne("ParsingService.Domain.Entities.Models.KeySkill", null)
+                    b.HasOne("VacancyService.Domain.Entities.Models.KeySkill", null)
                         .WithMany()
                         .HasForeignKey("KeySkillId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ParsingService.Domain.Entities.Models.Vacancy", null)
+                    b.HasOne("VacancyService.Domain.Entities.Models.Vacancy", null)
                         .WithMany()
                         .HasForeignKey("VacancyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -554,13 +554,13 @@ namespace ParsingService.Infrastructure.Migrations
 
             modelBuilder.Entity("LanguageLevel", b =>
                 {
-                    b.HasOne("ParsingService.Domain.Entities.Models.Language", null)
+                    b.HasOne("VacancyService.Domain.Entities.Models.Language", null)
                         .WithMany()
                         .HasForeignKey("LanguageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ParsingService.Domain.Entities.Models.Level", null)
+                    b.HasOne("VacancyService.Domain.Entities.Models.Level", null)
                         .WithMany()
                         .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -569,22 +569,37 @@ namespace ParsingService.Infrastructure.Migrations
 
             modelBuilder.Entity("LanguageVacancy", b =>
                 {
-                    b.HasOne("ParsingService.Domain.Entities.Models.Language", null)
+                    b.HasOne("VacancyService.Domain.Entities.Models.Language", null)
                         .WithMany()
                         .HasForeignKey("LanguagesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ParsingService.Domain.Entities.Models.Vacancy", null)
+                    b.HasOne("VacancyService.Domain.Entities.Models.Vacancy", null)
                         .WithMany()
                         .HasForeignKey("VacancyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.Area", b =>
+            modelBuilder.Entity("ProfessionalRoleVacancy", b =>
                 {
-                    b.HasOne("ParsingService.Domain.Entities.Models.Area", "Parent")
+                    b.HasOne("VacancyService.Domain.Entities.Models.ProfessionalRole", null)
+                        .WithMany()
+                        .HasForeignKey("ProfessionalRolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VacancyService.Domain.Entities.Models.Vacancy", null)
+                        .WithMany()
+                        .HasForeignKey("VacancyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.Area", b =>
+                {
+                    b.HasOne("VacancyService.Domain.Entities.Models.Area", "Parent")
                         .WithMany("Areas")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.NoAction);
@@ -592,9 +607,9 @@ namespace ParsingService.Infrastructure.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.MetroLine", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.MetroLine", b =>
                 {
-                    b.HasOne("ParsingService.Domain.Entities.Models.Area", "Area")
+                    b.HasOne("VacancyService.Domain.Entities.Models.Area", "Area")
                         .WithMany("Lines")
                         .HasForeignKey("AreaId")
                         .OnDelete(DeleteBehavior.NoAction);
@@ -602,9 +617,9 @@ namespace ParsingService.Infrastructure.Migrations
                     b.Navigation("Area");
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.MetroStation", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.MetroStation", b =>
                 {
-                    b.HasOne("ParsingService.Domain.Entities.Models.MetroLine", "Line")
+                    b.HasOne("VacancyService.Domain.Entities.Models.MetroLine", "Line")
                         .WithMany("Stations")
                         .HasForeignKey("LineId")
                         .OnDelete(DeleteBehavior.NoAction);
@@ -612,9 +627,9 @@ namespace ParsingService.Infrastructure.Migrations
                     b.Navigation("Line");
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.ProfessionalRole", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.ProfessionalRole", b =>
                 {
-                    b.HasOne("ParsingService.Domain.Entities.Models.ProfessionalRole", "Parent")
+                    b.HasOne("VacancyService.Domain.Entities.Models.ProfessionalRole", "Parent")
                         .WithMany("Roles")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.NoAction);
@@ -622,50 +637,49 @@ namespace ParsingService.Infrastructure.Migrations
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.Vacancy", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.Vacancy", b =>
                 {
-                    b.HasOne("ParsingService.Domain.Entities.Models.Address", "Address")
+                    b.HasOne("VacancyService.Domain.Entities.Models.Address", "Address")
                         .WithOne()
-                        .HasForeignKey("ParsingService.Domain.Entities.Models.Vacancy", "AddressId")
+                        .HasForeignKey("VacancyService.Domain.Entities.Models.Vacancy", "AddressId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("ParsingService.Domain.Entities.Models.Area", "Area")
+                    b.HasOne("VacancyService.Domain.Entities.Models.Area", "Area")
                         .WithMany()
                         .HasForeignKey("AreaId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("ParsingService.Domain.Entities.Models.Employer", "Employer")
+                    b.HasOne("VacancyService.Domain.Entities.Models.Employer", "Employer")
                         .WithOne()
-                        .HasForeignKey("ParsingService.Domain.Entities.Models.Vacancy", "EmployerId")
+                        .HasForeignKey("VacancyService.Domain.Entities.Models.Vacancy", "EmployerId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("ParsingService.Domain.Entities.Models.Employment", "Employment")
+                    b.HasOne("VacancyService.Domain.Entities.Models.Employment", "Employment")
                         .WithMany()
                         .HasForeignKey("EmploymentId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("ParsingService.Domain.Entities.Models.Experience", "Experience")
+                    b.HasOne("VacancyService.Domain.Entities.Models.Experience", "Experience")
                         .WithMany()
                         .HasForeignKey("ExperienceId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("ParsingService.Domain.Entities.Models.Schedule", "Schedule")
+                    b.HasOne("VacancyService.Domain.Entities.Models.Schedule", "Schedule")
                         .WithMany()
                         .HasForeignKey("ScheduleId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("ParsingService.Domain.Entities.Models.Type", "Type")
+                    b.HasOne("VacancyService.Domain.Entities.Models.Type", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.NoAction);
 
-                    b.OwnsOne("ParsingService.Domain.Entities.Models.Salary", "Salary", b1 =>
+                    b.OwnsOne("VacancyService.Domain.Entities.Models.Salary", "Salary", b1 =>
                         {
                             b1.Property<long>("VacancyId")
                                 .HasColumnType("bigint");
 
                             b1.Property<string>("Currency")
-                                .IsRequired()
                                 .HasColumnType("text")
                                 .HasColumnName("Currency");
 
@@ -708,34 +722,19 @@ namespace ParsingService.Infrastructure.Migrations
                     b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("ProfessionalRoleVacancy", b =>
-                {
-                    b.HasOne("ParsingService.Domain.Entities.Models.ProfessionalRole", null)
-                        .WithMany()
-                        .HasForeignKey("ProfessionalRolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ParsingService.Domain.Entities.Models.Vacancy", null)
-                        .WithMany()
-                        .HasForeignKey("VacancyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.Area", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.Area", b =>
                 {
                     b.Navigation("Areas");
 
                     b.Navigation("Lines");
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.MetroLine", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.MetroLine", b =>
                 {
                     b.Navigation("Stations");
                 });
 
-            modelBuilder.Entity("ParsingService.Domain.Entities.Models.ProfessionalRole", b =>
+            modelBuilder.Entity("VacancyService.Domain.Entities.Models.ProfessionalRole", b =>
                 {
                     b.Navigation("Roles");
                 });

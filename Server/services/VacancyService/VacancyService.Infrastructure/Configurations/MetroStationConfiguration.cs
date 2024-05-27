@@ -15,8 +15,6 @@ namespace VacancyService.Infrastructure.Configurations
             builder.Property(ms=>ms.Id).HasColumnName("MetroStationId").IsRequired();
 
             builder.HasIndex(ms=>ms.Id).IsUnique();
-
-            builder.Property(ms=>ms.Name).IsRequired();
         }
     }
 }

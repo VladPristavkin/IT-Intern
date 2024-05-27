@@ -15,7 +15,7 @@ namespace VacancyService.Domain.RequestFeatures
         public IEnumerable<string>? Employment { get; set; }
         public string? Experience { get; set; }
         public IEnumerable<string>? Schedule { get; set; }
-        public long? SalaryTo { get; set; }
+        public long? SalaryFrom { get; set; }
         public IEnumerable<string>? ProfessionalRole { get; set; }
     }
 }

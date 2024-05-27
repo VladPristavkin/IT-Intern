@@ -25,6 +25,13 @@ namespace VacancyService.Application.CQRS.Queries.Vacancy.GetVacancyDetails
 
             var vacancyDto = _mapper.Map<VacancyDto>(vacancy);
 
+            if (vacancyDto.Area != null)
+            {
+                var country = await _repositoryManager.Area.GetCountryByAreaAsync(vacancyDto.Area.Id, cancellationToken);
+
+                vacancyDto.Country = _mapper.Map<AreaForVacancyDto>(country);
+            }
+
             return vacancyDto;
         }
     }

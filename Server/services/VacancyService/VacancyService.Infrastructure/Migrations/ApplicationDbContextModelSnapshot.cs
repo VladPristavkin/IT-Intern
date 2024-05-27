@@ -17,7 +17,7 @@ namespace VacancyService.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -35,6 +35,37 @@ namespace VacancyService.Infrastructure.Migrations
                     b.HasIndex("MetroStationId");
 
                     b.ToTable("AddressMetroStation");
+                });
+
+            modelBuilder.Entity("EventBus.IntegrationEventLog.IntegrationEventLogEntry", b =>
+                {
+                    b.Property<Guid>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EventTypeName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("State")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TimesSent")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("TransactionId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("EventId");
+
+                    b.ToTable("IntegrationEventLog", (string)null);
                 });
 
             modelBuilder.Entity("KeySkillVacancy", b =>
@@ -107,24 +138,21 @@ namespace VacancyService.Infrastructure.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Building")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<double>("Lat")
+                    b.Property<double?>("Lat")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("Lng")
+                    b.Property<double?>("Lng")
                         .HasColumnType("double precision");
 
                     b.Property<string>("Street")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -294,7 +322,6 @@ namespace VacancyService.Infrastructure.Migrations
                         .HasColumnType("character varying(7)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -323,7 +350,6 @@ namespace VacancyService.Infrastructure.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int?>("Order")
@@ -431,6 +457,10 @@ namespace VacancyService.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("ExperienceId")
+                        .HasColumnType("text");
+
+                    b.Property<string>("IdFromWebsite")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -647,11 +677,10 @@ namespace VacancyService.Infrastructure.Migrations
                                 .HasColumnType("bigint");
 
                             b1.Property<string>("Currency")
-                                .IsRequired()
                                 .HasColumnType("text")
                                 .HasColumnName("Currency");
 
-                            b1.Property<int>("From")
+                            b1.Property<int?>("From")
                                 .HasColumnType("integer")
                                 .HasColumnName("From");
 

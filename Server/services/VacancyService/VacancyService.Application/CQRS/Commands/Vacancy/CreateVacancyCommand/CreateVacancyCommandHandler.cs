@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using System.Text.RegularExpressions;
-using VacancyService.Application.Common.Helpers;
 using VacancyService.Application.DataTransferObjects;
 using VacancyService.Domain.Entities.Exceptions;
 using VacancyService.Domain.Entities.Models;
@@ -42,17 +40,6 @@ namespace VacancyService.Application.CQRS.Commands.Vacancy.CreateVacancyCommand
 
             if (entity.Employer != null)
             {
-                using (HttpClient client = new HttpClient())
-                {
-                    client.DefaultRequestHeaders.Add("User-Agent", "application/json");
-                    var result = client.GetStringAsync("https://api.hh.ru/employers/" + entity.Employer.IdFromBasicWebsite).Result;
-
-                    string pattern = @"""original"":\s*""([^""]+)""";
-
-                    Match match = Regex.Match(result, pattern);
-
-                    entity.Employer.LogoUrl = match.Groups[1].Value;
-                }
                 _repositoryManager.Employer.CreateEmployer(entity.Employer);
             }
 
@@ -90,8 +77,8 @@ namespace VacancyService.Application.CQRS.Commands.Vacancy.CreateVacancyCommand
                     if (entitySkill == null) continue;
 
 #pragma warning disable CS8601
-                    KeySkills[i] = await _repositoryManager.KeySkill
-                        .GetSkillByIdAsync(KeySkills[i].Name, true, cancellationToken);
+                    KeySkills[i] = _repositoryManager.KeySkill
+                        .GetSkillByIdAsync(KeySkills[i].Name, true, cancellationToken).Result;
 #pragma warning restore CS8601 
                 }
             }
@@ -154,16 +141,10 @@ namespace VacancyService.Application.CQRS.Commands.Vacancy.CreateVacancyCommand
 
                 foreach (var metroStation in metroStations)
                 {
-                    var distance = GeoHelper
-                        .CalculateDistance(vacancy.Address.Lat, vacancy.Address.Lng, metroStation.Lat, metroStation.Lng);
-
-                    if (distance <= GeoHelper.DefaultStationRadius)
-                    {
-#pragma warning disable CS8604 
-                        ((List<MetroStation>)vacancy.Address.MetroStations).Add(await _repositoryManager.MetroStation
-                            .GetMetroStationByIdAsync(metroStation.Id, trackChanges: true, cancellationToken));
+#pragma warning disable CS8604
+                    ((List<MetroStation>)vacancy.Address.MetroStations).Add(await _repositoryManager.MetroStation
+                        .GetMetroStationByIdAsync(metroStation.Id, trackChanges: true, cancellationToken));
 #pragma warning restore CS8604 
-                    }
                 }
 
                 ((List<MetroStation>)vacancy.Address.MetroStations).AddRange(MetroStations);

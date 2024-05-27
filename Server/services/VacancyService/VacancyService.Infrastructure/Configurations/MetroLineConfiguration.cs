@@ -16,13 +16,11 @@ namespace VacancyService.Infrastructure.Configurations
 
             builder.HasIndex(ml => ml.Id).IsUnique();
 
-            builder.Property(ml => ml.Name).IsRequired();
-
-            builder.Property(ml=>ml.HexColor).HasMaxLength(7);
+            builder.Property(ml => ml.HexColor).HasMaxLength(7);
 
             builder.HasMany(ml => ml.Stations)
                 .WithOne(ms => ms.Line)
-                .HasForeignKey("LineId")
+                .HasForeignKey(ms => ms.LineId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

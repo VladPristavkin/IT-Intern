@@ -3,7 +3,7 @@
     public static class GeoHelper
     {
         private const double EarthRadiusKm = 6371; //km
-        public const double DefaultStationRadius = 0.5; //km
+        public const double DefaultStationRadius = 1.5; //km
 
         public static double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
         {

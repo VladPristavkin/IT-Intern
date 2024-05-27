@@ -1,33 +1,29 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using ParsingService.Domain.Entities.Models;
-using ParsingService.Domain.Abstractions;
+using Newtonsoft.Json.Serialization;
 using ParsingService.Application.Common.Helpers;
-using Microsoft.Extensions.Configuration;
-using ParsingService.Application.IntegrationEvents;
-using ParsingService.Application.Logic;
+using ParsingService.Domain.Abstractions;
+using ParsingService.Domain.Entities.Models;
 using System.Text.RegularExpressions;
-using Microsoft.EntityFrameworkCore;
 
 namespace ParsingService.Infrastructure.Parsers
 {
     public class HHParser : IParser
     {
         private List<int> ids = new List<int>();
-        private readonly IIntegrationEventService _integrationEventService;
+        private List<int> idsInDatabase = new List<int>();
         private string BaseUri;
-        private readonly DbContext _dbContext;
         private IDictionary<string, IList<string>> _parameters;
+        private readonly JsonSerializerSettings _jsonSerializerSettings;
         private readonly IVacancyRepository _vacancyRepository;
+        private readonly IMetroRepository _metroRepository;
 
-        public HHParser(IIntegrationEventService integrationEventService,
-            IVacancyRepository vacancyRepository,
-            IConfiguration configuration,
-            DbContext dbContext)
+        public HHParser(IVacancyRepository vacancyRepository,
+            IMetroRepository metroRepository,
+            IConfiguration configuration)
         {
-            _dbContext = dbContext;
-            _integrationEventService = integrationEventService;
             _vacancyRepository = vacancyRepository;
+            _metroRepository = metroRepository;
             _parameters = new Dictionary<string, IList<string>>();
 
             BaseUri = configuration.GetSection(IParser.OptionsForParsing)
@@ -69,13 +65,33 @@ namespace ParsingService.Infrastructure.Parsers
             }
 
             ParameterHelper.MovingByPriorityArray(ref _parameters, priorityArray: priorities.ToArray());
+
+
+            _jsonSerializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new DefaultContractResolver
+                {
+                    NamingStrategy = new SnakeCaseNamingStrategy(),
+                }
+            };
         }
 
         public Task Parse()
         {
+            ids = new List<int>();
+
             try
             {
-                GetIdsDynamic();
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("User-Agent", "application/json");
+
+                    foreach (var subParameter in _parameters["professional_role"])
+                    {
+                        string uri = BaseUri + "?experience=noExperience&experience=between1And3&professional_role=" + subParameter;
+                        FetchVacanciesUntilLimit(ref ids, client, uri, 1);
+                    }
+                }
 
                 return Task.CompletedTask;
             }
@@ -86,72 +102,25 @@ namespace ParsingService.Infrastructure.Parsers
             }
         }
 
-        private List<int> GetIdsDynamic()
-        {
-            ids = new List<int>();
-
-            using (HttpClient client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add("User-Agent", "application/json");
-
-                foreach (var subParameter in _parameters["professional_role"])
-                {
-                    string uri = BaseUri + "?experience=noExperience&experience=between1And3&professional_role=" + subParameter;
-                    FetchVacanciesUntilLimit(ref ids, client, uri, 1);
-                }
-            }
-
-            return ids;
-        }
-
         private bool FetchVacanciesUntilLimit(ref List<int> ids, HttpClient client, string uri, int numberOfParameter)
         {
-            if (ids.Count > 300)
+            if (ids.Count > 110)
             {
                 client.DefaultRequestHeaders.Add("User-Agent", "application/json");
-
-                JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
-                {
-                    ContractResolver = new DefaultContractResolver
-                    {
-                        NamingStrategy = new SnakeCaseNamingStrategy(),
-                    }
-                };
 
                 foreach (var id in ids)
                 {
                     var request = client.GetStringAsync(BaseUri + $"/{id}").Result;
 
-                    var baseVacancy = JsonConvert.DeserializeObject<Vacancy>(request, jsonSerializerSettings);
+                    var baseVacancy = JsonConvert.DeserializeObject<Vacancy>(request, _jsonSerializerSettings);
 
-                    baseVacancy.WebsiteName = "HH";
-                    baseVacancy.WebsiteLogoUrl = "https://i.hh.ru/webpackBuild/fee0d431ce023a3b9b0e.svg";//ToDo: Find true uri
-                    baseVacancy.WebsiteUrl = "https://hh.ru/";
-                    baseVacancy.OriginalVacancyUrl = BaseUri + $"/{id}";
-                    baseVacancy.ParsingTime = DateTime.UtcNow;
-                    baseVacancy.IdFromWebwite = baseVacancy.Id.ToString();
-                    baseVacancy.Id = 0;
-
-                    if (baseVacancy.Employer != null)
-                    {
-                        Thread.Sleep(500);
-
-                        var employer = client.GetStringAsync("https://api.hh.ru/employers" + $"/{baseVacancy.Employer.Id}").Result;
-
-                        var employerEntity = JsonConvert.DeserializeObject<Employer>(employer, jsonSerializerSettings);
-
-                        string pattern = @"""90"":\s*""([^""]+)""";
-
-                        baseVacancy.Employer.LogoUrl = Regex.Match(request, pattern).Groups[1].Value;
-                        baseVacancy.Employer.IdFromBasicWebsite = baseVacancy.Employer.Id.ToString();
-                        baseVacancy.Employer.Id = 0;
-                        baseVacancy.Employer.Description = employerEntity.Description;
-                    }
-
-                    new CreateVacancyHandler(_vacancyRepository, _dbContext).Handle(baseVacancy, default).Wait();
+                    CreateVacancyAsync(baseVacancy, id, request);
 
                     Thread.Sleep(500);
                 }
+
+                idsInDatabase.AddRange(ids);
+                ids = new List<int>();
             }
 
             string result = "";
@@ -195,7 +164,7 @@ namespace ParsingService.Infrastructure.Parsers
 
                 foreach (var item in vacancyCollection.items)
                 {
-                    if (!ids.Contains(item.id))
+                    if (!ids.Contains(item.id) && !idsInDatabase.Contains(item.id))
                     {
                         ids.Add(item.id);
                     }
@@ -220,6 +189,78 @@ namespace ParsingService.Infrastructure.Parsers
             {
                 public int id { get; set; }
             }
+        }
+
+        private async void CreateVacancyAsync(Vacancy baseVacancy, int vacancyId, string requestData)
+        {
+            baseVacancy.WebsiteName = "HH";
+            baseVacancy.WebsiteLogoUrl = "https://i.hh.ru/webpackBuild/fee0d431ce023a3b9b0e.svg";//ToDo: Find true uri
+            baseVacancy.WebsiteUrl = "https://hh.ru/";
+            baseVacancy.OriginalVacancyUrl = BaseUri + $"/{vacancyId}";
+            baseVacancy.ParsingTime = DateTime.UtcNow;
+            baseVacancy.IdFromWebsite = baseVacancy.Id.ToString();
+            baseVacancy.Id = 0;
+
+            if (baseVacancy.Employer != null)
+            {
+                Thread.Sleep(500);
+
+                using (HttpClient client = new HttpClient())
+                {
+                    client.DefaultRequestHeaders.Add("User-Agent", "application/json");
+
+                    var employer = client.GetStringAsync("https://api.hh.ru/employers" + $"/{baseVacancy.Employer.Id}").Result;
+
+                    var employerEntity = JsonConvert.DeserializeObject<Employer>(employer, _jsonSerializerSettings);
+
+                    string pattern = @"""90"":\s*""([^""]+)""";
+
+                    baseVacancy.Employer.LogoUrl = Regex.Match(requestData, pattern).Groups[1].Value;
+                    baseVacancy.Employer.IdFromBasicWebsite = baseVacancy.Employer.Id.ToString();
+                    baseVacancy.Employer.Id = 0;
+                    baseVacancy.Employer.Description = employerEntity.Description;
+                }
+            }
+
+            await HandleAddressAsync(baseVacancy);
+
+            await _vacancyRepository.CreateVacancyAsync(baseVacancy);
+        }
+
+        private async Task<Vacancy> HandleAddressAsync(Vacancy vacancy)
+        {
+            if (vacancy.Address != null)
+            {
+                vacancy.Address.MetroStations = new List<MetroStation>();
+
+                var metroStations = new List<MetroStation>();
+
+                foreach (var metroLine in await _metroRepository.GetAllMetroLinesAsync())
+                {
+                    if (metroLine.Stations != null)
+                        metroStations.AddRange(metroLine.Stations);
+                }
+
+                foreach (var metroStation in metroStations)
+                {
+                    if (vacancy.Address.Lat == null || vacancy.Address.Lng == null ||
+                        metroStation.Lat == null || metroStation.Lng == null)
+                    {
+                        return vacancy;
+                    }
+
+                    var distance = GeoHelper
+                        .CalculateDistance(vacancy.Address.Lat.Value, vacancy.Address.Lng.Value,
+                        metroStation.Lat.Value, metroStation.Lng.Value);
+
+                    if (distance <= GeoHelper.DefaultStationRadius)
+                    {
+                        ((List<MetroStation>)vacancy.Address.MetroStations).Add(metroStation);
+                    }
+                }
+            }
+
+            return vacancy;
         }
     }
 }

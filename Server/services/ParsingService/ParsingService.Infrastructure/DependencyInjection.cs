@@ -1,12 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EventBus.Interfaces;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Npgsql;
+using ParsingService.Application.IntegrationEvents;
 using ParsingService.Application.Models;
 using ParsingService.Domain.Abstractions;
-using ParsingService.Infrastructure.DbContexts;
+using ParsingService.Infrastructure.HostedService;
 using ParsingService.Infrastructure.Parsers;
 using ParsingService.Infrastructure.Repositiories;
-using System.Reflection;
+using System.Data.Common;
 
 namespace ParsingService.Infrastructure
 {
@@ -16,12 +21,7 @@ namespace ParsingService.Infrastructure
         {
             var connectionString = configuration.GetConnectionString("DbConnectionString");
 
-            services.AddSingleton<DbContext, ParsingDbContext>(provider =>
-            {
-                var optionsBuilder = new DbContextOptionsBuilder<ParsingDbContext>();
-                optionsBuilder.UseNpgsql(connectionString, b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().FullName));
-                return new ParsingDbContext(optionsBuilder.Options);
-            });
+            DbProviderFactories.RegisterFactory("Npgsql", NpgsqlFactory.Instance);
 
             services.AddKeyedSingleton<IParser, HHParser>(typeof(HHParser));
             services.Configure<ParsingOptions>(po =>
@@ -29,7 +29,28 @@ namespace ParsingService.Infrastructure
                 po.ParserTypes[typeof(HHParser).Name] = typeof(HHParser);
             });
 
-            services.AddSingleton<IVacancyRepository, VacancyRepository>();
+            services.AddSingleton<IVacancyRepository, VacancyRepository>(options =>
+            {
+                return new VacancyRepository(connectionString);
+            });
+
+            services.AddSingleton<IMetroRepository, MetroRepository>(options =>
+            {
+                return new MetroRepository(connectionString);
+            });
+
+            services.AddSingleton(sp =>
+            {
+                var connectionString = configuration.GetConnectionString("DbConnectionString");
+                var logger = sp.GetRequiredService<ILogger<DatabaseInitializer>>();
+                var integrationEventService = sp.GetRequiredService<IIntegrationEventService>();
+                var metroRepository = sp.GetRequiredService<IMetroRepository>();
+
+                return new DatabaseInitializer(connectionString, logger: logger,
+                    integrationEventService, metroRepository);
+            });
+
+            services.AddHostedService<DatabaseInitializationHostedService>();
 
             return services;
         }

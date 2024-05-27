@@ -1,6 +1,6 @@
-using ParsingService.API.MIddlewares;
 using ParsingService.Application;
 using ParsingService.Infrastructure;
+
 namespace ParsingService.API
 {
     public class Program
@@ -9,14 +9,17 @@ namespace ParsingService.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddApplication();
-            builder.Services.AddInfractructure(builder.Configuration);
+            builder.Logging.ClearProviders();
+            builder.Logging.AddConsole();
+
+            builder.Services.AddLogging();
 
             builder.ConfigureEventHandling();
 
-            var app = builder.Build();
+            builder.Services.AddApplication(builder.Configuration);
+            builder.Services.AddInfractructure(builder.Configuration);
 
-            new InitializeDatabaseMiddleware(builder.Configuration).Invoke(builder.Services.BuildServiceProvider());
+            var app = builder.Build();
 
             app.ConfigureVacancyProcessingService(app.Lifetime);
 
