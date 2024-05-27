@@ -42,17 +42,6 @@ namespace VacancyService.Application.CQRS.Commands.Vacancy.CreateVacancyCommand
 
             if (entity.Employer != null)
             {
-                using (HttpClient client = new HttpClient())
-                {
-                    client.DefaultRequestHeaders.Add("User-Agent", "application/json");
-                    var result = client.GetStringAsync("https://api.hh.ru/employers/" + entity.Employer.IdFromBasicWebsite).Result;
-
-                    string pattern = @"""original"":\s*""([^""]+)""";
-
-                    Match match = Regex.Match(result, pattern);
-
-                    entity.Employer.LogoUrl = match.Groups[1].Value;
-                }
                 _repositoryManager.Employer.CreateEmployer(entity.Employer);
             }
 
@@ -90,8 +79,8 @@ namespace VacancyService.Application.CQRS.Commands.Vacancy.CreateVacancyCommand
                     if (entitySkill == null) continue;
 
 #pragma warning disable CS8601
-                    KeySkills[i] = await _repositoryManager.KeySkill
-                        .GetSkillByIdAsync(KeySkills[i].Name, true, cancellationToken);
+                    KeySkills[i] = _repositoryManager.KeySkill
+                        .GetSkillByIdAsync(KeySkills[i].Name, true, cancellationToken).Result;
 #pragma warning restore CS8601 
                 }
             }

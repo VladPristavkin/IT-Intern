@@ -25,6 +25,18 @@ namespace VacancyService.Application.CQRS.Queries.Vacancy.GetVacancyCollection
 
             var vacanciesDto = _mapper.Map<IEnumerable<VacancyDto>>(vacancies);
 
+            var vac = (List<VacancyDto>)vacanciesDto;
+
+            for (int i = 0; i < vac.Count; i++)
+            {
+                if (vac[i].Area != null)
+                {
+                    var country = await _repositoryManager.Area.GetCountryByAreaAsync(vac[i].Area.Id, cancellationToken);
+
+                    vac[i].Country = _mapper.Map<AreaForVacancyDto>(country);
+                }
+            }
+
             var count = await _repositoryManager.Vacancy.CountAsync(cancellationToken, request.VacancyParameters);
 
             var resultInfo = new SearchResultInfo<VacancyDto>()

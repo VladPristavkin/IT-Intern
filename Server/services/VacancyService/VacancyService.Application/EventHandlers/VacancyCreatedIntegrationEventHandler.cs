@@ -26,7 +26,6 @@ namespace VacancyService.Application.EventHandlers
             {
                 await _sender.Send(new CreateVacancyCommand(_mapper.Map<VacancyForCreationDto>(vacancy)));
             }
-
         }
     }
 }
