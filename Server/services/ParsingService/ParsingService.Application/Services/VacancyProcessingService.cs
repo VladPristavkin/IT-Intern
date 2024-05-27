@@ -12,13 +12,15 @@ namespace ParsingService.Application.Services
         IServiceProvider serviceProvider,
         IIntegrationEventService integrationEventService,
         IOptions<ParsingOptions> parsingOptions,
-        IVacancyRepository vacancyRepository)
+        IVacancyRepository vacancyRepository,
+        IMetroRepository metroRepository)
         : IVacancyProcessingService
     {
         private readonly ILogger<VacancyProcessingService> _logger = logger;
         private readonly IIntegrationEventService _integrationEventService = integrationEventService;
         private readonly ParsingOptions _parsingOptions = parsingOptions.Value;
         private readonly IVacancyRepository _vacancyRepository = vacancyRepository;
+        private readonly IMetroRepository _metroRepository = metroRepository;
         private readonly IServiceProvider _serviceProvider = serviceProvider;
 
         public async Task ProcessVacanciesAsync(CancellationToken token)

@@ -1,33 +1,27 @@
-﻿using Newtonsoft.Json.Serialization;
+﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
-using ParsingService.Domain.Entities.Models;
-using ParsingService.Domain.Abstractions;
+using Newtonsoft.Json.Serialization;
 using ParsingService.Application.Common.Helpers;
-using Microsoft.Extensions.Configuration;
-using ParsingService.Application.IntegrationEvents;
-using ParsingService.Application.Logic;
+using ParsingService.Domain.Abstractions;
+using ParsingService.Domain.Entities.Models;
 using System.Text.RegularExpressions;
-using Microsoft.EntityFrameworkCore;
 
 namespace ParsingService.Infrastructure.Parsers
 {
     public class HHParser : IParser
     {
         private List<int> ids = new List<int>();
+        private List<int> idsInDatabase = new List<int>();
         private string BaseUri;
         private IDictionary<string, IList<string>> _parameters;
         private readonly JsonSerializerSettings _jsonSerializerSettings;
-
-        private readonly IIntegrationEventService _integrationEventService;
         private readonly IVacancyRepository _vacancyRepository;
         private readonly IMetroRepository _metroRepository;
 
-        public HHParser(IIntegrationEventService integrationEventService,
-            IVacancyRepository vacancyRepository,
+        public HHParser(IVacancyRepository vacancyRepository,
             IMetroRepository metroRepository,
             IConfiguration configuration)
         {
-            _integrationEventService = integrationEventService;
             _vacancyRepository = vacancyRepository;
             _metroRepository = metroRepository;
             _parameters = new Dictionary<string, IList<string>>();
@@ -110,7 +104,7 @@ namespace ParsingService.Infrastructure.Parsers
 
         private bool FetchVacanciesUntilLimit(ref List<int> ids, HttpClient client, string uri, int numberOfParameter)
         {
-            if (ids.Count > 300)
+            if (ids.Count > 110)
             {
                 client.DefaultRequestHeaders.Add("User-Agent", "application/json");
 
@@ -124,6 +118,9 @@ namespace ParsingService.Infrastructure.Parsers
 
                     Thread.Sleep(500);
                 }
+
+                idsInDatabase.AddRange(ids);
+                ids = new List<int>();
             }
 
             string result = "";
@@ -167,7 +164,7 @@ namespace ParsingService.Infrastructure.Parsers
 
                 foreach (var item in vacancyCollection.items)
                 {
-                    if (!ids.Contains(item.id))
+                    if (!ids.Contains(item.id) && !idsInDatabase.Contains(item.id))
                     {
                         ids.Add(item.id);
                     }
@@ -201,7 +198,7 @@ namespace ParsingService.Infrastructure.Parsers
             baseVacancy.WebsiteUrl = "https://hh.ru/";
             baseVacancy.OriginalVacancyUrl = BaseUri + $"/{vacancyId}";
             baseVacancy.ParsingTime = DateTime.UtcNow;
-            baseVacancy.IdFromWebwite = baseVacancy.Id.ToString();
+            baseVacancy.IdFromWebsite = baseVacancy.Id.ToString();
             baseVacancy.Id = 0;
 
             if (baseVacancy.Employer != null)

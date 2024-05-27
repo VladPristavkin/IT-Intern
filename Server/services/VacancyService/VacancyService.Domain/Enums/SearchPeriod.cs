@@ -3,8 +3,8 @@
     public enum SearchPeriod
     {
         ByDateOfPosting = 0,
-        PerMonth = 1,
-        PerWeek = 2,
+        PerMonth = 30,
+        PerWeek = 7,
         InThreeDays = 3,
     }
 }

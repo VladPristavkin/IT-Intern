@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Npgsql;
 using ParsingService.Application.IntegrationEvents;
+using ParsingService.Application.IntegrationEvents.EventHandlers;
+using ParsingService.Application.IntegrationEvents.Events;
 using ParsingService.Application.Services;
 using ParsingService.Domain.Abstractions;
 using System.Data;
@@ -34,7 +36,8 @@ namespace ParsingService.Application
 
         public static IHostApplicationBuilder ConfigureEventHandling(this IHostApplicationBuilder builder)
         {
-            builder.AddRabbitMqEventBus();
+            builder.AddRabbitMqEventBus()
+                .AddSubscription<FillMetroIntegrationEvent, FillMetroIntegrationEventHandler>();
 
             return builder;
         }

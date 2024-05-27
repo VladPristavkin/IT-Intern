@@ -14,15 +14,14 @@ namespace ParsingService.API
 
             builder.Services.AddLogging();
 
+            builder.ConfigureEventHandling();
+
             builder.Services.AddApplication(builder.Configuration);
             builder.Services.AddInfractructure(builder.Configuration);
-
-            builder.ConfigureEventHandling();
 
             var app = builder.Build();
 
             app.ConfigureVacancyProcessingService(app.Lifetime);
-            app.DatabaseInitialize(app.Configuration);
 
             app.Run();
         }

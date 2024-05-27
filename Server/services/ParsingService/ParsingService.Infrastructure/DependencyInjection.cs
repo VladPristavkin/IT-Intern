@@ -8,6 +8,7 @@ using Npgsql;
 using ParsingService.Application.IntegrationEvents;
 using ParsingService.Application.Models;
 using ParsingService.Domain.Abstractions;
+using ParsingService.Infrastructure.HostedService;
 using ParsingService.Infrastructure.Parsers;
 using ParsingService.Infrastructure.Repositiories;
 using System.Data.Common;
@@ -38,20 +39,20 @@ namespace ParsingService.Infrastructure
                 return new MetroRepository(connectionString);
             });
 
+            services.AddSingleton(sp =>
+            {
+                var connectionString = configuration.GetConnectionString("DbConnectionString");
+                var logger = sp.GetRequiredService<ILogger<DatabaseInitializer>>();
+                var integrationEventService = sp.GetRequiredService<IIntegrationEventService>();
+                var metroRepository = sp.GetRequiredService<IMetroRepository>();
+
+                return new DatabaseInitializer(connectionString, logger: logger,
+                    integrationEventService, metroRepository);
+            });
+
+            services.AddHostedService<DatabaseInitializationHostedService>();
+
             return services;
-        }
-
-
-        public static IApplicationBuilder DatabaseInitialize(this IApplicationBuilder app, IConfiguration configuration)
-        {
-            var connectionString = configuration.GetConnectionString("DbConnectionString");
-            var logger = app.ApplicationServices.GetService<ILogger<DatabaseInitializer>>();
-            var integrationEventService = app.ApplicationServices.GetRequiredService<IIntegrationEventService>();
-
-            var dbInitializer = new DatabaseInitializer(connectionString, logger: logger, integrationEventService);
-            dbInitializer.InitializeAsync().GetAwaiter().GetResult();
-
-            return app;
         }
     }
 }

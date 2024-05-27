@@ -1,6 +1,7 @@
 ﻿using EventBus;
 using EventBus.IntegrationEventLog.Services;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ParsingService.Application.Services;
@@ -17,7 +18,11 @@ namespace VacancyService.Application
             services.AddMediatR(config => config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddIntegrationEventLogService<EFIntegrationEventLogService>(scoped: true, singleton: false);
+            services.AddScoped<IIntegrationEventLogService, EFIntegrationEventLogService>(sp =>
+            {
+                var dbContext = sp.GetRequiredService<DbContext>();
+                return new EFIntegrationEventLogService(dbContext, typeof(DependencyInjection));
+            });
 
             services.AddScoped<IIntegrationEventService, IntegrationEventService>();
 

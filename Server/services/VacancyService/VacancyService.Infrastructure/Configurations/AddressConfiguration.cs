@@ -16,12 +16,6 @@ namespace VacancyService.Infrastructure.Configurations
 
             builder.HasIndex(address => address.Id).IsUnique();
 
-            builder.Property(address => address.Building).IsRequired();
-
-            builder.Property(address => address.City).IsRequired();
-
-            builder.Property(address => address.Street).IsRequired();
-
             builder.HasMany(address => address.MetroStations)
                 .WithMany(stations => stations.Addresses)
                 .UsingEntity(

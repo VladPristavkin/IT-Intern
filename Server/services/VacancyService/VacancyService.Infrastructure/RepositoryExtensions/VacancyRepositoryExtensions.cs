@@ -27,8 +27,8 @@ namespace VacancyService.Infrastructure.RepositoryExtensions
             //if (parameters.SalaryFrom.HasValue)
             //    vacancies = vacancies.Where(v => v.Salary != null && v.Salary.From >= parameters.SalaryFrom.Value);
 
-            if (parameters.SalaryTo.HasValue)
-                vacancies = vacancies.Where(v => v.Salary != null && v.Salary.To <= parameters.SalaryTo.Value);
+            if (parameters.SalaryFrom.HasValue)
+                vacancies = vacancies.Where(v => v.Salary != null && v.Salary.From >= parameters.SalaryFrom.Value);
 
             //if (parameters.KeySkill != null)
             //    foreach (string keySkill in parameters.KeySkill)

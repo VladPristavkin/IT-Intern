@@ -3,7 +3,7 @@
     public class Vacancy
     {
         public required long Id { get; set; }
-        public required string IdFromWebwite { get; set; }
+        public required string IdFromWebsite { get; set; }
         public required string Name { get; set; }
         public string? Description { get; set; }
         public bool Archived { get; set; }

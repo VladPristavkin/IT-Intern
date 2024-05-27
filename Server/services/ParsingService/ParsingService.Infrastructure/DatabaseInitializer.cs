@@ -4,14 +4,18 @@ using Microsoft.Extensions.Logging;
 using Npgsql;
 using ParsingService.Application.IntegrationEvents;
 using ParsingService.Application.IntegrationEvents.Events;
+using ParsingService.Domain.Abstractions;
 
 namespace ParsingService.Infrastructure;
-public class DatabaseInitializer(string connectionString, ILogger<DatabaseInitializer> logger, IIntegrationEventService integrationEventService)
+public class DatabaseInitializer(string connectionString,
+    ILogger<DatabaseInitializer> logger,
+    IIntegrationEventService integrationEventService,
+    IMetroRepository metroRepository)
 {
     private readonly string _connectionString = connectionString;
     private readonly ILogger _logger = logger;
     private readonly IIntegrationEventService _integrationEventService = integrationEventService;
-    public static bool IsRequest = false;
+    private readonly IMetroRepository _metroRepository = metroRepository;
 
     public async Task InitializeAsync()
     {
@@ -37,7 +41,7 @@ public class DatabaseInitializer(string connectionString, ILogger<DatabaseInitia
             var createTablesSql = @"
                 CREATE TABLE IF NOT EXISTS Vacancies (
                     Id BIGSERIAL PRIMARY KEY,
-                    Data JSONB NOT NULL
+                    Data TEXT NOT NULL
                 );";
 
             connection.AddEventLogTable(logger: _logger);

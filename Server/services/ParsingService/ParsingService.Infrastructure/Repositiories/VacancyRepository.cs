@@ -15,19 +15,18 @@ namespace ParsingService.Infrastructure.Repositiories
         {
             ArgumentNullException.ThrowIfNull(vacancy, nameof(vacancy));
 
-            var jsonData = JsonConvert.SerializeObject(vacancy);
+            var Data = JsonConvert.SerializeObject(vacancy);
 
             const string sql = @"
-            INSERT INTO Vacancies (Id, Data)
-            VALUES (@Id, @Data)";
+            INSERT INTO Vacancies (Data)
+            VALUES (@Data)";
 
             using (var connection = new NpgsqlConnection(_dbConnectionString))
             {
                 await connection.OpenAsync();
                 await connection.ExecuteAsync(sql, new
                 {
-                    vacancy.Id,
-                    Data = jsonData
+                    Data = Data
                 });
             }
         }
@@ -75,8 +74,17 @@ namespace ParsingService.Infrastructure.Repositiories
             using (var connection = new NpgsqlConnection(_dbConnectionString))
             {
                 await connection.OpenAsync();
+
                 var result = await connection.QueryAsync<VacancyData>(sql);
-                return result.Select(r => JsonConvert.DeserializeObject<Vacancy>(r.Data)).ToList();
+
+                var vacancies = result.Select(r =>
+                {
+                    var vacancy = JsonConvert.DeserializeObject<Vacancy>(r.Data);
+                    vacancy.Id = r.Id;
+                    return vacancy;
+                }).ToList();
+
+                return vacancies;
             }
         }
 

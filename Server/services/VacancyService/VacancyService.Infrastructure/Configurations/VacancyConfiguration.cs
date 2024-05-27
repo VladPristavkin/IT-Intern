@@ -74,9 +74,9 @@ namespace VacancyService.Infrastructure.Configurations
 
             builder.OwnsOne(vac => vac.Salary, salary =>
             {
-                salary.Property(s => s.Currency).HasColumnName("Currency").IsRequired();
-                salary.Property(s => s.From).HasColumnName("From").IsRequired();
-                salary.Property(s => s.Gross).HasColumnName("Gross").IsRequired().HasDefaultValue(false);
+                salary.Property(s => s.Currency).HasColumnName("Currency");
+                salary.Property(s => s.From).HasColumnName("From");
+                salary.Property(s => s.Gross).HasColumnName("Gross").HasDefaultValue(false);
                 salary.Property(s => s.To).HasColumnName("To");
             });
         }

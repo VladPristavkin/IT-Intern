@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using MediatR;
-using System.Text.RegularExpressions;
-using VacancyService.Application.Common.Helpers;
 using VacancyService.Application.DataTransferObjects;
 using VacancyService.Domain.Entities.Exceptions;
 using VacancyService.Domain.Entities.Models;
@@ -143,16 +141,10 @@ namespace VacancyService.Application.CQRS.Commands.Vacancy.CreateVacancyCommand
 
                 foreach (var metroStation in metroStations)
                 {
-                    var distance = GeoHelper
-                        .CalculateDistance(vacancy.Address.Lat, vacancy.Address.Lng, metroStation.Lat, metroStation.Lng);
-
-                    if (distance <= GeoHelper.DefaultStationRadius)
-                    {
-#pragma warning disable CS8604 
-                        ((List<MetroStation>)vacancy.Address.MetroStations).Add(await _repositoryManager.MetroStation
-                            .GetMetroStationByIdAsync(metroStation.Id, trackChanges: true, cancellationToken));
+#pragma warning disable CS8604
+                    ((List<MetroStation>)vacancy.Address.MetroStations).Add(await _repositoryManager.MetroStation
+                        .GetMetroStationByIdAsync(metroStation.Id, trackChanges: true, cancellationToken));
 #pragma warning restore CS8604 
-                    }
                 }
 
                 ((List<MetroStation>)vacancy.Address.MetroStations).AddRange(MetroStations);

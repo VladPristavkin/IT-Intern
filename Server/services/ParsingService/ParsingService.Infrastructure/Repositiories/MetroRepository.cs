@@ -9,6 +9,10 @@ namespace ParsingService.Infrastructure.Repositiories
     {
         private readonly string _connectionString = connectionString;
 
+        private bool isFull = false;
+
+        public bool IsFull { get { return isFull; } }
+
         public async Task AddMetro(IEnumerable<MetroLine> metroLines)
         {
             using (var connection = new NpgsqlConnection(_connectionString))
@@ -71,6 +75,8 @@ namespace ParsingService.Infrastructure.Repositiories
                     }
                 }
             }
+
+            isFull = true;
         }
 
         public async Task<IEnumerable<MetroLine>> GetAllMetroLinesAsync()

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace VacancyService.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,12 +18,12 @@ namespace VacancyService.Infrastructure.Migrations
                 {
                     AddressId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Building = table.Column<string>(type: "text", nullable: false),
-                    City = table.Column<string>(type: "text", nullable: false),
-                    Street = table.Column<string>(type: "text", nullable: false),
+                    Building = table.Column<string>(type: "text", nullable: true),
+                    City = table.Column<string>(type: "text", nullable: true),
+                    Street = table.Column<string>(type: "text", nullable: true),
                     Description = table.Column<string>(type: "text", nullable: true),
-                    Lat = table.Column<double>(type: "double precision", nullable: false),
-                    Lng = table.Column<double>(type: "double precision", nullable: false)
+                    Lat = table.Column<double>(type: "double precision", nullable: true),
+                    Lng = table.Column<double>(type: "double precision", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -87,6 +87,23 @@ namespace VacancyService.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Experience", x => x.ExperienceId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IntegrationEventLog",
+                columns: table => new
+                {
+                    EventId = table.Column<Guid>(type: "uuid", nullable: false),
+                    EventTypeName = table.Column<string>(type: "text", nullable: false),
+                    State = table.Column<int>(type: "integer", nullable: false),
+                    TimesSent = table.Column<int>(type: "integer", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Content = table.Column<string>(type: "text", nullable: false),
+                    TransactionId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IntegrationEventLog", x => x.EventId);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,7 +190,7 @@ namespace VacancyService.Infrastructure.Migrations
                 {
                     MetrolLineId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
                     HexColor = table.Column<string>(type: "character varying(7)", maxLength: 7, nullable: true),
                     AreaId = table.Column<long>(type: "bigint", nullable: true)
                 },
@@ -217,6 +234,7 @@ namespace VacancyService.Infrastructure.Migrations
                 {
                     VacancyId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    IdFromWebsite = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
                     Archived = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
@@ -283,7 +301,7 @@ namespace VacancyService.Infrastructure.Migrations
                 columns: table => new
                 {
                     MetroStationId = table.Column<double>(type: "double precision", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: true),
                     Lat = table.Column<double>(type: "double precision", nullable: false),
                     Lng = table.Column<double>(type: "double precision", nullable: false),
                     Order = table.Column<int>(type: "integer", nullable: true),
@@ -567,6 +585,9 @@ namespace VacancyService.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "AddressMetroStation");
+
+            migrationBuilder.DropTable(
+                name: "IntegrationEventLog");
 
             migrationBuilder.DropTable(
                 name: "KeySkillVacancy");
