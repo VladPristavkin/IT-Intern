@@ -14,7 +14,7 @@ namespace VacancyService.Application.EventHandlers
         private readonly IIntegrationEventService _integrationEventService = integrationEventService;
 
         public async Task Handle(GetMetroLinesIntegrationEvent @event)
-        {
+            {
             var metroLines = await _repositoryManager.MetroLine.GetAllAsync(false) as List<MetroLine>;
 
             for (int i = 0; i < metroLines.Count; i++)
