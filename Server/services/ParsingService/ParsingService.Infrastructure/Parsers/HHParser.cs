@@ -196,7 +196,7 @@ namespace ParsingService.Infrastructure.Parsers
             baseVacancy.WebsiteName = "HH";
             baseVacancy.WebsiteLogoUrl = "https://i.hh.ru/webpackBuild/fee0d431ce023a3b9b0e.svg";//ToDo: Find true uri
             baseVacancy.WebsiteUrl = "https://hh.ru/";
-            baseVacancy.OriginalVacancyUrl = BaseUri + $"/{vacancyId}";
+            baseVacancy.OriginalVacancyUrl = "https://hh.ru/vacancy" + $"/{vacancyId}";
             baseVacancy.ParsingTime = DateTime.UtcNow;
             baseVacancy.IdFromWebsite = baseVacancy.Id.ToString();
             baseVacancy.Id = 0;
@@ -219,6 +219,22 @@ namespace ParsingService.Infrastructure.Parsers
                     baseVacancy.Employer.IdFromBasicWebsite = baseVacancy.Employer.Id.ToString();
                     baseVacancy.Employer.Id = 0;
                     baseVacancy.Employer.Description = employerEntity.Description;
+                    baseVacancy.Employer.OriginalEmployerUrl = "https://hh.ru/employer" + $"/{baseVacancy.Employer.Id}";
+                }
+            }
+
+            if (baseVacancy.Languages != null)
+            {
+                foreach (var language in baseVacancy.Languages)
+                {
+                    var levels = new List<Level>();
+
+                    if (language.Level != null)
+                    {
+                        levels.Add(language.Level);
+
+                        language.Levels = levels;
+                    }
                 }
             }
 

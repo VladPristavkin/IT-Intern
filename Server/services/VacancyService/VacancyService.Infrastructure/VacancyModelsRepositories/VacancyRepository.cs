@@ -62,27 +62,27 @@ namespace VacancyService.Infrastructure.VacancyModelsRepositories
         {
             vacancyParameters ??= new();
 
-            return await FindAll(trackChanges)
-              .Include(v => v.Address)
-              .Include(v => v.Area)
-              .Include(v => v.Employer)
-              .Include(v => v.Employment)
-              .Include(v => v.Experience)
-              .Include(v => v.Salary)
-              .Include(v => v.Schedule)
-              .Include(v => v.Type)
-              .Include(v => v.KeySkills)
-              .Include(v => v.Languages)
-              .Include(v => v.ProfessionalRoles)
-              .Include(v => v.Languages)
-              .ThenInclude(l => l.Levels)
-              .FilterVacancy(vacancyParameters)
-              .Search(vacancyParameters)
-              .Sort(vacancyParameters)
-              .OrderBy(v => v.Name)
-              .Skip((vacancyParameters.Page - 1) * vacancyParameters.PageSize)
-              .Take(vacancyParameters.PageSize)
-              .ToListAsync(cancellationToken);
+            var query = FindAll(trackChanges)
+               .Include(v => v.Address)
+               .Include(v => v.Area)
+               .Include(v => v.Employer)
+               .Include(v => v.Employment)
+               .Include(v => v.Experience)
+               .Include(v => v.Salary)
+               .Include(v => v.Schedule)
+               .Include(v => v.Type)
+               .Include(v => v.KeySkills)
+               .Include(v => v.Languages)
+               .ThenInclude(l => l.Levels)
+               .Include(v => v.ProfessionalRoles)
+               .FilterVacancy(vacancyParameters)
+               .Search(vacancyParameters)
+               .Sort(vacancyParameters);
+
+            return await query
+                .Skip((vacancyParameters.Page - 1) * vacancyParameters.PageSize)
+                .Take(vacancyParameters.PageSize)
+                .ToListAsync(cancellationToken);
         }
 
         public Vacancy? GetVacancyById(long id,

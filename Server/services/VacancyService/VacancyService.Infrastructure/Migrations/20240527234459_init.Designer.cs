@@ -12,7 +12,7 @@ using VacancyService.Infrastructure.DbContexts;
 namespace VacancyService.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240527205122_init")]
+    [Migration("20240527234459_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -211,6 +211,10 @@ namespace VacancyService.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("OriginalEmployerUrl")
                         .IsRequired()
                         .HasColumnType("text");
 

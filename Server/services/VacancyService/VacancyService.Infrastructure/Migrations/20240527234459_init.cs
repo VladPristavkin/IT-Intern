@@ -58,7 +58,8 @@ namespace VacancyService.Infrastructure.Migrations
                     IdFromBasicWebsite = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
                     LogoUrl = table.Column<string>(type: "text", nullable: true),
-                    Description = table.Column<string>(type: "text", nullable: true)
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    OriginalEmployerUrl = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {

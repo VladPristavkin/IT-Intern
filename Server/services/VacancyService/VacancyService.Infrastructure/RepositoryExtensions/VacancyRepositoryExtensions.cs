@@ -1,4 +1,5 @@
-﻿using VacancyService.Domain.Entities.Models;
+﻿using Microsoft.IdentityModel.Tokens;
+using VacancyService.Domain.Entities.Models;
 using VacancyService.Domain.Enums;
 using VacancyService.Domain.RequestFeatures;
 
@@ -10,7 +11,28 @@ namespace VacancyService.Infrastructure.RepositoryExtensions
         {
             if (parameters.Area != null)
                 foreach (string areaId in parameters.Area)
-                    vacancies = vacancies.Where(v => v.Area != null && v.Area.Id.Equals(areaId));
+                {
+                    if (areaId.IsNullOrEmpty()) continue;
+
+                    if (long.TryParse(areaId, out _))
+                        vacancies = vacancies.Where(v => v.Area.Id.Equals(long.Parse(areaId)));
+                }
+
+            if (parameters.Country != null)
+                foreach (var countryId in parameters.Country)
+                {
+                    if (countryId.IsNullOrEmpty()) continue;
+
+                    if (long.TryParse(countryId, out _))
+                    {
+                        vacancies = vacancies.Where(v => v.Area != null &&
+                        (v.Area.Parent.Id == long.Parse(countryId) ||
+                        v.Area.Parent.Parent.Id == long.Parse(countryId) ||
+                        v.Area.Parent.Parent.Parent.Id == long.Parse(countryId) ||
+                        v.Area.Parent.Parent.Parent.Parent.Id == long.Parse(countryId)));
+                    }
+                }
+
 
             //if (!string.IsNullOrEmpty(parameters.Employment))
             //    vacancies = vacancies.Where(v => v.Employment != null && v.Employment.Name.Equals(parameters.Employment));
@@ -40,7 +62,18 @@ namespace VacancyService.Infrastructure.RepositoryExtensions
 
             if (parameters.ProfessionalRole != null)
                 foreach (string role in parameters.ProfessionalRole)
-                    vacancies = vacancies.Where(v => v.ProfessionalRoles != null && v.ProfessionalRoles.Any(pr => pr.Name.Equals(role)));
+                {
+                    if (role.IsNullOrEmpty()) continue;
+
+                    if (long.TryParse(role, out _))
+                    {
+                        vacancies = vacancies.Where(v => v.ProfessionalRoles.Any(pr => pr.Id.Equals(long.Parse(role))));
+                    }
+                    else
+                    {
+                        vacancies = vacancies.Where(v => v.ProfessionalRoles.Any(pr => pr.Name.Equals(role)));
+                    }
+                }
 
             //if (!string.IsNullOrEmpty(parameters.WebsiteName))
             //    vacancies = vacancies.Where(v => v.Employer != null && v.WebsiteName.Equals(parameters.WebsiteName));
@@ -51,34 +84,34 @@ namespace VacancyService.Infrastructure.RepositoryExtensions
         internal static IQueryable<Vacancy> Search(this IQueryable<Vacancy> vacancies, VacancyParameters parameters)
         {
             if (parameters.SearchPeriod == SearchPeriod.PerMonth)
-                vacancies = vacancies.Where(v => v.PublishedAt <= DateTime.UtcNow.AddMonths(-1));
+                vacancies = vacancies.Where(v => v.PublishedAt >= DateTime.UtcNow.AddMonths(-1));
 
             if (parameters.SearchPeriod == SearchPeriod.PerWeek)
-                vacancies = vacancies.Where(v => v.PublishedAt <= DateTime.UtcNow.AddDays(-7));
+                vacancies = vacancies.Where(v => v.PublishedAt >= DateTime.UtcNow.AddDays(-7));
 
             if (parameters.SearchPeriod == SearchPeriod.InThreeDays)
-                vacancies = vacancies.Where(v => v.PublishedAt <= DateTime.UtcNow.AddDays(-3));
+                vacancies = vacancies.Where(v => v.PublishedAt >= DateTime.UtcNow.AddDays(-3));
 
             if (string.IsNullOrWhiteSpace(parameters.SearchText))
                 return vacancies;
 
             var lowerCaseSearchText = parameters.SearchText.Trim().ToLower();
 
-            return vacancies.Where(v => v.Name.ToLower().Contains(lowerCaseSearchText)); //||
-            //                            (v.Description != null && v.Description.ToLower().Contains(lowerCaseSearchText)) ||
-            //                            (v.Employer != null && v.Employer.Name.ToLower().Contains(lowerCaseSearchText)) ||
-            //                            (v.KeySkills != null && v.KeySkills.Any(ks => ks.Name.ToLower().Contains(lowerCaseSearchText))) ||
-            //                            (v.Languages != null && v.Languages.Any(l => l.Name.ToLower().Contains(lowerCaseSearchText))) ||
-            //                            (v.ProfessionalRoles != null && v.ProfessionalRoles.Any(pr => pr.Name.ToLower().Contains(lowerCaseSearchText))));
+            return vacancies.Where(v => v.Name.ToLower().Contains(lowerCaseSearchText) ||
+            (v.Description.ToLower().Contains(lowerCaseSearchText)) ||
+            (v.Employer.Name.ToLower().Contains(lowerCaseSearchText)) ||
+            (v.KeySkills.Any(ks => ks.Name.ToLower().Contains(lowerCaseSearchText))) ||
+            (v.Languages.Any(l => l.Name.ToLower().Contains(lowerCaseSearchText))) ||
+            (v.ProfessionalRoles.Any(pr => pr.Name.ToLower().Contains(lowerCaseSearchText))));
         }
 
         internal static IQueryable<Vacancy> Sort(this IQueryable<Vacancy> vacancies, VacancyParameters parameters)
         {
             if (parameters.OrderBy == OrderBy.SalaryAsc)
-                vacancies = vacancies.OrderBy(v => v.Salary.To ?? int.MaxValue);
+                vacancies = vacancies.OrderBy(v => v.Salary.To.HasValue ? v.Salary.To.Value : int.MaxValue);
 
             if (parameters.OrderBy == OrderBy.SalaryDesc)
-                vacancies = vacancies.OrderByDescending(v => v.Salary.To ?? int.MinValue);
+                vacancies = vacancies.OrderByDescending(v => v.Salary.To.HasValue ? v.Salary.To.Value : int.MinValue);
 
             return vacancies;
         }
