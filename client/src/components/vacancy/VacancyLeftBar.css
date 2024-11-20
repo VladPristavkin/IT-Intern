@@ -1,0 +1,25 @@
+.vacancy-left-bar {
+    padding: 32px;
+    background-color: #fff;
+    border: 1.5px solid var(--border-color);
+    min-width: 754px; 
+    border-radius: 17px;
+  }
+
+  .description-header-vacancy {
+    font-family: 'NotoSans', sans-serif;
+    font-size: 20px;
+    line-height: 150%;
+    margin: 0px 0px 18px 0px;
+  }
+  
+  .vacancy-description-full {
+    margin-top: 10px;
+    max-width: 690px;
+  }
+  
+  .vacancy-description p {
+    margin-bottom: 10px;
+  }
+
+  

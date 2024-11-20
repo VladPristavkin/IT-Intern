@@ -1,0 +1,59 @@
+.employee-card {
+    padding: 20px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 17px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 520px;
+  }
+  
+  .logo-employee-card {
+    margin-bottom: 10px;
+  }
+  
+  .employer-name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .employer-address {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  
+  .location-icon {
+    width: 16px;
+    height: 16px;
+    margin-right: 5px;
+  }
+  
+  .employer-metro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    color: #888;
+  }
+  
+  .subway-icon {
+    width: 16px;
+    height: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .metro-station {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .metro-dot {
+    margin-right: 5px;
+  }
+  

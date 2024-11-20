@@ -1,0 +1,96 @@
+.vacancy-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.total-vacancies {
+  font-size: 32px;
+  font-weight: bold;
+  color: var(--header-text-color);
+  font-family: 'Inter', sans-serif;
+  line-height: 150%;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 20px;
+}
+
+.control-group label {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.control-group select {
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: white;
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+.control-group.time select {
+  width: 244px;
+  height: 48px;
+  border-radius: 10px;
+}
+.control-group.salary-group select {
+  height: 48px;
+  border-radius: 10px;
+}
+
+#date-filter {
+  padding: 12px;
+  width: fit-content;
+}
+#date-filter option {
+  font-size: 16px;
+  font-weight: medium;
+  color: var(--header-text-color);
+  font-family: 'NotoSans', sans-serif;
+  line-height: 150%;
+}
+#salary-sort {
+  padding: 12px;
+  width: fit-content;
+}
+#salary-sort option {
+  font-size: 16px;
+  font-weight: medium;
+  color: var(--header-text-color);
+  font-family: 'NotoSans', sans-serif;
+  line-height: 150%;
+}
+
+.show-much-items {
+  font-size: 16px;
+  font-weight: regular;
+  color: var(--header-text-color);
+  font-family: 'Inter', sans-serif;
+  line-height: 150%;
+}
+
+#items-per-page {
+  font-size: 16px;
+  font-weight: regular;
+  color: var(--header-text-color);
+  font-family: 'Inter', sans-serif;
+  line-height: 150%;
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
+  color: #295AAF;
+}
+
+.icon-option {
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+

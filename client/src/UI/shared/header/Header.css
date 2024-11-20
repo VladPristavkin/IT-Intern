@@ -1,0 +1,63 @@
+.header {
+  width: 100%;
+  height: 56px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: transparent;
+  box-sizing: border-box;
+  position: static;
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Убедитесь, что значение z-index достаточно велико, чтобы быть выше остальных компонентов */
+}
+
+.logo {
+  width: 148px;
+  height: 56px;
+  cursor: pointer;
+}
+
+.button-group-header {
+  display: flex;
+  gap: 16px;
+}
+
+.login-button {
+  width: 90px;
+  height: 45px;
+  background-color: white;
+  color: var(--header-text-color);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500; /* Medium */
+  font-size: 16px;
+  line-height: 150%;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.04);
+}
+
+.register-button {
+  width: 140px;
+  height: 45px;
+  background-color: var(--button-color);
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500; /* Medium */
+  font-size: 16px;
+  line-height: 150%;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.04);
+}
+
+  
+  

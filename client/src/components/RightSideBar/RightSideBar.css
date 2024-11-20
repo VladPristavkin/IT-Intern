@@ -1,0 +1,45 @@
+.right-side-bar {
+  font-family: "Inter", sans-serif;
+  font-size: 16px;
+  line-height: 150%;
+  font-weight: regular;
+  width: 250px;
+  height: fit-content;
+  padding: 24px;
+  background-color: white;
+  border-right: 1px solid var(--border-color);
+  border-radius: 17px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .right-side-bar h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .advertisement, .newsletter-subscription, .quick-profile {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+  }
+  
+  .newsletter-subscription input {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .newsletter-subscription button, .quick-profile button {
+    width: 100%;
+    padding: 5px;
+    background-color: #3173E4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

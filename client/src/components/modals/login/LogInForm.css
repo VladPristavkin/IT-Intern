@@ -1,0 +1,56 @@
+.modal {
+  margin: 0 auto;
+}
+
+.login-form-container {
+    width: 578px;
+    height: 626px;
+    background-color: var(--modal-bg-color);
+    border-radius: 20px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+    width: 20px;
+    height: 20px;
+    background: none;
+    border: none;
+    color: #989FA9;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  
+  logo-form {
+    margin-top: 70px;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 63px;
+  }
+
+  .login-form > :nth-child(1),
+  .login-form > :nth-child(2) {
+    margin-bottom: 44px;
+  }
+  
+  .registration-link {
+    margin-top: 20px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    color: var(--pale-text-color);
+    cursor: pointer;
+    text-decoration: none;
+  }
