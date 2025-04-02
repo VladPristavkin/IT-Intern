@@ -81,9 +81,10 @@ import RegistrationForm from './components/modals/registration/RegistrationForm'
 import PageMain from './pages/main/PageMain';
 import VacancyPage from './pages/vacancy/VacancyPage';
 import PrivateRoute from './PrivateRoute'
-import UserProfile from './pages/userProfile/userProfile';
+import StudentHomePage from './pages/StudentHomePage/StudentHomePage';
 import { AuthProvider } from './context/AuthContext';
 import PageSearch from './pages/SearchVacancy';
+import StudentSavedPage from './pages/StudentSavedPage/StudentSavedPage';
 
 const App = () => {
   return (
@@ -93,7 +94,8 @@ const App = () => {
           <Route path="/" element={<PageMain />} />
           <Route path="/login" element={<LogInForm />} />
           <Route path="/registration" element={<RegistrationForm />} />
-          <Route path="/user" element={<UserProfile />} /> {/* Временный маршрут для разработки */}
+          <Route path="/student" element={<StudentHomePage />} /> {/* Временный маршрут для разработки */}
+          <Route path="/student/saved" element={<StudentSavedPage />} /> {/* Временный маршрут для разработки */}
           <Route
             path="/user/:userId"
             element={<PrivateRoute />}

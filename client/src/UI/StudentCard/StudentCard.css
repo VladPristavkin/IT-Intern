@@ -1,0 +1,99 @@
+.card-container {
+    display: flex;
+    width: 971px;
+    height: 324px;
+    font-family: 'Inter', sans-serif;
+    border: 2px solid #E7E9ED;
+    border-radius: 17px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    line-height: 150%;
+    padding: 20px;
+  }
+  
+  .card {
+    display: flex;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 100%;
+    height: 324px;
+  }
+  
+  .profile-section {
+    height: 324px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 258px;
+    height: 324px;
+    margin-right: 50px;
+  }
+  
+  .avatar-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: #80a6ff;
+    position: relative;
+  }
+  
+  .info-section {
+    margin-top: 15px;
+    width: 100%;
+  }
+  
+  .info-group {
+    margin-bottom: 20px;
+  }
+  
+  .info-row {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .info-column {
+    flex: 1;
+  }
+  
+  .label {
+    font-family: 'Inter', sans-serif;
+    color: #767F8C;
+    font-size: 17px;
+    margin-bottom: 3px;
+  }
+  
+  .value {
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    color: #18191C;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .card {
+      flex-direction: column;
+    }
+    
+    .profile-section {
+      width: 100%;
+      padding: 20px;
+    }
+    
+    .info-section {
+      width: 100%;
+    }
+    
+    .info-row {
+      flex-direction: column;
+    }
+    
+    .info-column {
+      margin-bottom: 15px;
+    }
+  }

@@ -1,0 +1,210 @@
+/* Sidebar.css */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    /* background-color: #f9fafb; */
+    width: 295px;
+    /* box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); */
+    line-height: 150%;
+    font-family: 'Noto Sans', 'Inter', sans-serif;
+  }
+  
+  /* Logo Section Styles */
+  .logo-section {
+    display: flex;
+    justify-content: center;
+    margin-top: 12px;
+    margin-bottom: 41px;
+  }
+  
+  .logo {
+    width: 172px;
+    height: 65px;
+  }
+  
+  /* Profile Card Styles */
+  .profile-card {
+    font-family: 'Noto Sans', 'Inter', sans-serif;
+    margin-bottom: 34px; 
+    background-color: white;
+    border: 2px solid #E7E9ED;
+    border-radius: 17px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    padding: 12px 10px 12px 10px;
+    /* width: 295px; */
+    /* height: 78px; */
+  }
+  
+  .profile-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+  }
+  
+  .user-avatar {
+    /* background-color: #dbeafe; */
+    /* border-radius: 9999px; */
+    width: 58px;
+    height: 58px;
+    /* display: flex; */
+    /* align-items: center;
+    justify-content: center;
+    color: #3b82f6; */
+  }
+  
+  .username {
+    color: #18191C;
+    font-weight: 600;
+    font-size: 18px;
+  }
+  
+  .user-role {
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+
+  .logout {
+    width: 21px;
+    height: 21px;
+    margin-right: 13px;
+    margin-left: 27px;
+  }
+  
+  /* Menu Styles */
+  .menu-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .menu-item {
+    font-family: 'Noto Sans', 'Inter', sans-serif;
+    display: flex;
+    /* align-items: center; */
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 15px;
+    color: #5A5F65;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: medium;
+    line-height: 150%;
+    width: 292px;
+    height: 52px;
+  }
+  
+  .menu-item:hover {
+    background-color: #eff6ff;
+  }
+  
+  .menu-icon {
+    margin-right: 1rem;
+  }
+  
+  .menu-toggle {
+    display: flex;
+    justify-content: space-between;
+    /* align-items: center; */
+  }
+  
+  .menu-item.active {
+    color: #3173E4;
+    background-color: #EFF4FD;
+    width: 292px;
+    height: 52px;
+    padding: 14px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px;
+  }
+
+  .menu-item.active svg.menu-icon {
+    color: #3173E4;
+  }
+
+  .menu-arrow {
+    display: none;
+  }
+
+  .menu-item.active .menu-arrow {
+    display: block;
+    color: #3173E4;
+  }
+  
+  .menu-item-label {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Submenu Styles */
+  .submenu {
+    /* background-color: white; */
+    margin-left: 16px;
+    margin-top: 16px;
+    margin-bottom: 15px;
+    position: relative;
+  }
+  
+  .indicator-bar {
+    position: absolute;
+    left: 0;
+    top: 4px;
+    height: 66px;
+    border-radius: 32px;
+    width: 5px;
+    background-color: #D5C9C9;
+    opacity: 40%;
+  }
+  
+  .indicator-active {
+    width: 5px;
+    background-color: #3173E4;
+    height: 24px;
+    transition: transform 0.7s ease;
+    border-radius: 32px;
+  }
+
+  .submenu-items {
+    margin-left: 23px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
+  
+  .submenu-item {
+    font-family: 'Noto Sans', 'Inter', sans-serif;
+    font-weight: medium;
+    font-size: 16px;
+    /* padding: 0.75rem 1rem; */
+    width: 100%;
+    text-align: left;
+    color: #5A5F65;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .submenu-item-active {
+    color: #393F47;
+  }
+  
+  /* Divider */
+  .menu-divider {
+    border-top: 2px solid #E7E9ED;
+    /* width: 238px; */
+    /* margin-top: 27px;
+    margin-bottom: 28px; */
+    margin-top: 22px;
+    margin-bottom: 22px;
+  }
