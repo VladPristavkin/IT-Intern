@@ -1,0 +1,15 @@
+.tests {
+    display: flex;
+    gap: 56px;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 0px auto;
+}
+.tests-counter {
+    font-size: 26px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    color: #18191C;
+    margin-top: 41px;
+    margin-bottom: 40px;
+}

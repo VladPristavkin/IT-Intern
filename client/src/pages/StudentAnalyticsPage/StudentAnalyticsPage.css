@@ -1,0 +1,7 @@
+.analytics {
+    display: flex;
+    gap: 56px;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 0px auto;
+}

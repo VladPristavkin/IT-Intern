@@ -10,6 +10,22 @@
     line-height: 150%;
     font-family: 'Noto Sans', 'Inter', sans-serif;
   }
+
+.sidebar a {
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+a.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 15px;
+  width: 292px;
+  box-sizing: border-box;
+}
+
+
   
   /* Logo Section Styles */
   .logo-section {
@@ -76,6 +92,7 @@
     height: 21px;
     margin-right: 13px;
     margin-left: 27px;
+    cursor: pointer;
   }
   
   /* Menu Styles */
@@ -155,6 +172,14 @@
     margin-bottom: 15px;
     position: relative;
   }
+
+  .submenu-item {
+    text-decoration: none;
+    padding: 0;
+    width: 100%;
+    font-weight: medium;
+    line-height: 150%;
+}
   
   .indicator-bar {
     position: absolute;

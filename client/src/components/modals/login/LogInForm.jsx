@@ -38,14 +38,17 @@ import ModalButton from '../../../UI/ModalButton/ModalButton';
 import ModalInput from '../../../UI/ModalInput/ModalInput';
 import lOGO from '../../../assets/lOGO.svg';
 import AuthContext from '../../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const LogInForm = ({ onClose }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    navigate("/student");
 
     try {
       const response = await fetch('/login', {
@@ -60,6 +63,7 @@ const LogInForm = ({ onClose }) => {
         const data = await response.json();
         login(data.token);
         onClose();
+
       } else {
         console.error('Authentication failed');
       }

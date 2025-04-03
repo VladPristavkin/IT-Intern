@@ -85,6 +85,11 @@ import StudentHomePage from './pages/StudentHomePage/StudentHomePage';
 import { AuthProvider } from './context/AuthContext';
 import PageSearch from './pages/SearchVacancy';
 import StudentSavedPage from './pages/StudentSavedPage/StudentSavedPage';
+import SuggestedVacanciesPage from './pages/SuggedtedVacanciesPage/SuggedtedVacanciesPage';
+import StudentsTestsHistory from './pages/StudentsTestsHistory/StudentsTestsHistory';
+import TestsToPassPage from './pages/TestsToPassPage/TestsToPassPage';
+import StudentAnalyticsPage from './pages/StudentAnalyticsPage/StudentAnalyticsPage';
+import StudentSelectedTestAnalyticsPage from './pages/StudentAnalyticsPage/StudentSelectedTestAnalyticsPage';
 
 const App = () => {
   return (
@@ -96,6 +101,11 @@ const App = () => {
           <Route path="/registration" element={<RegistrationForm />} />
           <Route path="/student" element={<StudentHomePage />} /> {/* Временный маршрут для разработки */}
           <Route path="/student/saved" element={<StudentSavedPage />} /> {/* Временный маршрут для разработки */}
+          <Route path="/student/suggested" element={<SuggestedVacanciesPage />} /> {/* Временный маршрут для разработки */}
+          <Route path='/student/testing/history' element={<StudentsTestsHistory />} />
+          <Route path='/student/testing' element={<TestsToPassPage />} />
+          <Route path='/student/analytics' element={<StudentAnalyticsPage/>} />
+          <Route path='/student/tests/analytics/:testId' element={<StudentSelectedTestAnalyticsPage/>} />
           <Route
             path="/user/:userId"
             element={<PrivateRoute />}

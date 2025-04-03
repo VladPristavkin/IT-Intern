@@ -1,186 +1,126 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import './ProfileMenu.css';
 import lOGO from '../../assets/lOGO.svg';
 import UserProfileCard from './UserProfileCard';
-import ProfileHome from '../../assets/person.svg'
-import StudentsTesting from '../../assets/person_raised_hand.svg'
-import StudentsAnalytics from '../../assets/insert_chart.svg'
-import SavedVacancies from '../../assets/bookmarks.svg'
-import LookForJob from '../../assets/work.svg'
+import ProfileHome from '../../assets/person.svg';
+import StudentsTesting from '../../assets/person_raised_hand.svg';
+import StudentsAnalytics from '../../assets/insert_chart.svg';
+import SavedVacancies from '../../assets/bookmarks.svg';
+import LookForJob from '../../assets/work.svg';
 
 const StudentProfileMenu = () => {
     const [openMenu, setOpenMenu] = useState(null);
     const [activeItem, setActiveItem] = useState(null);
-    const [activeSubItem, setActiveSubItem] = useState({
-        testing: 'Прохождение теста',
-        analytics: 'Подбор вакансий'
-    });
+    const location = useLocation();
+    const indicatorRef = useRef(null);
+
+    useEffect(() => {
+        const path = location.pathname;
+        let newActiveItem = null;
+
+        if (path.includes('/student/testing')) {
+            newActiveItem = 'testing';
+        } else if (path.includes('/student/suggested') || path.includes('/student/analytics')) {
+            newActiveItem = 'analytics';
+        } else if (path.includes('/student/saved')) {
+            newActiveItem = 'saved';
+        } else if (path === '/student') {
+            newActiveItem = 'profile';
+        } else if (path === '/') {
+            newActiveItem = 'job-search';
+        }
+
+        if (newActiveItem === 'testing' || newActiveItem === 'analytics') {
+            setOpenMenu(newActiveItem);
+        }
+
+        // Обновляем положение индикатора после перерисовки
+        setTimeout(() => {
+            if (indicatorRef.current) {
+                if (path.includes('/student/testing/history') || path.includes('/student/suggested')) {
+                    indicatorRef.current.style.transform = 'translateY(42px)';
+                } else {
+                    indicatorRef.current.style.transform = 'translateY(0px)';
+                }
+            }
+        }, 0);
+    }, [location]);
+
+    useEffect(() => {
+        if (activeItem === 'testing' || activeItem === 'analytics') {
+            setOpenMenu(activeItem);
+        }
+    }, [activeItem]);
 
     const toggleMenu = (menu) => {
-        setActiveItem(menu);
-        if (openMenu === menu) {
-            setOpenMenu(null);
-        } else {
-            setOpenMenu(menu);
-        }
-    };
-
-    const handleMenuItemClick = (item) => {
-        setActiveItem(item);
-        // Close any open submenus if clicking a non-collapsible item
-        if (item !== 'testing' && item !== 'analytics') {
-            setOpenMenu(null);
-        }
-    };
-
-    const handleSubItemClick = (menu, item) => {
-        setActiveSubItem({
-            ...activeSubItem,
-            [menu]: item
-        });
+        setOpenMenu(openMenu === menu ? null : menu);
     };
 
     return (
         <div className="sidebar">
-            {/* Logo Section */}
             <div className="logo-section">
                 <img src={lOGO} alt="Logo" className="logo" />
             </div>
-
-            {/* User Profile Card */}
             <UserProfileCard />
-
-            {/* Menu Items */}
             <div className="menu-container">
-                <button
-                    className={`menu-item ${activeItem === 'profile' ? 'active' : ''}`}
-                    onClick={() => handleMenuItemClick('profile')}
-                >
+                <NavLink to="/student" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`} end>
                     <div className="menu-item-label">
                         <img src={ProfileHome} alt="Profile home" className="menu-icon" />
                         <span>Профиль</span>
                     </div>
-                    <svg className="menu-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
-                    </svg>
-                </button>
-
-                {/* Тестирование - Collapsible Menu */}
+                </NavLink>
                 <div>
-                    <button
-                        onClick={() => toggleMenu('testing')}
-                        className={`menu-item menu-toggle ${openMenu === 'testing' ? 'menu-active' : ''} ${activeItem === 'testing' ? 'active' : ''}`}
-                    >
+                    <button onClick={() => toggleMenu('testing')} className={`menu-item menu-toggle ${openMenu === 'testing' ? 'menu-active' : ''} ${activeItem === 'testing' ? 'active' : ''}`}>
                         <div className="menu-item-label">
-                        <img src={StudentsTesting} alt="Student testing" className="menu-icon" />
+                            <img src={StudentsTesting} alt="Student testing" className="menu-icon" />
                             <span>Тестирование</span>
                         </div>
-                        <svg className="menu-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
-                        </svg>
                     </button>
-
-                    {/* Submenu for Тестирование */}
                     {openMenu === 'testing' && (
                         <div className="submenu">
-                            {/* Indicator bar */}
                             <div className="indicator-bar">
-                                <div
-                                    className="indicator-active"
-                                    style={{
-                                        transform: `translateY(${activeSubItem.testing === 'Прохождение теста' ? '0' : '42px'})`
-                                    }}
-                                ></div>
+                                <div className="indicator-active" ref={indicatorRef}></div>
                             </div>
-
                             <div className='submenu-items'>
-                                <button
-                                    onClick={() => handleSubItemClick('testing', 'Прохождение теста')}
-                                    className={`submenu-item ${activeSubItem.testing === 'Прохождение теста' ? 'submenu-item-active' : ''}`}
-                                >
-                                    Прохождение теста
-                                </button>
-                                <button
-                                    onClick={() => handleSubItemClick('testing', 'История прохождений')}
-                                    className={`submenu-item ${activeSubItem.testing === 'История прохождений' ? 'submenu-item-active' : ''}`}
-                                >
-                                    История прохождений
-                                </button>
+                                <NavLink to="/student/testing" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>Прохождение теста</NavLink>
+                                <NavLink to="/student/testing/history" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>История прохождений</NavLink>
                             </div>
                         </div>
                     )}
                 </div>
-
-                {/* Аналитика - Collapsible Menu */}
                 <div>
-                    <button
-                        onClick={() => toggleMenu('analytics')}
-                        className={`menu-item menu-toggle ${openMenu === 'analytics' ? 'menu-active' : ''} ${activeItem === 'analytics' ? 'active' : ''}`}
-                    >
+                    <button onClick={() => toggleMenu('analytics')} className={`menu-item menu-toggle ${openMenu === 'analytics' ? 'menu-active' : ''} ${activeItem === 'analytics' ? 'active' : ''}`}>
                         <div className="menu-item-label">
-                        <img src={StudentsAnalytics} alt="Students Analytics" className="menu-icon" />
+                            <img src={StudentsAnalytics} alt="Students Analytics" className="menu-icon" />
                             <span>Аналитика</span>
                         </div>
-                        <svg className="menu-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
-                        </svg>
                     </button>
-
-                    {/* Submenu for Аналитика */}
                     {openMenu === 'analytics' && (
                         <div className="submenu">
-                            {/* Indicator bar */}
                             <div className="indicator-bar">
-                                <div
-                                    className="indicator-active"
-                                    style={{
-                                        transform: `translateY(${activeSubItem.analytics === 'Подбор вакансий' ? '42px' : '0'})`
-                                    }}
-                                ></div>
+                                <div className="indicator-active" ref={indicatorRef}></div>
                             </div>
-
                             <div className='submenu-items'>
-                                <button
-                                    onClick={() => handleSubItemClick('analytics', 'Сравнение навыков')}
-                                    className={`submenu-item ${activeSubItem.analytics === 'Сравнение навыков' ? 'submenu-item-active' : ''}`}
-                                >
-                                    Сравнение навыков
-                                </button>
-                                <button
-                                    onClick={() => handleSubItemClick('analytics', 'Подбор вакансий')}
-                                    className={`submenu-item ${activeSubItem.analytics === 'Подбор вакансий' ? 'submenu-item-active' : ''}`}
-                                >
-                                    Подбор вакансий
-                                </button>
+                                <NavLink to="/student/analytics" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>Сравнение навыков</NavLink>
+                                <NavLink to="/student/suggested" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>Подбор вакансий</NavLink>
                             </div>
                         </div>
                     )}
                 </div>
-
-                <button
-                    className={`menu-item ${activeItem === 'saved' ? 'active' : ''}`}
-                    onClick={() => handleMenuItemClick('saved')}
-                >
+                <NavLink to="/student/saved" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`}>
                     <div className="menu-item-label">
-                    <img src={SavedVacancies} alt="Saved Vacancies" className="menu-icon" />
+                        <img src={SavedVacancies} alt="Saved Vacancies" className="menu-icon" />
                         <span>Сохранённые</span>
                     </div>
-                    <svg className="menu-arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path>
-                    </svg>
-                </button>
-
+                </NavLink>
                 <div className="menu-divider"></div>
-
-                <button
-                    className={`menu-item ${activeItem === 'job-search' ? 'active' : ''}`}
-                    onClick={() => handleMenuItemClick('job-search')}
-                >
+                <NavLink to="/" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`}>
                     <div className="menu-item-label">
-                    <img src={LookForJob} alt="Look for job" className="menu-icon" />
+                        <img src={LookForJob} alt="Look for job" className="menu-icon" />
                         <span>Поиск работы</span>
                     </div>
-                </button>
+                </NavLink>
             </div>
         </div>
     );

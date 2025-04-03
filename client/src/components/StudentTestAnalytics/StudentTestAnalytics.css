@@ -1,0 +1,121 @@
+/* Стили для страницы тестирования с исключением глобальных селекторов */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Noto Sans', 'Inter', sans-serif;
+    /* padding: 20px; */
+    /* background-color: #f8f9fa; */
+  }
+  
+  /* Стили для контейнера фильтров */
+  .filters-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .filter-group {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .filter-button {
+    display: flex;
+    align-items: center;
+    width: 96%;
+    padding: 12px;
+    background-color: #ffffff;
+    border: 1px solid #E7E9ED;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); */
+    transition: all 0.2s;
+    position: relative;
+  }
+  
+  .filter-button:hover {
+    border-color: #d0d0d0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+  }
+  
+  .filter-icon {
+    margin-right: 6px;
+    font-size: 16px;
+  }
+  
+  .filter-button select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  /* Стили для заголовка */
+  .dashboard-title {
+    font-size: 24px;
+    color: #18191C;
+    margin: 40px 0 40px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  /* Стили для контейнера графика */
+  .chart-container {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); */
+    /* margin-top: 20px; */
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .no-data-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    width: 100%;
+    color: #666;
+    font-size: 18px;
+    text-align: center;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+  }
+  
+  .reset-button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  .reset-button:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Адаптивность */
+  @media (max-width: 768px) {
+    .filters-container {
+      flex-direction: column;
+    }
+    
+    .filter-group {
+      width: 100%;
+    }
+    
+    .chart-container {
+      overflow-x: auto;
+    }
+  }

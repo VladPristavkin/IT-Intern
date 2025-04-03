@@ -1,10 +1,10 @@
 import React from 'react';
 import './ModalInput.css';
 
-const ModalInput = ({ placeholder }) => {
+const ModalInput = ({ type = "text", placeholder }) => {
   return (
     <input
-      type="text"
+      type={type}
       className="modal-input"
       placeholder={placeholder}
     />
