@@ -3,7 +3,8 @@ import './SuggedtedVacanciesPage.css'
 import StudentProfileMenu from '../../components/ProfileMenu/StudentProfileMenu'
 import BackgroundProfile from '../../UI/shared/profileBackground/profileBackground'
 import ProfileHeader from '../../UI/shared/ProfileHeader/ProfileHeader';
-import VacancyListSaved from '../../components/vacancy/VacancyListSaved';
+// import VacancyListSaved from '../../components/vacancy/VacancyListSaved';
+import SuggestedVacanciesList from '../../components/vacancy/SuggestedVacanciesList';
 
 export default function SuggestedVacanciesPage() {
   return (
@@ -11,7 +12,7 @@ export default function SuggestedVacanciesPage() {
       <StudentProfileMenu />
       <BackgroundProfile>
         <ProfileHeader text="Вакансии для вас" />
-        <VacancyListSaved/>
+        <SuggestedVacanciesList/>
       </ BackgroundProfile>
     </div>
   );
