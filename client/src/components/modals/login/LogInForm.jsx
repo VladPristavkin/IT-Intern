@@ -32,43 +32,92 @@
 
 // export default LogInForm;
 
-import React, { useState, useContext } from 'react';
-import './LogInForm.css';
+import React, { useState } from 'react';
+import './LoginForm.css';
 import ModalButton from '../../../UI/ModalButton/ModalButton';
 import ModalInput from '../../../UI/ModalInput/ModalInput';
 import lOGO from '../../../assets/lOGO.svg';
-import AuthContext from '../../../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import LocalStorageService, { STORAGE_KEYS } from '../../../services/localStorageService';
+import { validators } from '../../../utils/validation';
+import { showSuccess, showError } from '../../../components/Notification/NotificationProvider';
+import { useAuth } from '../../../context/AuthContext';
 
-const LogInForm = ({ onClose }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
+const LoginForm = ({ onClose }) => {
+  const { login } = useAuth();
+  const [formData, setFormData] = useState({
+    username: '',
+    password: ''
+  });
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    navigate("/student");
+  const [errors, setErrors] = useState({});
 
-    try {
-      const response = await fetch('/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
 
-      if (response.ok) {
-        const data = await response.json();
-        login(data.token);
-        onClose();
+    // Очищаем ошибку при вводе
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: null
+      }));
+    }
 
-      } else {
-        console.error('Authentication failed');
+    // Валидация в реальном времени
+    if (name === 'username' && value) {
+      const error = validators.username(value);
+      if (error) {
+        setErrors(prev => ({
+          ...prev,
+          username: error
+        }));
       }
-    } catch (error) {
-      console.error('Error:', error);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Валидация перед отправкой
+    const validationErrors = {};
+    
+    if (!formData.username) {
+      validationErrors.username = 'Введите имя пользователя';
+    } else if (validators.username(formData.username)) {
+      validationErrors.username = validators.username(formData.username);
+    }
+
+    if (!formData.password) {
+      validationErrors.password = 'Введите пароль';
+    }
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      showError('Ошибка входа', 'Пожалуйста, проверьте правильность заполнения полей');
+      return;
+    }
+
+    // Проверяем данные в localStorage
+    const students = LocalStorageService.getItem(STORAGE_KEYS.REGISTERED_STUDENTS, []);
+    const teacherApplications = LocalStorageService.getItem(STORAGE_KEYS.TEACHER_APPLICATIONS, []);
+    
+    const student = students.find(s => s.username === formData.username && s.password === formData.password);
+    const teacher = teacherApplications.find(t => 
+      t.username === formData.username && 
+      t.password === formData.password && 
+      t.status === 'approved'
+    );
+
+    if (student || teacher) {
+      const userData = student || teacher;
+      showSuccess('Успешный вход', 'Добро пожаловать!');
+      login(userData);
+      onClose();
+    } else {
+      showError('Ошибка входа', 'Неверное имя пользователя или пароль');
     }
   };
 
@@ -77,24 +126,36 @@ const LogInForm = ({ onClose }) => {
       <div className="login-form-container modal">
         <button className="close-button" onClick={onClose}>✕</button>
         <img src={lOGO} alt="Logo" className="logo-form" />
-        <form className="login-form" onSubmit={handleLogin}>
+        
+        <h1 className="form-title">Вход в систему</h1>
+        
+        <form className="login-form" onSubmit={handleSubmit}>
           <ModalInput
-            placeholder="Логин или почта"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            type="text"
+            name="username"
+            placeholder="Имя пользователя"
+            value={formData.username}
+            onChange={handleChange}
+            error={errors.username}
           />
+          
           <ModalInput
             type="password"
-            placeholder="Введите пароль"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password"
+            placeholder="Пароль"
+            value={formData.password}
+            onChange={handleChange}
+            error={errors.password}
           />
-          <ModalButton type="submit">Войти</ModalButton>
+          
+          <ModalButton type="submit">
+            Войти
+          </ModalButton>
         </form>
       </div>
     </div>
   );
 };
 
-export default LogInForm;
+export default LoginForm;
 

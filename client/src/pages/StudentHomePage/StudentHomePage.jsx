@@ -1,18 +1,23 @@
 import React from 'react'
-import './StudentHomePage.css'
+import { useAuth } from '../../context/AuthContext'
 import StudentProfileMenu from '../../components/ProfileMenu/StudentProfileMenu'
 import BackgroundProfile from '../../UI/shared/profileBackground/profileBackground'
-import ProfileHeader from '../../UI/shared/ProfileHeader/ProfileHeader';
-import StudentCard from '../../UI/StudentCard/StudentCard';
+import StudentCard from '../../UI/StudentCard/StudentCard'
+import './StudentHomePage.css'
 
-export default function StudentHomePage() {
+const StudentHomePage = () => {
+  const { user } = useAuth()
+
   return (
     <div className='profile'>
       <StudentProfileMenu />
       <BackgroundProfile>
-        <ProfileHeader text="Информация о пользователе" />
-        <StudentCard/>
-      </ BackgroundProfile>
+        <div className="student-content">
+          <StudentCard />
+        </div>
+      </BackgroundProfile>
     </div>
-  );
+  )
 }
+
+export default StudentHomePage

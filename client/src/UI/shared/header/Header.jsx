@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import './Header.css';
 import lOGO from '../../../assets/lOGO.svg';
 import AccountLogo from '../../../assets/account_circle.svg';
-import LogInForm from '../../../components/modals/login/LogInForm';
+import LogInForm from '../../../components/modals/login/LoginForm';
 import RegistrationForm from '../../../components/modals/registration/RegistrationForm';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../../context/AuthContext';

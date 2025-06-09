@@ -1,0 +1,47 @@
+.test-name-step {
+    padding: 20px 0;
+}
+
+.test-name-step form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.test-name-step .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.test-name-step input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.test-name-step input:focus {
+    outline: none;
+    border-color: #1976d2;
+}
+
+.test-name-step .next-button {
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.test-name-step .next-button:hover {
+    background-color: #1565c0;
+}
+
+.test-name-step .next-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+} 

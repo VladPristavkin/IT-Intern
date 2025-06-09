@@ -1,19 +1,60 @@
+.input-container {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 28px;
+}
+
 .modal-input {
-    width: 446px;
-    height: 66px;
-    padding: 22px 27px 22px 20px;
-    border: 1px solid var(--border-color);
-    color: var(--pale-text-color);
-    font-family: 'Inter', sans-serif;
-    font-weight: 400; /* Regular */
-    font-size: 18px;
-    line-height: 20px;
-    box-sizing: border-box;
-    border-radius: 17px;
-    box-shadow: 0px 2px 6px rgba(71, 91, 123, 0.1);
+  width: 100%;
+  height: 48px;
+  background: var(--input-bg, #F5F5F7);
+  border: 1px solid transparent;
+  border-radius: 16px;
+  padding: 0 20px;
+  font-size: 15px;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+}
+
+.modal-input::placeholder {
+  color: var(--text-secondary, #8E8E93);
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: var(--primary-color, #007AFF);
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
+}
+
+.modal-input.error {
+  border-color: #ff4d4f;
+  background-color: #fff2f0;
+}
+
+.modal-input.error:focus {
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.1);
+}
+
+.error-message {
+  position: absolute;
+  left: -10px;
+  bottom: -24px;
+  color: #ff4d4f;
+  font-size: 12px;
+  line-height: 1.2;
+  white-space: nowrap;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
   }
-  
-  .modal-input::placeholder {
-    color: var(--pale-text-color);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
   

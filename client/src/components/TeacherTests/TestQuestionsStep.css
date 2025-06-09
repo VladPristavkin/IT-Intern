@@ -1,0 +1,126 @@
+.test-questions-step {
+    padding: 20px 0;
+}
+
+.question-form {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+.input-group textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    resize: vertical;
+}
+
+.input-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.options-group {
+    margin-top: 15px;
+}
+
+.option-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.option-item input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.option-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+
+.add-question-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 15px;
+}
+
+.questions-list {
+    margin-top: 30px;
+}
+
+.question-item {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.question-item h4 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.question-item p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.publish-button {
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.publish-button:hover {
+    background-color: #1565c0;
+}
+
+.publish-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Focus states */
+.input-group textarea:focus,
+.input-group select:focus,
+.option-item input[type="text"]:focus {
+    outline: none;
+    border-color: #1976d2;
+} 

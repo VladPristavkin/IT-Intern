@@ -1,13 +1,19 @@
 import React from 'react';
 import './ModalInput.css';
 
-const ModalInput = ({ type = "text", placeholder }) => {
+const ModalInput = ({ type, name, placeholder, value, onChange, error }) => {
   return (
-    <input
-      type={type}
-      className="modal-input"
-      placeholder={placeholder}
-    />
+    <div className="input-container">
+      <input
+        type={type}
+        name={name}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        className={`modal-input ${error ? 'error' : ''}`}
+      />
+      {error && <div className="error-message">{error}</div>}
+    </div>
   );
 };
 

@@ -1,15 +1,22 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
+import { useNavigate } from "react-router-dom";
+import { useAuth } from '../../context/AuthContext';
 import AccountLogo from '../../assets/profile_account_circle.svg';
 import Logout from '../../assets/logout.svg';
 
 const UserProfileCard = () => {
-  const navigate = useNavigate(); // Хук для навигации
+  const navigate = useNavigate();
+  const { user, logout: authLogout } = useAuth();
 
-  // Функция для обработки логаута
   const handleLogout = () => {
-    // Здесь может быть логика для очистки данных пользователя (например, удаления токена, сессии и т.п.)
-    navigate("/"); // Перенаправление на главную страницу
+    authLogout();
+  };
+
+  const getUserRole = () => {
+    if (!user) return '';
+    if (user.isAdmin) return 'Администратор';
+    if (user.role === 'teacher') return 'Преподаватель';
+    return 'Студент';
   };
 
   return (
@@ -24,8 +31,8 @@ const UserProfileCard = () => {
             />
           </div>
           <div>
-            <div className="username">SamostBrodit123</div>
-            <div className="user-role">Студент</div>
+            <div className="username">{user?.username || 'Гость'}</div>
+            <div className="user-role">{getUserRole()}</div>
           </div>
         </div>
         <div className="profile-arrow">
@@ -33,7 +40,7 @@ const UserProfileCard = () => {
             src={Logout}
             alt="Logout"
             className="logout"
-            onClick={handleLogout} // Добавляем обработчик клика
+            onClick={handleLogout}
           />
         </div>
       </div>

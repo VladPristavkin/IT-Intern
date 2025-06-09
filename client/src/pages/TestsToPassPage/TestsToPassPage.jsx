@@ -7,14 +7,27 @@ import TestCard from '../../components/TestCard/TestCard';
 
 export default function TestsToPassPage() {
     const testHistory = [
-        // {
-        //   id: 1,
-        //   teacher: 'Сергиенко О.В.',
-        //   testName: 'Проверка знаний',
-        //   date: '29.04.2024',
-        //   description: 'Оцените свои знания и укажите, какой предмет оказал наибольшее влияние на получение этих знаний'
-        // },
-        // Другие записи истории прохождения тестов
+        {
+          id: 1,
+          teacher: 'Сергиенко О.В.',
+          testName: 'Проверка знаний',
+          date: '29.04.2024',
+          description: 'Оцените свои знания и укажите, какой предмет оказал наибольшее влияние на получение этих знаний'
+        },
+        {
+          id: 2,
+          teacher: 'Вайнилович Ю.В.',
+          testName: 'Тест по JavaScript',
+          date: '12.03.2024',
+          description: 'Пройдите тест, чтобы оценить ваши знания в области JavaScript и веб-разработки'
+        },
+        {
+          id: 3,
+          teacher: 'Петров П.П.',
+          testName: 'Основы React',
+          date: '15.04.2024',
+          description: 'Тестирование знаний основных концепций React и его экосистемы'
+        }
       ];
 
   return (

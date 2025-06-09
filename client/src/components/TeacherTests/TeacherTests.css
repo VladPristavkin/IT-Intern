@@ -1,0 +1,189 @@
+.teacher-tests {
+    padding: 2rem;
+}
+
+.tests-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.tests-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tests-info h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.tests-info p {
+    margin: 0;
+    color: #666;
+}
+
+.create-test-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.create-test-button:hover {
+    background-color: #43A047;
+    transform: scale(1.05);
+}
+
+.tests-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.test-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.test-info {
+    flex: 1;
+}
+
+.test-info h3 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+.test-date {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.test-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.action-button {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-button.results {
+    background-color: #2196F3;
+    color: white;
+    padding: 0.5rem 1rem;
+}
+
+.action-button.results:hover {
+    background-color: #1976D2;
+}
+
+.action-button.edit {
+    background-color: #FFC107;
+    color: #333;
+}
+
+.action-button.edit:hover {
+    background-color: #FFA000;
+}
+
+.action-button.delete {
+    background-color: #F44336;
+    color: white;
+}
+
+.action-button.delete:hover {
+    background-color: #D32F2F;
+}
+
+.edit-icon, .delete-icon {
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.test-constructor-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.close-button:hover {
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .teacher-tests {
+        padding: 1rem;
+    }
+
+    .tests-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .create-test-button {
+        align-self: flex-end;
+    }
+
+    .tests-list {
+        grid-template-columns: 1fr;
+    }
+} 

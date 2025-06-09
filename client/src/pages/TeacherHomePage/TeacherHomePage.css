@@ -1,0 +1,12 @@
+.profile {
+    display: flex;
+    min-height: 100vh;
+    background-color: #F7F8FA;
+}
+
+.teacher-content {
+    padding: 32px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+} 

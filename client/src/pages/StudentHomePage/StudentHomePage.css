@@ -1,7 +1,12 @@
 .profile {
     display: flex;
-    gap: 56px;
-    align-items: flex-start;
-    justify-content: center;
-    margin: 0px auto;
+    min-height: 100vh;
+    background-color: #F7F8FA;
+}
+
+.student-content {
+    padding: 32px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
 }
