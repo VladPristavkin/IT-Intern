@@ -24,7 +24,7 @@ const UserProfileCard = () => {
             />
           </div>
           <div>
-            <div className="username">SamostBrodit123</div>
+            <div className="username">VladPristavkin</div>
             <div className="user-role">Студент</div>
           </div>
         </div>

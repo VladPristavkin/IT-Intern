@@ -101,20 +101,49 @@ const StudentTestAnalytics = () => {
   const [displayLanguage, setDisplayLanguage] = useState('Все языки');
   const [displayChartType, setDisplayChartType] = useState('Круговая диаграмма');
 
+  // Функция для получения доступных опций курса (всегда включает "Моя статистика")
+  const getAvailableCourseOptions = () => {
+    const availableCourses = courseData[selectedTest]?.availableCourses || [];
+    return ['myStats', ...availableCourses];
+  };
+
   useEffect(() => {
     const languages = testData[selectedTest]?.data.map(item => item.name) || [];
     setAvailableLanguages(languages);
     
     let filteredData;
 
-    if (selectedCourse === 'myStats') {
-      filteredData = testData[selectedTest]?.data || [];
-    } else {
-      filteredData = courseData[selectedTest]?.[selectedCourse] || [];
-    }
-    
+    // Если выбран конкретный язык программирования, показываем данные по всем доступным курсам + моя статистика
     if (selectedLanguage && selectedLanguage !== '') {
-      filteredData = filteredData.filter(item => item.name === selectedLanguage);
+      filteredData = [];
+      
+      // Добавляем данные из "Моя статистика"
+      const myStatsData = testData[selectedTest]?.data.find(item => item.name === selectedLanguage);
+      if (myStatsData) {
+        filteredData.push({
+          ...myStatsData,
+          name: `${selectedLanguage} (Моя статистика)`
+        });
+      }
+      
+      // Добавляем данные из всех доступных курсов
+      const availableCourses = courseData[selectedTest]?.availableCourses || [];
+      availableCourses.forEach(course => {
+        const courseData_item = courseData[selectedTest]?.[course]?.find(item => item.name === selectedLanguage);
+        if (courseData_item) {
+          filteredData.push({
+            ...courseData_item,
+            name: `${selectedLanguage} (${courseOptions[course]})`
+          });
+        }
+      });
+    } else {
+      // Если язык не выбран, показываем данные как раньше
+      if (selectedCourse === 'myStats') {
+        filteredData = testData[selectedTest]?.data || [];
+      } else {
+        filteredData = courseData[selectedTest]?.[selectedCourse] || [];
+      }
     }
 
     setCurrentData(filteredData);
@@ -130,6 +159,15 @@ const StudentTestAnalytics = () => {
     const newSelectedTest = Number(e.target.value);
     setSelectedTest(newSelectedTest);
     setSelectedLanguage('');
+    
+    // Проверяем, доступен ли текущий выбранный курс для нового теста
+    const availableCoursesForNewTest = getAvailableCourseOptions();
+    if (!availableCoursesForNewTest.includes(selectedCourse)) {
+      // Если текущий курс недоступен, сбрасываем на "Моя статистика"
+      setSelectedCourse('myStats');
+      setDisplayCourse(courseOptions['myStats']);
+    }
+    
     setDisplayTest(testData[newSelectedTest]?.name || 'Неизвестный тест');
     setDisplayLanguage('Все языки');
   };
@@ -202,7 +240,7 @@ const StudentTestAnalytics = () => {
             <img className="filter-icon" src={Settings} alt="Settings" />
             <span>{displayCourse}</span>
             <select value={selectedCourse} onChange={handleCourseChange}>
-              {['myStats', ...courseData[selectedTest].availableCourses].map((value) => (
+              {getAvailableCourseOptions().map((value) => (
                 <option key={value} value={value}>{courseOptions[value]}</option>
               ))}
             </select>

@@ -49,7 +49,9 @@ const LogInForm = ({ onClose }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     navigate("/student");
-
+    setTimeout(function() {
+      console.log("Прошло 6 секунд");
+    }, 6000);
     try {
       const response = await fetch('/login', {
         method: 'POST',

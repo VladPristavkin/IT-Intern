@@ -41,7 +41,7 @@ const StudentCard = () => {
           <div className="info-row">
             <div className="info-column">
               <div className="label">Никнейм</div>
-              <div className="value">SamostBrodit123</div>
+              <div className="value">VladPristavkin</div>
             </div>
             <div className="info-column">
               <div className="label">Почта</div>

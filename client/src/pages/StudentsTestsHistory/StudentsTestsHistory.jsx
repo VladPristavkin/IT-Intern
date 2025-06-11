@@ -15,13 +15,13 @@ export default function StudentsTestsHistory() {
       date: '29.04.2024',
       description: 'Оцените свои знания и укажите, какой предмет оказал наибольшее влияние на получение этих знаний'
     },
-    {
-      id: 2,
-      teacher: 'Вайнилович Ю.В.',
-      testName: 'Тест по JavaScript',
-      date: '12.03.2024',
-      description: 'Пройдите тест, чтобы оценить ваши знания в области JavaScript и веб-разработки'
-    }
+    // {
+    //   id: 2,
+    //   teacher: 'Вайнилович Ю.В.',
+    //   testName: 'Тест по JavaScript',
+    //   date: '12.03.2024',
+    //   description: 'Пройдите тест, чтобы оценить ваши знания в области JavaScript и веб-разработки'
+    // }
   ];
 
   return (
