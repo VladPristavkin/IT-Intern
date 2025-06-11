@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"; // Импортируем useNav
 import AccountLogo from '../../assets/profile_account_circle.svg';
 import Logout from '../../assets/logout.svg';
 
-const UserProfileCard = () => {
+const UserProfileCard = ({ username, userRole }) => {
   const navigate = useNavigate(); // Хук для навигации
 
   // Функция для обработки логаута
@@ -24,8 +24,8 @@ const UserProfileCard = () => {
             />
           </div>
           <div>
-            <div className="username">VladPristavkin</div>
-            <div className="user-role">Студент</div>
+            <div className="username">{username}</div>
+            <div className="user-role">{userRole}</div>
           </div>
         </div>
         <div className="profile-arrow">

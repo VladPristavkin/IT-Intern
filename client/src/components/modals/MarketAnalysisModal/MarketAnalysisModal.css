@@ -1,0 +1,117 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(33, 37, 41, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    width: 800px;
+    max-width: 90%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    padding: 24px 24px 0 24px;
+}
+
+.modal-header h2 {
+    font-size: 24px;
+    font-weight: 500;
+    color: #212529;
+    margin: 0;
+}
+
+.modal-subtitle {
+    font-size: 14px;
+    color: #6C757D;
+    margin: 8px 0 0 0;
+}
+
+.skills-list {
+    padding: 24px;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    overflow-y: auto;
+    max-height: 60vh;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.skills-list > * {
+    width: 100%;
+}
+
+.modal-actions {
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    border-top: 1px solid #E9ECEF;
+    background-color: #F8F9FA;
+    border-radius: 0 0 12px 12px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.action-button {
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 270px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-button.complement {
+    background-color: #0D6EFD;
+    color: white;
+}
+
+.action-button.complement:hover {
+    background-color: #0b5ed7;
+}
+
+.action-button.export {
+    background-color: #0D6EFD;
+    color: white;
+}
+
+.action-button.export:hover {
+    background-color: #0b5ed7;
+}
+
+/* Стилизация скроллбара */
+.skills-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.skills-list::-webkit-scrollbar-track {
+    background: #F8F9FA;
+    border-radius: 4px;
+}
+
+.skills-list::-webkit-scrollbar-thumb {
+    background: #CED4DA;
+    border-radius: 4px;
+}
+
+.skills-list::-webkit-scrollbar-thumb:hover {
+    background: #ADB5BD;
+} 

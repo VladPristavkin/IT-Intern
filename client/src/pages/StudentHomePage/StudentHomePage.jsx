@@ -5,10 +5,15 @@ import BackgroundProfile from '../../UI/shared/profileBackground/profileBackgrou
 import ProfileHeader from '../../UI/shared/ProfileHeader/ProfileHeader';
 import StudentCard from '../../UI/StudentCard/StudentCard';
 
+const userData = {
+  username: "VladPristavkin",
+  userRole: "Студент"
+};
+
 export default function StudentHomePage() {
   return (
     <div className='profile'>
-      <StudentProfileMenu />
+      <StudentProfileMenu userData={userData} />
       <BackgroundProfile>
         <ProfileHeader text="Информация о пользователе" />
         <StudentCard/>

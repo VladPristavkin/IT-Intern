@@ -57,12 +57,17 @@ const StudentProfileMenu = () => {
         setOpenMenu(openMenu === menu ? null : menu);
     };
 
+    const userData = {
+        username: "SamostBrodit123",
+        userRole: "Студент"
+    };
+
     return (
         <div className="sidebar">
             <div className="logo-section">
                 <img src={lOGO} alt="Logo" className="logo" />
             </div>
-            <UserProfileCard />
+            <UserProfileCard username={userData.username} userRole={userData.userRole} />
             <div className="menu-container">
                 <NavLink to="/student" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`} end>
                     <div className="menu-item-label">
