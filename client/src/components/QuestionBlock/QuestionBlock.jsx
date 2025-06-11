@@ -14,6 +14,16 @@ const QuestionBlock = ({
 }) => {
   const shouldShowConfidence = subject && subject !== 'Самостоятельное изучение';
 
+  const handleCheckboxChange = (option) => {
+    if (!Array.isArray(answer)) {
+      onAnswerChange([option]);
+    } else if (answer.includes(option)) {
+      onAnswerChange(answer.filter((item) => item !== option));
+    } else {
+      onAnswerChange([...answer, option]);
+    }
+  };
+
   return (
     <div>
       {/* Question */}
@@ -21,15 +31,15 @@ const QuestionBlock = ({
         <h3 className="question-text">{questionData.question}</h3>
 
         {questionData.type === 'closed' ? (
-          <div className="radio-group">
+          <div className="checkbox-group">
             {questionData.options.map((option, index) => (
-              <label key={index} className="radio-label">
+              <label key={index} className="checkbox-label">
                 <input
-                  type="radio"
+                  type="checkbox"
                   name={`question-${questionIndex}`}
                   value={option}
-                  checked={answer === option}
-                  onChange={(e) => onAnswerChange(e.target.value)}
+                  checked={Array.isArray(answer) && answer.includes(option)}
+                  onChange={() => handleCheckboxChange(option)}
                 />
                 <span>{option}</span>
               </label>
