@@ -68,6 +68,7 @@
   padding: 0.5rem;
   border-radius: 9999px;
   transition: background 0.2s;
+  border: none;
 }
 .modal-close-btn:hover {
   background: #f3f4f6;
@@ -237,11 +238,12 @@
 }
 
 .btn {
+  border: none;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  font-size: 0.95rem;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
   font-weight: 500;
   border-radius: 0.5rem;
   transition: background 0.2s;

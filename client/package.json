@@ -14,6 +14,7 @@
     "axios": "^1.7.0",
     "html-to-text": "^9.0.5",
     "jwt-decode": "^4.0.0",
+    "lucide-react": "^0.514.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
@@ -27,7 +28,13 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://localhost:7059",
+  "options": {
+    "allowedHosts": [
+      "localhost",
+      ".localhost"
+    ],
+    "proxy": "https://localhost:3386/"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -47,6 +54,8 @@
     ]
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.21"
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.5",
+    "tailwindcss": "^4.1.9"
   }
 }

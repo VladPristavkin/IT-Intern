@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './TestHistoryCard.css';
 
-const TestHistoryCard = ({ teacher, testName, date, description, testId }) => {
+const TestHistoryCard = ({ teacher, testName, date, description, testId, onAnswersClick }) => {
     return (
         <div className="test-history-card">
             <div className="card-top">
@@ -21,10 +21,10 @@ const TestHistoryCard = ({ teacher, testName, date, description, testId }) => {
                 </div>
 
                 <div className="test-actions">
-                    {/*
-                    <Link to={`/student/tests/answers/${testId}`} className="action-button answers-button">
+                    
+                    <button onClick={onAnswersClick} className="action-button analytics--button">
                         Ответы
-                    </Link>*/}
+                    </button>
                     <Link to={`/student/tests/analytics/${testId}`} className="action-button analytics-button">
                         Статистика
                     </Link>

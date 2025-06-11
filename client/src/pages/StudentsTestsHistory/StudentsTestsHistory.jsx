@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './StudentsTestsHistory.css'
 import StudentProfileMenu from '../../components/ProfileMenu/StudentProfileMenu'
 import BackgroundProfile from '../../UI/shared/profileBackground/profileBackground'
 import ProfileHeader from '../../UI/shared/ProfileHeader/ProfileHeader';
 import TestHistoryCard from '../../components/TestHistoryCard/TestHistoryCard';
+import TestAnswersView from '../../components/TestAnswersView/TestAnswersView';
 
 export default function StudentsTestsHistory() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedTestData, setSelectedTestData] = useState(null); // если ты будешь использовать реальные данные
+
   // Массив истории прохождения тестов
   const testHistory = [
     {
@@ -15,14 +19,12 @@ export default function StudentsTestsHistory() {
       date: '29.04.2024',
       description: 'Оцените свои знания и укажите, какой предмет оказал наибольшее влияние на получение этих знаний'
     },
-    // {
-    //   id: 2,
-    //   teacher: 'Вайнилович Ю.В.',
-    //   testName: 'Тест по JavaScript',
-    //   date: '12.03.2024',
-    //   description: 'Пройдите тест, чтобы оценить ваши знания в области JavaScript и веб-разработки'
-    // }
   ];
+
+  const handleOpenAnswers = (testData) => {
+    setSelectedTestData(testData); // если понадобится
+    setModalOpen(true);
+  };
 
   return (
     <div className='tests-history'>
@@ -30,7 +32,7 @@ export default function StudentsTestsHistory() {
       <BackgroundProfile>
         <ProfileHeader text="История прохождения тестирований" />
         <div className="tests-counter">
-            Тестов пройдено: {testHistory.length}
+          Тестов пройдено: {testHistory.length}
         </div>
         {testHistory.map(test => (
           <TestHistoryCard
@@ -40,9 +42,22 @@ export default function StudentsTestsHistory() {
             testName={test.testName}
             date={test.date}
             description={test.description}
+            onAnswersClick={() => handleOpenAnswers(test)}
           />
         ))}
       </ BackgroundProfile>
+
+      {modalOpen && (
+        <div className="modal-overlay" onClick={() => setModalOpen(false)}>
+          <div className="modal-container" onClick={e => e.stopPropagation()}>
+            <TestAnswersView
+              isOpen={modalOpen}
+              onClose={() => setModalOpen(false)}
+              testData={selectedTestData}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
