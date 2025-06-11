@@ -1,4 +1,4 @@
-.modal-overlay {
+.teacher-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
     z-index: 1000;
 }
 
-.export-modal-content {
+.teacher-export-modal-content {
     background: white;
     border-radius: 12px;
     width: 400px;
@@ -19,24 +19,24 @@
     padding: 24px;
 }
 
-.export-modal-header {
+.teacher-export-modal-header {
     margin-bottom: 24px;
 }
 
-.export-modal-header h2 {
+.teacher-export-modal-header h2 {
     font-size: 24px;
     font-weight: 500;
     color: #212529;
     margin: 0;
 }
 
-.export-options {
+.teacher-export-options {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.export-button {
+.teacher-export-button {
     width: 100%;
     height: 48px;
     background-color: #0D6EFD;
@@ -51,6 +51,6 @@
     justify-content: center;
 }
 
-.export-button:hover {
+.teacher-export-button:hover {
     background-color: #0b5ed7;
 } 

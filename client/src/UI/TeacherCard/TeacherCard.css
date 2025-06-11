@@ -1,4 +1,4 @@
-.card-container {
+.teacher-card-container {
     display: flex;
     width: 971px;
     height: 324px;
@@ -10,7 +10,7 @@
     padding: 20px;
   }
   
-  .card {
+  .teacher-card {
     display: flex;
     border-radius: 12px;
     overflow: hidden;
@@ -18,7 +18,7 @@
     height: 324px;
   }
   
-  .profile-section {
+  .teacher-profile-section {
     height: 324px;
     display: flex;
     flex-direction: column;
@@ -26,7 +26,7 @@
     justify-content: center;
   }
   
-  .avatar {
+  .teacher-avatar {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,7 +35,7 @@
     margin-right: 50px;
   }
   
-  .avatar-circle {
+  .teacher-avatar-circle {
     width: 120px;
     height: 120px;
     border-radius: 50%;
@@ -43,32 +43,32 @@
     position: relative;
   }
   
-  .info-section {
+  .teacher-info-section {
     margin-top: 15px;
     width: 100%;
   }
   
-  .info-group {
+  .teacher-info-group {
     margin-bottom: 20px;
   }
   
-  .info-row {
+  .teacher-info-row {
     display: flex;
     margin-bottom: 20px;
   }
   
-  .info-column {
+  .teacher-info-column {
     flex: 1;
   }
   
-  .label {
+  .teacher-label {
     font-family: 'Inter', sans-serif;
     color: #767F8C;
     font-size: 17px;
     margin-bottom: 3px;
   }
   
-  .value {
+  .teacher-value {
     font-family: 'Inter', sans-serif;
     font-size: 20px;
     color: #18191C;
@@ -80,20 +80,20 @@
       flex-direction: column;
     }
     
-    .profile-section {
+    .teacher-profile-section {
       width: 100%;
       padding: 20px;
     }
     
-    .info-section {
+    .teacher-info-section {
       width: 100%;
     }
     
-    .info-row {
+    .teacher-info-row {
       flex-direction: column;
     }
     
-    .info-column {
+    .teacher-info-column {
       margin-bottom: 15px;
     }
   }
