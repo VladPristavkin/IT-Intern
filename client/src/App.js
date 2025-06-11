@@ -90,6 +90,8 @@ import StudentsTestsHistory from './pages/StudentsTestsHistory/StudentsTestsHist
 import TestsToPassPage from './pages/TestsToPassPage/TestsToPassPage';
 import StudentAnalyticsPage from './pages/StudentAnalyticsPage/StudentAnalyticsPage';
 import StudentSelectedTestAnalyticsPage from './pages/StudentAnalyticsPage/StudentSelectedTestAnalyticsPage';
+import TeacherHomePage from './pages/TeacherHomePage/TeacherHomePage';
+import TeacherTestingPage from './pages/TeacherTestingPage/TeacherTestingPage';
 
 const App = () => {
   return (
@@ -106,6 +108,9 @@ const App = () => {
           <Route path='/student/testing' element={<TestsToPassPage />} />
           <Route path='/student/analytics' element={<StudentAnalyticsPage/>} />
           <Route path='/student/tests/analytics/:testId' element={<StudentSelectedTestAnalyticsPage/>} />
+
+          <Route path="/teacher" element={<TeacherHomePage />} /> {/* Временный маршрут для разработки */}
+          <Route path="/teacher/testing" element={<TeacherTestingPage />} /> {/* Временный маршрут для разработки */}
           <Route
             path="/user/:userId"
             element={<PrivateRoute />}
