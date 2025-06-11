@@ -56,26 +56,26 @@ const SkillProgressCard = ({ skillName, skillPercentage, progressPercentage }) =
     const description = generateDescription(skillPercentage, progressPercentage);
 
     return (
-        <div className="skill-card">
-            <div className="skill-header">
-                <span className="skill-name">{skillName}</span>
-                <span className="skill-demand">{skillPercentage}% вакансий</span>
+        <div className="teacher-skill-card">
+            <div className="teacher-skill-header">
+                <span className="teacher-skill-name">{skillName}</span>
+                <span className="teacher-skill-demand">{skillPercentage}% вакансий</span>
             </div>
             
-            <p className="skill-description">{description}</p>
+            <p className="teacher-skill-description">{description}</p>
             
-            <div className="progress-container">
-                <div className="progress-bar">
+            <div className="teacher-progress-container">
+                <div className="teacher-progress-bar">
                     <div 
-                        className="progress-fill"
+                        className="teacher-progress-fill"
                         style={{ 
                             width: `${progressPercentage}%`,
                             backgroundColor: getProgressColor(progressPercentage)
                         }}
                     />
                 </div>
-                <div className="progress-info">
-                    <span className="progress-status" style={{ color: getProgressColor(progressPercentage) }}>
+                <div className="teacher-progress-info">
+                    <span className="teacher-progress-status" style={{ color: getProgressColor(progressPercentage) }}>
                         {getProgressStatus(progressPercentage)}
                     </span>
                     <span>{progressPercentage}%</span>

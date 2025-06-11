@@ -18,43 +18,43 @@ const TeacherTestingPage = () => {
     };
 
     return (
-        <div className="page-container">
+        <div className="teacher-page-container">
             <TeacherProfileMenu />
-            <div className="content-container">
-                <div className="testing-header">
+            <div className="teacher-content-container">
+                <div className="teacher-testing-header">
                     <h1>Тестирование студентов</h1>
-                    <button className="add-test-button">
+                    <button className="teacher-add-test-button">
                         <span>+</span>
                     </button>
                 </div>
                 
-                <div className="tests-info">
-                    <p className="tests-count">Вы создали тестов: {testCount}</p>
+                <div className="teacher-tests-info">
+                    <p className="teacher-tests-count">Вы создали тестов: {testCount}</p>
                 </div>
 
-                <div className="tests-list">
-                    <div className="test-card">
-                        <div className="test-card-header">
-                            <div className="test-author">Сергиенко О.В.</div>
-                            <div className="test-actions">
-                                <button className="action-button results">Результаты</button>
+                <div className="teacher-tests-list">
+                    <div className="teacher-test-card">
+                        <div className="teacher-test-card-header">
+                            <div className="teacher-test-author">Сергиенко О.В.</div>
+                            <div className="teacher-test-actions">
+                                <button className="teacher-action-button results">Результаты</button>
                                 <button 
-                                    className="action-button analysis"
+                                    className="teacher-action-button analysis"
                                     onClick={handleOpenAnalysisModal}
                                 >
                                     Анализ на соответствие рынку
                                 </button>
-                                <button className="icon-button">
+                                <button className="teacher-icon-button">
                                     <img src={EditIcon} alt="Edit" />
                                 </button>
-                                <button className="icon-button">
+                                <button className="teacher-icon-button">
                                     <img src={DeleteIcon} alt="Delete" />
                                 </button>
                             </div>
                         </div>
-                        <h2 className="test-title">Проверка знаний</h2>
-                        <div className="test-date">29.04.2024</div>
-                        <p className="test-description">
+                        <h2 className="teacher-test-title">Проверка знаний</h2>
+                        <div className="teacher-test-date">29.04.2024</div>
+                        <p className="teacher-test-description">
                             Оцените свои знания и укажите, какой предмет оказал наибольшее влияние на получение этих знаний
                         </p>
                     </div>

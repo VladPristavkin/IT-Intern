@@ -28,27 +28,27 @@ const ExportModal = ({ isOpen, onClose, data }) => {
     };
 
     return (
-        <div className="modal-overlay" onClick={onClose}>
-            <div className="export-modal-content" onClick={e => e.stopPropagation()}>
-                <div className="export-modal-header">
+        <div className="teacher-modal-overlay" onClick={onClose}>
+            <div className="teacher-export-modal-content" onClick={e => e.stopPropagation()}>
+                <div className="teacher-export-modal-header">
                     <h2>Экспортирование</h2>
                 </div>
                 
-                <div className="export-options">
+                <div className="teacher-export-options">
                     <button 
-                        className="export-button"
+                        className="teacher-export-button"
                         onClick={() => handleExport('docx')}
                     >
                         Экспорт в docx
                     </button>
                     <button 
-                        className="export-button"
+                        className="teacher-export-button"
                         onClick={() => handleExport('pdf')}
                     >
                         Экспорт в pdf
                     </button>
                     <button 
-                        className="export-button"
+                        className="teacher-export-button"
                         onClick={() => handleExport('excel')}
                     >
                         Экспорт в excel

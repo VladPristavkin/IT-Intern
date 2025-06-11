@@ -1,29 +1,29 @@
-.page-container {
+.teacher-page-container {
     display: flex;
     min-height: 100vh;
     background-color: #F8F9FA;
 }
 
-.content-container {
+.teacher-content-container {
     flex: 1;
     padding: 32px;
 }
 
-.testing-header {
+.teacher-testing-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
 }
 
-.testing-header h1 {
+.teacher-testing-header h1 {
     font-size: 32px;
     font-weight: 500;
     color: #212529;
     margin: 0;
 }
 
-.add-test-button {
+.teacher-add-test-button {
     width: 40px;
     height: 40px;
     border-radius: 8px;
@@ -38,52 +38,52 @@
     transition: background-color 0.2s;
 }
 
-.add-test-button:hover {
+.teacher-add-test-button:hover {
     background-color: #0b5ed7;
 }
 
-.tests-info {
+.teacher-tests-info {
     margin-bottom: 24px;
 }
 
-.tests-count {
+.teacher-tests-count {
     font-size: 16px;
     color: #6C757D;
     margin: 0;
 }
 
-.tests-list {
+.teacher-tests-list {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.test-card {
+.teacher-test-card {
     background: white;
     border-radius: 8px;
     padding: 24px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.test-card-header {
+.teacher-test-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
 }
 
-.test-author {
+.teacher-test-author {
     font-size: 14px;
     color: #6C757D;
 }
 
-.test-actions {
+.teacher-test-actions {
     display: flex;
     gap: 40px;
     align-items: center;
 }
 
-.action-button {
+.teacher-action-button {
     padding: 8px 16px;
     border-radius: 6px;
     border: none;
@@ -92,7 +92,7 @@
     transition: background-color 0.2s;
 }
 
-.action-button.results {
+.teacher-action-button.results {
     background-color: #0D6EFD;
     color: white;
     width: 140px;
@@ -100,11 +100,11 @@
     border-radius: 10px;
 }
 
-.action-button.results:hover {
+.teacher-action-button.results:hover {
     background-color: #0b5ed7;
 }
 
-.action-button.analysis {
+.teacher-action-button.analysis {
     background-color: #0D6EFD;
     color: white;
     width: 270px;
@@ -112,11 +112,11 @@
     border-radius: 10px;
 }
 
-.action-button.analysis:hover {
+.teacher-action-button.analysis:hover {
     background-color: #0b5ed7;
 }
 
-.icon-button {
+.teacher-icon-button {
     width: 40px;
     height: 40px;
     border-radius: 6px;
@@ -129,18 +129,18 @@
     transition: background-color 0.2s;
 }
 
-.icon-button:hover {
+.teacher-icon-button:hover {
     background-color: #F8F9FA;
 }
 
-.test-title {
+.teacher-test-title {
     font-size: 20px;
     font-weight: 500;
     color: #212529;
     margin: 0 0 8px 0;
 }
 
-.test-date {
+.teacher-test-date {
     font-size: 14px;
     color: #6C757D;
     margin-bottom: 16px;
@@ -149,7 +149,7 @@
     gap: 8px;
 }
 
-.test-description {
+.teacher-test-description {
     font-size: 14px;
     color: #6C757D;
     margin: 0;

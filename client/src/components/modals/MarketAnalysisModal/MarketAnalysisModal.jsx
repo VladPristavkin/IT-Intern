@@ -69,18 +69,18 @@ const MarketAnalysisModal = ({ isOpen, onClose }) => {
 
     return (
         <>
-            <div className="modal-overlay" onClick={onClose}>
-                <div className="modal-content" onClick={e => e.stopPropagation()}>
-                    <div className="modal-header">
+            <div className="teacher-modal-overlay" onClick={onClose}>
+                <div className="teacher-modal-content" onClick={e => e.stopPropagation()}>
+                    <div className="teacher-modal-header">
                         <div>
                             <h2>Анализ соответствия теста рынку</h2>
-                            <p className="modal-subtitle">
+                            <p className="teacher-modal-subtitle">
                                 Сравните содержание теста с наиболее востребованными навыками в вакансиях
                             </p>
                         </div>
                     </div>
 
-                    <div className="skills-list">
+                    <div className="teacher-skills-list">
                         {skills.map((skill, index) => (
                             <SkillProgressCard
                                 key={index}
@@ -91,9 +91,9 @@ const MarketAnalysisModal = ({ isOpen, onClose }) => {
                         ))}
                     </div>
 
-                    <div className="modal-actions">
-                        <button className="action-button complement">Дополнить тест</button>
-                        <button className="action-button export" onClick={handleExportClick}>
+                    <div className="teacher-modal-actions">
+                        <button className="teacher-action-button complement">Дополнить тест</button>
+                        <button className="teacher-action-button export" onClick={handleExportClick}>
                             Экспорт отчета
                         </button>
                     </div>
