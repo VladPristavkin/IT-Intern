@@ -1,244 +1,122 @@
-// import React, { useEffect, useState } from 'react';
-// import VacancyCardNormal from './VacancyCardNormal';
-// import VacancyControls from './VacancyControls';
-// import { getVacancies } from '../../api/getVacanciesNormal.js';
-// import './VacancyListNormal.css';
-
-// const VacancyListNormal = () => {
-//   const [vacancies, setVacancies] = useState([]);
-//   const [totalVacancies, setTotalVacancies] = useState(0);
-
-//   useEffect(() => {
-//     const fetchVacancies = async () => {
-//       try {
-//         const data = await getVacancies();
-//         setVacancies(data.items);
-//         setTotalVacancies(data.count);
-//       } catch (error) {
-//         console.error('Error fetching vacancies:', error);
-//       }
-//     };
-
-//     fetchVacancies();
-//   }, []);
-
-//   return (
-//     <div className="main-vacancies-list">
-//       <VacancyControls totalVacancies={totalVacancies} />
-//       <div className="vacancy-list">
-//         {vacancies.map(vacancy => (
-//           <VacancyCardNormal key={vacancy.id} vacancy={vacancy} />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default VacancyListNormal;
-
-
-
-
-
-// import React, { useEffect, useState } from 'react';
-// import VacancyCardNormal from './VacancyCardNormal';
-// import './VacancyListNormal.css';
-// import { getVacancies } from '../../api/getVacanciesNormal';
-
-// const VacancyListNormal = () => {
-//   const [vacancies, setVacancies] = useState([]);
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const [totalPages, setTotalPages] = useState(1);
-
-//   useEffect(() => {
-//     const fetchVacancies = async () => {
-//       try {
-//         const data = await getVacancies(currentPage);
-//         setVacancies(data.items);
-//         setTotalPages(data.pages); // Assuming 'data.pages' provides the total number of pages
-//       } catch (error) {
-//         console.error('Error fetching vacancies:', error);
-//       }
-//     };
-
-//     fetchVacancies();
-//   }, [currentPage]);
-
-//   const handlePreviousPage = () => {
-//     if (currentPage > 1) {
-//       setCurrentPage(currentPage - 1);
-//     }
-//   };
-
-//   const handleNextPage = () => {
-//     if (currentPage < totalPages) {
-//       setCurrentPage(currentPage + 1);
-//     }
-//   };
-
-//   return (
-//     <div>
-    
-//       <div className="vacancy-list">
-//         {vacancies.map(vacancy => (
-//           <VacancyCardNormal key={vacancy.id} vacancy={vacancy} />
-//         ))}
-//       </div>
-//       <div className="pagination">
-//         <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-//           Previous
-//         </button>
-//         <span>Page {currentPage} of {totalPages}</span>
-//         <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-//           Next
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default VacancyListNormal;
-
-
-// import React, { useEffect, useState } from 'react';
-// import VacancyCardNormal from './VacancyCardNormal';
-// import './VacancyListNormal.css';
-// import { getVacancies } from '../../api/getVacanciesNormal';
-// import VacancyControls from './VacancyControls';
-
-// const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-//   const pageNumbers = [];
-//   for (let i = 1; i <= totalPages; i++) {
-//     pageNumbers.push(i);
-//   }
-
-//   return (
-//     <div className="pagination">
-//       <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
-//         &lt;
-//       </button>
-//       {pageNumbers.map(number => (
-//         <button
-//           key={number}
-//           onClick={() => onPageChange(number)}
-//           className={currentPage === number ? 'active' : ''}
-//         >
-//           {number}
-//         </button>
-//       ))}
-//       <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-//         &gt;
-//       </button>
-//     </div>
-//   );
-// };
-
-
-
-
-// const VacancyListNormal = () => {
-//   const [vacancies, setVacancies] = useState([]);
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const [totalPages, setTotalPages] = useState(1);
-//   const [totalVacancies, setTotalVacancies] = useState(0);
-//   const [itemsPerPage, setItemsPerPage] = useState(10);
-//   const [dateFilter, setDateFilter] = useState(0);
-//   const [salarySort, setSalarySort] = useState(0);
-
-//   useEffect(() => {
-//     const fetchVacancies = async () => {
-//       try {
-//         const data = await getVacancies(currentPage, itemsPerPage, dateFilter, salarySort);
-//         setVacancies(data.items);
-//         setTotalPages(data.pages); // Assuming 'data.pages' provides the total number of pages
-//         setTotalVacancies(data.count); // Assuming 'data.count' provides the total number of vacancies
-//       } catch (error) {
-//         console.error('Error fetching vacancies:', error);
-//       }
-//     };
-
-//     fetchVacancies();
-//   }, [currentPage, itemsPerPage, dateFilter, salarySort]);
-
-//   return (
-//     <div>
-//       <VacancyControls 
-//         totalVacancies={totalVacancies}
-//         itemsPerPage={itemsPerPage}
-//         setItemsPerPage={setItemsPerPage}
-//         dateFilter={dateFilter}
-//         setDateFilter={setDateFilter}
-//         salarySort={salarySort}
-//         setSalarySort={setSalarySort}
-//       />
-//       <div className="vacancy-list">
-//         {vacancies.map(vacancy => (
-//           <VacancyCardNormal key={vacancy.id} vacancy={vacancy} />
-//         ))}
-//       </div>
-//       <Pagination
-//         currentPage={currentPage}
-//         totalPages={totalPages}
-//         onPageChange={setCurrentPage}
-//       />
-//     </div>
-//   );
-// };
-
-// export default VacancyListNormal;
-
-
-
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import VacancyCardNormal from './VacancyCardNormal';
 import './VacancyListSaved.css';
-import { getVacancies } from '../../api/getSuggestedVacancies';
 import VacancyControls from './VacancyControls';
 
-const useQuery = () => {
-  return new URLSearchParams(useLocation().search);
-};
-
 const SuggestedVacanciesList = () => {
-  const navigate = useNavigate();
-  const query = useQuery();
+  const mockVacancies = [
+  {
+    id: 1,
+    name: 'Junior C# Developer',
+    employer: { name: 'TechCorp' },
+    area: { name: 'Минская область' },
+    country: { name: 'Беларусь' },
+    salary: { from: 800, to: 1200, currency: 'BYN' },
+    description: '<p>Работа с ASP.NET Core, поддержка внутренней ERP системы. Требования: знание C#, базовое понимание веб-технологий, желание развиваться в IT сфере.</p>',
+    publishedAt: '2025-06-05T10:30:00+03:00',
+  },
+  {
+    id: 2,
+    name: 'Trainee .NET Engineer',
+    employer: { name: 'SoftSolutions' },
+    area: { name: 'Гродненская область' },
+    country: { name: 'Беларусь' },
+    salary: { from: 500, to: 800, currency: 'BYN' },
+    description: '<p>Обучение и работа над реальными задачами в команде .NET. Мы предоставим ментора и индивидуальный план развития. Опыт программирования приветствуется, но не обязателен.</p>',
+    publishedAt: '2025-06-07T14:15:00+03:00',
+  },
+  {
+    id: 3,
+    name: 'Intern C# Backend Developer',
+    employer: { name: 'NextGen Solutions' },
+    area: { name: 'Брестская область' },
+    country: { name: 'Беларусь' },
+    salary: { from: 0, to: 700, currency: 'BYN' },
+    description: '<p>Оплачиваемая стажировка для начинающих разработчиков. Работа с базами данных и API на C#. Изучение современных технологий разработки веб-приложений.</p>',
+    publishedAt: '2025-06-08T09:45:00+03:00',
+  },
+  {
+    id: 4,
+    name: 'C# Developer (Junior)',
+    employer: { name: 'DevCompany' },
+    area: { name: 'Витебская область' },
+    country: { name: 'Беларусь' },
+    salary: { from: 900, to: 1400, currency: 'BYN' },
+    description: '<p>Разработка корпоративных приложений на платформе .NET. Работа в команде опытных разработчиков. Возможность быстрого профессионального роста и изучения новых технологий.</p>',
+    publishedAt: '2025-06-09T16:20:00+03:00',
+  },
+  {
+    id: 5,
+    name: 'Junior Software Engineer (.NET)',
+    employer: { name: 'TechStart' },
+    area: { name: 'Могилевская область' },
+    country: { name: 'Беларусь' },
+    salary: { from: 700, to: 1100, currency: 'BYN' },
+    description: '<p>Присоединяйтесь к нашей команде разработчиков! Работа над интересными проектами с использованием современного стека технологий .NET. Гибкий график и дружелюбная атмосфера.</p>',
+    publishedAt: '2025-06-10T11:30:00+03:00',
+  },
+  {
+    id: 6,
+    name: 'Стажер C# разработчик',
+    employer: { name: 'CodeFactory' },
+    area: { name: 'Минская область' },
+    country: { name: 'Беларусь' },
+    salary: { from: 600, to: 900, currency: 'BYN' },
+    description: '<p>Стажировка для студентов и выпускников технических специальностей. Изучение языка C# и платформы .NET Framework. Работа под руководством опытного наставника.</p>',
+    publishedAt: '2025-06-11T13:45:00+03:00',
+  },
+  {
+    id: 7,
+    name: 'Junior Backend Developer C#',
+    employer: { name: 'InnovateLab' },
+    area: { name: 'Гомельская область' },
+    country: { name: 'Беларусь' },
+    salary: { from: 800, to: 1300, currency: 'BYN' },
+    description: '<p>Разработка серверной части веб-приложений. Работа с REST API, базами данных, микросервисной архитектурой. Отличная возможность для начала карьеры в IT.</p>',
+    publishedAt: '2025-06-12T08:15:00+03:00',
+  },
+];
 
-  const [vacancies, setVacancies] = useState([]);
-  const [currentPage, setCurrentPage] = useState(Number(query.get('page')) || 1);
+ const [vacancies, setVacancies] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalVacancies, setTotalVacancies] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(Number(query.get('itemsPerPage')) || 10);
-  const [dateFilter, setDateFilter] = useState(Number(query.get('dateFilter')) || 0);
-  const [salarySort, setSalarySort] = useState(Number(query.get('salarySort')) || 0);
-  const [searchTerm, setSearchTerm] = useState(query.get('searchText') || '');
-  const [country, setCountry] = useState(query.get('country') || '');
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [dateFilter, setDateFilter] = useState(0);
+  const [salarySort, setSalarySort] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('Trainee C#');
+  const [country, setCountry] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchVacancies = async () => {
-    try {
-      const data = await getVacancies(currentPage, itemsPerPage, dateFilter, salarySort, searchTerm = "Trainee C#", country);
-      setVacancies(data.items);
-      setTotalPages(data.pages); // Assuming 'data.pages' provides the total number of pages
-      setTotalVacancies(data.count); // Assuming 'data.count' provides the total number of vacancies
-    } catch (error) {
-      console.error('Error fetching vacancies:', error);
-    }
+    // setIsLoading(true);
+    
+    setVacancies(mockVacancies);
+    // try {
+      
+    //   // Пагинация
+    //   const startIndex = (currentPage - 1) * itemsPerPage;
+    //   const endIndex = startIndex + itemsPerPage;
+    //   const paginatedVacancies = countryFiltered.slice(startIndex, endIndex);
+      
+    //   setVacancies(paginatedVacancies);
+    //   setTotalPages(Math.ceil(countryFiltered.length / itemsPerPage));
+    //   setTotalVacancies(countryFiltered.length);
+    // } catch (error) {
+    //   console.error('Error fetching vacancies:', error);
+    //   // В случае ошибки показываем первые N вакансий
+    //   const fallbackData = mockVacancies.slice(0, itemsPerPage);
+    //   setVacancies(fallbackData);
+    //   setTotalPages(Math.ceil(mockVacancies.length / itemsPerPage));
+    //   setTotalVacancies(mockVacancies.length);
+    // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
-  useEffect(() => {
+   useEffect(() => {
     fetchVacancies();
-  }, [currentPage, itemsPerPage, dateFilter, salarySort, searchTerm, country]);
-
-  useEffect(() => {
-    const params = new URLSearchParams();
-    if (currentPage) params.append('page', currentPage);
-    if (itemsPerPage) params.append('itemsPerPage', itemsPerPage);
-    if (dateFilter) params.append('dateFilter', dateFilter);
-    if (salarySort) params.append('salarySort', salarySort);
-    if (searchTerm) params.append('searchText', searchTerm);
-    if (country) params.append('country', country);
-    navigate(`?${params.toString()}`, { replace: true });
-  }, [currentPage, itemsPerPage, dateFilter, salarySort, searchTerm, country, navigate]);
+  }, []);
 
   const handlePageChange = (page) => {
     if (page > 0 && page <= totalPages) {
@@ -247,7 +125,7 @@ const SuggestedVacanciesList = () => {
   };
 
   const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-    const maxPageNumbersToShow = 6; // Изменено на 6 страниц
+    const maxPageNumbersToShow = 6;
     const pageNumbers = [];
 
     if (totalPages <= maxPageNumbersToShow) {
@@ -304,31 +182,33 @@ const SuggestedVacanciesList = () => {
 
   return (
     <div>
-      <VacancyControls 
-        totalVacancies={totalVacancies}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-        dateFilter={dateFilter}
-        setDateFilter={setDateFilter}
-        salarySort={salarySort}
-        setSalarySort={setSalarySort}
-      />
-      <div className="vacancy-list">
-        {vacancies.map(vacancy => (
-          <VacancyCardNormal key={vacancy.id} vacancy={vacancy} />
-        ))}
-      </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      {isLoading ? (
+        <div className="loading">Загрузка вакансий...</div>
+      ) : (
+        <>
+          <div className="vacancy-list">
+            {vacancies.length > 0 ? (
+              vacancies.map(vacancy => (
+                <VacancyCardNormal key={vacancy.id} vacancy={vacancy} />
+              ))
+            ) : (
+              <div className="no-vacancies">
+                <p>Вакансии не найдены. Попробуйте изменить параметры поиска.</p>
+              </div>
+            )}
+          </div>
+          
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </>
+      )}
     </div>
   );
 };
 
 export default SuggestedVacanciesList;
-
-
-
-

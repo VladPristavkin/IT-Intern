@@ -16,7 +16,7 @@ export default function StudentsTestsHistory() {
       id: 1,
       teacher: 'Сергиенко О.В.',
       testName: 'Проверка знаний',
-      date: '29.04.2024',
+      date: '09.06.2025',
       description: 'Оцените свои знания и укажите, какой предмет оказал наибольшее влияние на получение этих знаний'
     },
   ];

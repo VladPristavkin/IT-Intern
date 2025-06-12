@@ -53,8 +53,8 @@ const mockTestData = {
       type: 'closed',
       question: 'Какой модификатор доступа позволяет использовать метод только внутри текущего класса?',
       options: ['public', 'private', 'protected', 'internal'],
-      selectedAnswers: ['private'],
-      correctness: 100
+      selectedAnswers: ['private', 'protected'],
+      correctness: 50
     },
   ]
 };

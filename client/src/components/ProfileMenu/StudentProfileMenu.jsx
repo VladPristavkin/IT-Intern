@@ -58,7 +58,7 @@ const StudentProfileMenu = () => {
     };
 
     const userData = {
-        username: "SamostBrodit123",
+        username: "VladPristavkin",
         userRole: "Студент"
     };
 
