@@ -1,9 +1,16 @@
-
-import React from 'react';
+import React, {useContext} from 'react';
 import './StudentCard.css';
 import Avatar from '../../assets/UserPhoto.svg'
+import AuthContext from '../../context/AuthContext';
+import  db  from '../../utils/localDb';
 
 const StudentCard = () => {
+  const { user, isAuthenticated } = useContext(AuthContext);
+  
+  const dbUser = db.getUserById(user.userId);
+  if (dbUser.role !== 'student') {
+    return null;
+  }
   return (
     <div className="card-container">
       <div className="card">
@@ -19,7 +26,7 @@ const StudentCard = () => {
         <div className="info-section">
           <div className="info-group">
             <div className="label">ФИО</div>
-            <div className="value name">Приставкин Владислав Александрович</div>
+            <div className="value name">{dbUser.name}</div>
           </div>
           
           <div className="info-row">
@@ -29,23 +36,22 @@ const StudentCard = () => {
             </div>
             <div className="info-column">
               <div className="label">Группа</div>
-              <div className="value">ПИР-211</div>
+              <div className="value">{dbUser.speciality}</div>
             </div>
           </div>
-          
           <div className="info-group">
             <div className="label">Пол</div>
-            <div className="value">Мужской</div>
+            <div className="value">{dbUser.gender}</div>
           </div>
           
           <div className="info-row">
             <div className="info-column">
               <div className="label">Никнейм</div>
-              <div className="value">VladPristavkin</div>
+              <div className="value">{dbUser.username}</div>
             </div>
             <div className="info-column">
               <div className="label">Почта</div>
-              <div className="value email">vladpristavkin@gmail.com</div>
+              <div className="value email">{dbUser.email}</div>
             </div>
           </div>
         </div>

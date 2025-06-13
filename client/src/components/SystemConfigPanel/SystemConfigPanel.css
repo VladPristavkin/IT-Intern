@@ -1,0 +1,182 @@
+.system-config-panel {
+    padding: 20px 32px 24px 32px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.system-config-panel h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.config-section {
+    margin-bottom: 12px;
+}
+
+.config-section h2 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #eee;
+}
+
+.add-form {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.add-form input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.add-form input:focus {
+    border-color: #3373E4;
+    outline: none;
+}
+
+.add-form button {
+    padding: 12px 24px;
+    background-color: #3373E4;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    min-width: 120px;
+}
+
+.add-form button:hover {
+    background-color: #2861c7;
+}
+
+.items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.item {
+    border: 2px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.item-content, .edit-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    background-color: white;
+    min-height: 52px;
+}
+
+.item-content span {
+    font-size: 16px;
+    color: #333;
+}
+
+.edit-form {
+    gap: 12px;
+}
+
+.edit-form input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+.edit-form input:focus {
+    border-color: #3373E4;
+    outline: none;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+.actions button {
+    padding: 6px 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 20px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.actions button:hover {
+    color: #333;
+    background-color: #f0f0f0;
+}
+
+/* Category specific styles */
+.category-item {
+    margin-bottom: 12px;
+}
+
+.category-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.expand-button {
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 16px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.expand-button:hover {
+    color: #333;
+    background-color: #f0f0f0;
+}
+
+.expand-button.expanded {
+    transform: rotate(0deg);
+}
+
+/* Subcategories styles */
+.subcategories {
+    margin-left: 44px;
+    margin-top: 12px;
+    padding: 16px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 2px solid #eee;
+}
+
+.subcategories .items-list {
+    margin-top: 12px;
+}
+
+.subcategories .item {
+    background-color: white;
+} 

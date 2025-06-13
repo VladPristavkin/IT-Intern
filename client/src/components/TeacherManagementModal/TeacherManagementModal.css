@@ -1,0 +1,118 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.teacher-management-modal {
+    background: white;
+    padding: 32px;
+    border-radius: 17px;
+    width: 500px;
+    max-width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    font-family: 'Inter', sans-serif;
+}
+
+.teacher-management-modal h2 {
+    margin: 0 0 24px 0;
+    font-size: 24px;
+    font-weight: 500;
+    color: #18191C;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #5E6670;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #E7E9ED;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #18191C;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+    margin-bottom: 4px;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #3373E4;
+}
+
+.form-group input.error {
+    border-color: #ff4d4f;
+}
+
+.error-message {
+    display: block;
+    color: #ff4d4f;
+    font-size: 12px;
+    font-weight: 400;
+    margin-top: 4px;
+    text-align: left;
+    min-height: 16px;
+}
+
+.error-message:empty {
+    display: none;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.cancel-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #F8F9FA;
+    color: #5E6670;
+    transition: background-color 0.2s;
+}
+
+.cancel-button:hover {
+    background-color: #E9ECEF;
+}
+
+.submit-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #3373E4;
+    color: white;
+    transition: background-color 0.2s;
+}
+
+.submit-button:hover {
+    background-color: #2861c7;
+}
+
+/* Add some spacing for error messages */
+.form-group:not(:last-child) {
+    margin-bottom: 32px;
+} 

@@ -12,8 +12,30 @@
                 const users = this.getCollection('users');
                 const categories = this.getCollection('categories');
                 const subcategories = this.getCollection('subcategories');
+                const waysOfLearning = this.getCollection('waysOfLearning');
                 
                 const categoryIds = [uuidv4(), uuidv4(), uuidv4()];
+                
+                // Initialize ways of learning if empty
+                if (!waysOfLearning.data.length) {
+                    const defaultWays = [
+                        { id: uuidv4(), name: 'Лекции' },
+                        { id: uuidv4(), name: 'Практические занятия' },
+                        { id: uuidv4(), name: 'Лабораторные работы' },
+                        { id: uuidv4(), name: 'Самостоятельное обучение' }
+                    ];
+
+                    defaultWays.forEach(way => {
+                        waysOfLearning.data.push({
+                            ...way,
+                            createdAt: new Date().toISOString(),
+                            updatedAt: new Date().toISOString()
+                        });
+                    });
+
+                    waysOfLearning.lastId = defaultWays.length;
+                    this.saveToStorage();
+                }
                 
                 const CATEGORIES = [
                     { id: categoryIds[0], name: 'Программирование' },
@@ -39,23 +61,20 @@
                     ]
                 };
                 
-
                 // Проверяем, есть ли уже админ в системе
                 const adminExists = users.data.some(user => user.role === 'admin' && user.userId ==='admin_default_id');
-                
                 
                 // Если админа нет, создаем его
                 if (!users.data.length || adminExists.adminExists) {
                     const adminUser = {
-                        id: 1,
                         userId: "admin_default_id", // Фиксированный userId для админа
                         username: 'admin',
                         email: 'admin@example.com',
                         password: 'Admin123',
                         name: 'Кутузов Виктор Владимирович',
+                        department: 'ПОИТ',
                         role: 'teacher',
-                        speciality: 'ADMIN',
-                        year: '2025',
+                        isAdmin: true,
                         createdAt: new Date().toISOString(),
                         updatedAt: new Date().toISOString()
                     };

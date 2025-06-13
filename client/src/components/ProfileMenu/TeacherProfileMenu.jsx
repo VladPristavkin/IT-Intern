@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import './ProfileMenu.css';
 import lOGO from '../../assets/lOGO.svg';
 import UserProfileCard from './UserProfileCard';
@@ -7,14 +7,19 @@ import ProfileHome from '../../assets/person.svg';
 import TeacherTesting from '../../assets/person_raised_hand.svg';
 import TeacherAnalytics from '../../assets/insert_chart.svg';
 import Internships from '../../assets/work.svg';
+import AuthContext from '../../context/AuthContext';
+import db from '../../utils/localDb';
 
 const TeacherProfileMenu = () => {
     const [openMenu, setOpenMenu] = useState(null);
     const [activeItem, setActiveItem] = useState(null);
     const location = useLocation();
+    const navigate = useNavigate();
     const indicatorRef = useRef(null);
+    const { user, isAuthenticated } = useContext(AuthContext);
 
     useEffect(() => {
+
         const path = location.pathname;
         let newActiveItem = null;
 
@@ -30,7 +35,7 @@ const TeacherProfileMenu = () => {
             setOpenMenu(newActiveItem);
         }
 
-        // Обновляем положение индикатора после перерисовки
+        // Update indicator position after re-render
         setTimeout(() => {
             if (indicatorRef.current) {
                 if (path.includes('/teacher/testing/results') || path.includes('/teacher/analytics/students')) {
@@ -40,7 +45,7 @@ const TeacherProfileMenu = () => {
                 }
             }
         }, 0);
-    }, [location]);
+    }, [location, isAuthenticated, navigate]);
 
     useEffect(() => {
         if (activeItem === 'testing' || activeItem === 'analytics') {
@@ -52,17 +57,23 @@ const TeacherProfileMenu = () => {
         setOpenMenu(openMenu === menu ? null : menu);
     };
 
-    const userData = {
-        username: "SomeNick",
-        userRole: "Преподаватель"
-    };
+    // Return null if not authenticated
+    if (!isAuthenticated || !user) {
+        return null;
+    }
+
+    // Get user data and check role
+    const dbUser = db.getUserById(user.userId);
+    if (!dbUser || dbUser.role !== 'teacher') {
+        return null;
+    }
 
     return (
         <div className="sidebar">
             <div className="logo-section">
                 <img src={lOGO} alt="Logo" className="logo" />
             </div>
-            <UserProfileCard username={userData.username} userRole={userData.userRole} />
+            <UserProfileCard username={dbUser.username} userRole={dbUser.isAdmin === false ? 'Преподаватель' : 'Администратор'} />
             <div className="menu-container">
                 <NavLink to="/teacher" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`} end>
                     <div className="menu-item-label">
@@ -95,6 +106,14 @@ const TeacherProfileMenu = () => {
                         </div>
                     )}
                 </div>
+                {dbUser.isAdmin && (
+                    <NavLink to="/admin" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`} end>
+                        <div className="menu-item-label">
+                            <img src={ProfileHome} alt="Profile home" className="menu-icon" />
+                            <span>Админ панель</span>
+                        </div>
+                    </NavLink>
+                )}
                 <NavLink to="/search" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`}>
                     <div className="menu-item-label">
                         <img src={Internships} alt="Internships" className="menu-icon" />

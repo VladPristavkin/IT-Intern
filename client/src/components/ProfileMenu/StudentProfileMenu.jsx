@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import './ProfileMenu.css';
 import lOGO from '../../assets/lOGO.svg';
@@ -8,6 +8,8 @@ import StudentsTesting from '../../assets/person_raised_hand.svg';
 import StudentsAnalytics from '../../assets/insert_chart.svg';
 import SavedVacancies from '../../assets/bookmarks.svg';
 import LookForJob from '../../assets/work.svg';
+import AuthContext from '../../context/AuthContext';
+import  db  from '../../utils/localDb';
 
 const StudentProfileMenu = () => {
     const [openMenu, setOpenMenu] = useState(null);
@@ -57,17 +59,18 @@ const StudentProfileMenu = () => {
         setOpenMenu(openMenu === menu ? null : menu);
     };
 
-    const userData = {
-        username: "VladPristavkin",
-        userRole: "Студент"
-    };
-
+    const { user } = useContext(AuthContext);
+  
+    const dbUser = db.getUserById(user.userId);
+    if (dbUser.role !== 'student') {
+      return null;
+    }
     return (
         <div className="sidebar">
             <div className="logo-section">
                 <img src={lOGO} alt="Logo" className="logo" />
             </div>
-            <UserProfileCard username={userData.username} userRole={userData.userRole} />
+            <UserProfileCard username={dbUser.username} userRole='Студент' />
             <div className="menu-container">
                 <NavLink to="/student" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`} end>
                     <div className="menu-item-label">

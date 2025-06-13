@@ -63,7 +63,9 @@ const LogInForm = ({ onClose }) => {
     }
 
     const users = db.getAll('users');
+    console.log(users);
     const user = users.find(u => u.username === formData.username);
+    console.log(user);
 
     if (!user) {
       setErrors({
@@ -107,7 +109,7 @@ const LogInForm = ({ onClose }) => {
             <ModalInput
               type="text"
               name="username"
-              placeholder="Логин или почта"
+              placeholder="Логин"
               value={formData.username}
               onChange={handleChange}
               className={errors.username || errors.general ? 'error' : ''}

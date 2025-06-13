@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom"; // Импортируем useNavigate
 import AccountLogo from '../../assets/profile_account_circle.svg';
 import Logout from '../../assets/logout.svg';
+import AuthContext from '../../context/AuthContext';
 
 const UserProfileCard = ({ username, userRole }) => {
   const navigate = useNavigate(); // Хук для навигации
-
+  const { logout } = useContext(AuthContext);
+  
+ 
   // Функция для обработки логаута
   const handleLogout = () => {
-    // Здесь может быть логика для очистки данных пользователя (например, удаления токена, сессии и т.п.)
+    logout();
     navigate("/"); // Перенаправление на главную страницу
   };
 

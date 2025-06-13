@@ -1,0 +1,80 @@
+.teacher-management-card {
+    background: #FFFFFF;
+    border: 1px solid #E7E9ED;
+    border-radius: 17px;
+    padding: 24px;
+    margin-bottom: 16px;
+    width: 727px;
+    font-family: 'Inter', sans-serif;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-management-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.teacher-management-info {
+    flex: 1;
+}
+
+.teacher-management-name {
+    font-size: 24px;
+    font-weight: 500;
+    color: #18191C;
+    margin: 0 0 8px 0;
+}
+
+.teacher-management-department {
+    font-size: 17px;
+    color: #5E6670;
+    margin: 0;
+}
+
+.teacher-management-actions {
+    display: flex;
+    gap: 16px;
+}
+
+.teacher-management-icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.teacher-management-icon-button:hover {
+    background-color: #F8F9FA;
+}
+
+.teacher-management-icon-button img {
+    width: 24px;
+    height: 24px;
+}
+
+.teacher-management-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.teacher-management-detail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.detail-label {
+    font-size: 16px;
+    color: #5E6670;
+    min-width: 100px;
+}
+
+.detail-value {
+    font-size: 16px;
+    color: #18191C;
+} 
