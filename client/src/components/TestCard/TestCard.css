@@ -93,3 +93,78 @@
 .action-button:hover {
     background-color: #2861c7;
 }
+
+.teacher-test-card {
+    background: #FFFFFF;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-test-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.teacher-test-author {
+    font-size: 14px;
+    color: #666;
+}
+
+.teacher-test-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.teacher-action-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.teacher-action-button.results {
+    background-color: #2196F3;
+    color: white;
+}
+
+.teacher-action-button.analysis {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.teacher-icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.teacher-icon-button img {
+    width: 30px;
+    height: 30px;
+}
+
+.teacher-test-title {
+    font-size: 20px;
+    margin: 10px 0;
+    color: #333;
+}
+
+.teacher-test-date {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.teacher-test-description {
+    font-size: 14px;
+    color: #444;
+    line-height: 1.5;
+}
