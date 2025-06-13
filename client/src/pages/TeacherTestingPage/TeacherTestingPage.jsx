@@ -4,9 +4,13 @@ import TeacherProfileMenu from '../../components/ProfileMenu/TeacherProfileMenu'
 import EditIcon from '../../assets/edit.svg';
 import DeleteIcon from '../../assets/delete_forever.svg';
 import MarketAnalysisModal from '../../components/modals/MarketAnalysisModal/MarketAnalysisModal';
+import TestConstructorModal from '../../components/TestConstructorModal/TestConstructorModal';
 
 const TeacherTestingPage = () => {
     const [isAnalysisModalOpen, setIsAnalysisModalOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [selectedTest, setSelectedTest] = useState(null);
     const testCount = 1; // Это можно будет получать из API
 
     const handleOpenAnalysisModal = () => {
@@ -17,13 +21,30 @@ const TeacherTestingPage = () => {
         setIsAnalysisModalOpen(false);
     };
 
+    const handleOpenModal = (test = null) => {
+        setSelectedTest(test);
+        setIsEditing(!!test);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedTest(null);
+        setIsEditing(false);
+    };
+    const test = {
+        author: 'Сергиенко О.В.',
+        title: 'Проверка знаний',
+        date: '29.04.2024',
+        description: 'Оцените свои знания и укажите, какой предмет оказал наибольшее влияние на получение этих знаний'
+      };
     return (
         <div className="teacher-page-container">
             <TeacherProfileMenu />
             <div className="teacher-content-container">
                 <div className="teacher-testing-header">
                     <h1>Тестирование студентов</h1>
-                    <button className="teacher-add-test-button">
+                    <button className="teacher-add-test-button" onClick={() => handleOpenModal()}>
                         <span>+</span>
                     </button>
                 </div>
@@ -42,9 +63,9 @@ const TeacherTestingPage = () => {
                                     className="teacher-action-button analysis"
                                     onClick={handleOpenAnalysisModal}
                                 >
-                                    Анализ на соответствие рынку
+                                    Анализ
                                 </button>
-                                <button className="teacher-icon-button">
+                                <button className="teacher-icon-button" onClick={() => handleOpenModal(test)}>
                                     <img src={EditIcon} alt="Edit" />
                                 </button>
                                 <button className="teacher-icon-button">
@@ -64,6 +85,13 @@ const TeacherTestingPage = () => {
             <MarketAnalysisModal 
                 isOpen={isAnalysisModalOpen} 
                 onClose={handleCloseAnalysisModal}
+            />
+
+            <TestConstructorModal
+                open={isModalOpen}
+                onClose={handleCloseModal}
+                isEditing={isEditing}
+                testData={selectedTest}
             />
         </div>
     );

@@ -1,5 +1,4 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode'; // Импортируем как именованный экспорт
 
 const AuthContext = createContext();
 
@@ -8,27 +7,22 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('jwtToken');
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
-        setIsAuthenticated(true);
-        setUser(decodedToken); // Вы можете извлекать необходимые данные из токена
-      } catch (error) {
-        console.error('Invalid token');
-      }
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      setIsAuthenticated(true);
+      setUser(JSON.parse(storedUser));
     }
   }, []);
 
-  const login = (token) => {
-    localStorage.setItem('jwtToken', token);
-    const decodedToken = jwtDecode(token);
+  const login = (userId) => {
+    const userData = { userId, loginTime: new Date().toISOString() };
+    localStorage.setItem('user', JSON.stringify(userData));
     setIsAuthenticated(true);
-    setUser(decodedToken);
+    setUser(userData);
   };
 
   const logout = () => {
-    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('user');
     setIsAuthenticated(false);
     setUser(null);
   };
@@ -41,4 +35,3 @@ export const AuthProvider = ({ children }) => {
 };
 
 export default AuthContext;
-

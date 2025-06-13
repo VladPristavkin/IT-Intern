@@ -1,0 +1,10 @@
+export { default as Category } from './Category';
+export { default as SubCategory } from './SubCategory';
+export { default as TestTemplate } from './TestTemplate';
+export { default as BaseQuestionEntity } from './BaseQuestionEntity';
+export { default as OpenQuestionEntity } from './OpenQuestionEntity';
+export { default as ClosedQuestionEntity } from './ClosedQuestionEntity';
+export { default as AnswerOption } from './AnswerOption';
+export { default as UserTest } from './UserTest';
+export { default as UserAnswer } from './UserAnswer';
+export { default as WayOfLearning } from './WayOfLearning'; 

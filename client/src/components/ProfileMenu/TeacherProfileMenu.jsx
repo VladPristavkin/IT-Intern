@@ -53,7 +53,7 @@ const TeacherProfileMenu = () => {
     };
 
     const userData = {
-        username: "SuckMaster",
+        username: "SomeNick",
         userRole: "Преподаватель"
     };
 

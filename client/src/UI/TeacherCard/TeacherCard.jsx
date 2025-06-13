@@ -36,11 +36,11 @@ const TeacherCard = () => {
           <div className="teacher-info-row">
             <div className="teacher-info-column">
               <div className="teacher-label">Никнейм</div>
-              <div className="teacher-value">SuckMaster</div>
+              <div className="teacher-value">SomeNick</div>
             </div>
             <div className="teacher-info-column">
               <div className="teacher-label">Почта</div>
-              <div className="teacher-value email">suckmaster@gmail.com</div>
+              <div className="teacher-value email">somenick@gmail.com</div>
             </div>
           </div>
         </div>

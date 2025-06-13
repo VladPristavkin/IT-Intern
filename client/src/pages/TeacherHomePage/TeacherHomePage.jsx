@@ -5,7 +5,7 @@ import ProfileHeader from '../../UI/shared/ProfileHeader/ProfileHeader';
 import TeacherCard from '../../UI/TeacherCard/TeacherCard';
 
 const userData = {
-  username: "SuckMaster",
+  username: "SomeNickname",
   userRole: "Преподаватель"
 };
 

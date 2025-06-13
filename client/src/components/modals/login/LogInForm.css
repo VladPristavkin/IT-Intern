@@ -54,3 +54,31 @@
     cursor: pointer;
     text-decoration: none;
   }
+
+  .input-group {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .login-error-message {
+    position: absolute;
+    bottom: -20px;
+    left: 10px;
+    color: #ff4d4f;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .login-error-message.general {
+    position: static;
+    margin-top: -24px;
+    margin-bottom: -20px;
+    text-align: center;
+  }
+
+  .modal-input.error {
+    border-color: #ff4d4f;
+  }
