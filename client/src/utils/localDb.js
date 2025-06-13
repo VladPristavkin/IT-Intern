@@ -1,3 +1,5 @@
+        import { v4 as uuidv4 } from 'uuid';
+
         class LocalDB {
             constructor() {
                 this.collections = {};
@@ -8,9 +10,39 @@
             // Инициализация базовых данных
             initializeDefaultData() {
                 const users = this.getCollection('users');
+                const categories = this.getCollection('categories');
+                const subcategories = this.getCollection('subcategories');
                 
+                const categoryIds = [uuidv4(), uuidv4(), uuidv4()];
+                
+                const CATEGORIES = [
+                    { id: categoryIds[0], name: 'Программирование' },
+                    { id: categoryIds[1], name: 'Базы данных' },
+                    { id: categoryIds[2], name: 'Web-разработка' }
+                ];
+                
+                const SUBCATEGORIES = {
+                    [categoryIds[0]]: [
+                        { id: uuidv4(), name: 'Java' },
+                        { id: uuidv4(), name: 'Python' },
+                        { id: uuidv4(), name: 'JavaScript' }
+                    ],
+                    [categoryIds[1]]: [
+                        { id: uuidv4(), name: 'SQL' },
+                        { id: uuidv4(), name: 'NoSQL' },
+                        { id: uuidv4(), name: 'ORM' }
+                    ],
+                    [categoryIds[2]]: [
+                        { id: uuidv4(), name: 'Frontend' },
+                        { id: uuidv4(), name: 'Backend' },
+                        { id: uuidv4(), name: 'Full-stack' }
+                    ]
+                };
+                
+
                 // Проверяем, есть ли уже админ в системе
                 const adminExists = users.data.some(user => user.role === 'admin' && user.userId ==='admin_default_id');
+                
                 
                 // Если админа нет, создаем его
                 if (!users.data.length || adminExists.adminExists) {
@@ -34,6 +66,43 @@
                     users.lastId = 1;
                     this.saveToStorage();
                 }
+
+                if (!categories.data.length) {
+                    CATEGORIES.forEach(category => {
+                      categories.data.push({
+                        id: category.id, 
+                        name: category.name,
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                      });
+                    });
+                  
+                    categories.lastId = CATEGORIES.length;
+                    this.saveToStorage();
+                  }
+                  
+                
+                if (!subcategories.data.length) {
+                    const allSubcategories = [];
+                
+                    Object.entries(SUBCATEGORIES).forEach(([categoryId, subcats]) => {
+                        subcats.forEach(subcat => {
+                            allSubcategories.push({
+                                id: uuidv4(),
+                                name: subcat.name,
+                                categoryId,
+                                createdAt: new Date().toISOString(),
+                                updatedAt: new Date().toISOString()
+                            });
+                        });
+                    });
+                
+                    allSubcategories.forEach(subcat => subcategories.data.push(subcat));
+                    subcategories.lastId = allSubcategories.length;
+                    this.saveToStorage();
+                }
+                
+
             }
             
             // Создать коллекцию
@@ -103,7 +172,7 @@
             delete(collectionName, id) {
                 const collection = this.getCollection(collectionName);
                 const initialLength = collection.data.length;
-                collection.data = collection.data.filter(doc => doc.id !== parseInt(id));
+                collection.data = collection.data.filter(doc => doc.id === parseInt(id));
                 
                 if (collection.data.length < initialLength) {
                     this.saveToStorage();

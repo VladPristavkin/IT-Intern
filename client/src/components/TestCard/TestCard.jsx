@@ -7,7 +7,7 @@ const TestCard = ({ test, onEdit, onDelete, onAnalysis }) => {
     return (
         <div className="teacher-test-card">
             <div className="teacher-test-card-header">
-                <div className="teacher-test-author">{test.author}</div>
+                <div className="teacher-test-name">{test.teacherName}</div>
                 <div className="teacher-test-actions">
                     <button className="teacher-action-button results">Результаты</button>
                     <button 
@@ -25,7 +25,7 @@ const TestCard = ({ test, onEdit, onDelete, onAnalysis }) => {
                 </div>
             </div>
             <h2 className="teacher-test-title">{test.title}</h2>
-            <div className="teacher-test-date">{test.date}</div>
+            <div className="teacher-test-date">{test.createdAt.split('T')[0]}</div>
             <p className="teacher-test-description">
                 {test.description}
             </p>

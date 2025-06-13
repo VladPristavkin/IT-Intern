@@ -14,7 +14,6 @@ const TeacherTestingPage = () => {
     const [selectedTest, setSelectedTest] = useState(null);
     const [tests, setTests] = useState([]);
 
-
     useEffect(() => {
         // Load tests from localStorage
         const loadTests = () => {
@@ -26,7 +25,6 @@ const TeacherTestingPage = () => {
         
         loadTests();
     }, []);
-
 
     const handleOpenAnalysisModal = () => {
         setIsAnalysisModalOpen(true);
@@ -42,38 +40,31 @@ const TeacherTestingPage = () => {
         setIsModalOpen(true);
     };
 
-    const handleCloseModal = () => {
+    const handleCloseModal = (testData = null) => {
+        if (testData) {
+            if (isEditing) {
+                // Update existing test
+                const updatedTests = tests.map(test => 
+                    test.id === testData.id ? testData : test
+                );
+                setTests(updatedTests);
+                db.update('testTemplates', testData.id, testData);
+            } else {
+                // Create new test
+                setTests(prev => [...prev, testData]);
+                db.insert('testTemplates', testData);
+            }
+        }
         setIsModalOpen(false);
         setSelectedTest(null);
         setIsEditing(false);
     };
-    
 
     const handleDeleteTest = (testId) => {
         const updatedTests = tests.filter(test => test.id !== testId);
         setTests(updatedTests);
         db.delete('testTemplates', testId);
     };
-
-    const saveTest = (testData) => {
-        let updatedTests;
-        if (isEditing) {
-            updatedTests = tests.map(test => 
-                test.id === testData.id ? testData : test
-            );
-        } else {
-            const newTest = {
-                ...testData,
-                id: uuidv4(),
-                date: new Date().toLocaleDateString('ru-RU')
-            };
-            updatedTests = [...tests, newTest];
-            db.insert('testTemplates', newTest);
-        }
-        setTests(updatedTests);
-        handleCloseModal();
-    };
-
 
     return (
         <div className="teacher-page-container">
@@ -87,11 +78,11 @@ const TeacherTestingPage = () => {
                 </div>
                 
                 <div className="teacher-tests-info">
-                <p className="teacher-tests-count">Вы создали тестов: {tests.length}</p>
+                    <p className="teacher-tests-count">Вы создали тестов: {tests.length}</p>
                 </div>
 
                 <div className="teacher-tests-list">
-                {tests.map(test => (
+                    {tests.map(test => (
                         <TestCard
                             key={test.id}
                             test={test}
@@ -111,9 +102,7 @@ const TeacherTestingPage = () => {
             <TestConstructorModal
                 open={isModalOpen}
                 onClose={handleCloseModal}
-                isEditing={isEditing}
                 testData={selectedTest}
-                onSave={saveTest}
             />
         </div>
     );
