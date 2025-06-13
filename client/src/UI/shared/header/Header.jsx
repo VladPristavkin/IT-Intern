@@ -6,6 +6,7 @@ import LogInForm from '../../../components/modals/login/LogInForm';
 import RegistrationForm from '../../../components/modals/registration/RegistrationForm';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../../context/AuthContext';
+import db from '../../../utils/localDb';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -32,7 +33,13 @@ const Header = () => {
 
   const handleAccountClick = () => {
     if (isAuthenticated && user) {
-      navigate(`/userInfo/${user.userId}`); // Перенаправляем на маршрут пользователя
+
+      var userRole = db.getUserById(user.userId).role;
+      if (userRole === 'student') {
+        navigate(`/student`);
+      } else if (userRole === 'teacher') {
+        navigate(`/teacher`);
+      }
     }
   };
 

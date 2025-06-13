@@ -119,7 +119,11 @@ const TestConstructorModal = ({ open, onClose, testData = null }) => {
             startDate: dateConfig.startDate,
             endDate: dateConfig.endDate,
             timeLimit: dateConfig.timeLimit,
-            questions: questions,
+            questions: questions.map(q => ({
+                ...q,
+                testId: test?.id || uuidv4(),
+                teacherId: fullUser.userId
+            })),
             teacherId: fullUser.userId,
             teacherName: fullUser.name,
             createdAt: test?.createdAt || new Date().toISOString(),

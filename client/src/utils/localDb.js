@@ -128,9 +128,8 @@
                 collection.lastId++;
                 
                 const newDocument = {
-                    id: collection.lastId,
                     ...document,
-                    createdAt: new Date().toISOString(),
+                    createdAt: document.createdAt || new Date().toISOString(),
                     updatedAt: new Date().toISOString()
                 };
                 
@@ -148,13 +147,18 @@
             // Получить документ по ID
             getById(collectionName, id) {
                 const collection = this.getCollection(collectionName);
-                return collection.data.find(doc => doc.id === parseInt(id));
+                return collection.data.find(doc => doc.id === id);
+            }
+
+            getUserById( id) {
+                const collection = this.getCollection('users');
+                return collection.data.find(doc => doc.userId === id);
             }
             
             // Обновить документ
             update(collectionName, id, updates) {
                 const collection = this.getCollection(collectionName);
-                const index = collection.data.findIndex(doc => doc.id === parseInt(id));
+                const index = collection.data.findIndex(doc => doc.id === id);
                 
                 if (index !== -1) {
                     collection.data[index] = {
@@ -172,7 +176,7 @@
             delete(collectionName, id) {
                 const collection = this.getCollection(collectionName);
                 const initialLength = collection.data.length;
-                collection.data = collection.data.filter(doc => doc.id === parseInt(id));
+                collection.data = collection.data.filter(doc => doc.id !== id);
                 
                 if (collection.data.length < initialLength) {
                     this.saveToStorage();

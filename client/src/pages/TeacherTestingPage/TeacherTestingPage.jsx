@@ -17,10 +17,8 @@ const TeacherTestingPage = () => {
     useEffect(() => {
         // Load tests from localStorage
         const loadTests = () => {
-            const savedTests = db.getAll('testTemplates');
-            if (savedTests) {
-                setTests(savedTests);
-            }
+            const savedTests = db.getAll('testTemplates') || [];
+            setTests(savedTests);
         };
         
         loadTests();
@@ -42,17 +40,18 @@ const TeacherTestingPage = () => {
 
     const handleCloseModal = (testData = null) => {
         if (testData) {
-            if (isEditing) {
-                // Update existing test
-                const updatedTests = tests.map(test => 
-                    test.id === testData.id ? testData : test
-                );
-                setTests(updatedTests);
-                db.update('testTemplates', testData.id, testData);
-            } else {
+            const isNewTest = !testData.id || !tests.some(t => t.id === testData.id);
+            
+            if (isNewTest) {
                 // Create new test
-                setTests(prev => [...prev, testData]);
-                db.insert('testTemplates', testData);
+                const savedTest = db.insert('testTemplates', testData);
+                setTests(prev => [...prev, savedTest]);
+            } else {
+                // Update existing test
+                db.update('testTemplates', testData.id, testData);
+                setTests(prev => prev.map(test => 
+                    test.id === testData.id ? testData : test
+                ));
             }
         }
         setIsModalOpen(false);
@@ -61,9 +60,8 @@ const TeacherTestingPage = () => {
     };
 
     const handleDeleteTest = (testId) => {
-        const updatedTests = tests.filter(test => test.id !== testId);
-        setTests(updatedTests);
         db.delete('testTemplates', testId);
+        setTests(prev => prev.filter(test => test.id !== testId));
     };
 
     return (
