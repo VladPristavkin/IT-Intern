@@ -1,179 +1,147 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './VacancyCardNormal.css';
-import JobLocation from '../../assets/MapPin.svg';
-import JobSalary from '../../assets/Money.svg';
-import JobPublishedAt from '../../assets/CalendarBlank.svg';
-import BelorussianFlag from '../../assets/flags/by.svg';
 import RussianFlag from '../../assets/flags/ru.svg';
+import BelarusFlag from '../../assets/flags/by.svg';
+import LocationIcon from '../../assets/MapPin.svg';
+import SalaryIcon from '../../assets/Money.svg';
+import CalendarIcon from '../../assets/CalendarBlank.svg';
 
 const VacancyCardNormal = ({ vacancy, isLoading }) => {
   const navigate = useNavigate();
-
-  if (!vacancy) {
-    return null;
-  }
-
-  const {
+  const { 
     id,
     name,
     employer,
     area,
-    country,
+    publishedAt,
     description,
-    publishedAt
+    salaryFrom,
+    salaryTo,
+    currency
   } = vacancy;
 
-  console.log(vacancy);
-  console.log(id);
   const handleClick = () => {
-    navigate(`/vacancy/${id}`);
-  };
-
-  const formatDate = (dateString) => {
-    if (!dateString) return "Не указано";
-    
-    try {
-      const date = new Date(dateString);
-      const now = new Date();
-      const diffTime = Math.abs(now - date);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-      if (diffDays === 1) {
-        return 'Вчера';
-      } else if (diffDays === 0) {
-        return 'Сегодня';
-      } else {
-        return date.toLocaleDateString('ru-RU', {
-          day: 'numeric',
-          month: 'long'
-        });
-      }
-    } catch (error) {
-      return "Не указано";
-    }
+    navigate(`/vacancies/${id}`);
   };
 
   const getFlag = (countryName) => {
-    if (!countryName) return null;
-    
-    switch (countryName) {
-      case 'Россия':
+    switch (countryName?.toLowerCase()) {
+      case 'россия':
         return RussianFlag;
-      case 'Беларусь':
-        return BelorussianFlag;
+      case 'беларусь':
+        return BelarusFlag;
       default:
         return null;
     }
   };
 
-  const formatSalary = (salary) => {
-    if (!salary) return "Не указано";
+  const formatSalary = () => {
+    if (!salaryFrom && !salaryTo) return 'Не указано';
+    const curr = currency === 'BYN' ? 'Br' : currency;
     
-    const { from, to, currency } = salary;
-    const currencySymbol = currency === 'BYN' ? 'Br' : currency;
-    
-    if (from != null && from !== 0) {
-      if (to != null && to !== 0) {
-        return `${from.toLocaleString()}-${to.toLocaleString()} ${currencySymbol}`;
-      }
-      return `от ${from.toLocaleString()} ${currencySymbol}`;
+    if (salaryFrom && salaryTo) {
+      return `${salaryFrom}-${salaryTo} ${curr}`;
     }
-    if (to != null && to !== 0) {
-      return `до ${to.toLocaleString()} ${currencySymbol}`;
+    if (salaryFrom) {
+      return `от ${salaryFrom} ${curr}`;
     }
-    return "Не указано";
+    if (salaryTo) {
+      return `до ${salaryTo} ${curr}`;
+    }
+    return 'Не указано';
   };
 
-  const renderDescription = (desc) => {
-    if (!desc) return "Описание не указано";
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-    // Check if the description is HTML
-    if (desc.includes('<') && desc.includes('>')) {
-      return <div dangerouslySetInnerHTML={{ __html: desc }} />;
-    }
+    if (diffDays === 1) return 'Вчера';
+    if (diffDays === 0) return 'Сегодня';
+    
+    return date.toLocaleDateString('ru-RU', {
+      day: 'numeric',
+      month: 'long'
+    });
+  };
 
-    // If it's plain text, preserve line breaks
-    return desc.split('\n').map((line, index) => (
-      <React.Fragment key={index}>
-        {line}
-        {index < desc.split('\n').length - 1 && <br />}
-      </React.Fragment>
-    ));
+  const truncateDescription = (text) => {
+    if (!text) return '';
+    // Удаляем HTML теги
+    const plainText = text.replace(/<[^>]*>/g, '');
+    return plainText.length > 200 ? plainText.substring(0, 200) + '...' : plainText;
   };
 
   return (
     <div className={`vacancy-card ${isLoading ? 'loading' : ''}`} onClick={handleClick}>
-      <div className="vacancy-content">
-        <div className="vacancy-header">
-          <div className="vacancy-header-left">
-            {isLoading ? (
-              <div className="employer-logo-placeholder loading-placeholder" />
-            ) : employer?.logoUri ? (
-              <img src={employer.logoUri} alt={employer.name} className="employer-logo"/>
-            ) : (
-              <div className="employer-logo-placeholder" />
-            )}
-            <div className="vacancy-title-container">
-              {isLoading ? (
-                <>
-                  <div className="loading-placeholder title-placeholder"></div>
-                  <div className="loading-placeholder company-placeholder"></div>
-                </>
-              ) : (
-                <>
-                  <h2 className="vacancy-title">{name || "Не указано"}</h2>
-                  <p className="vacancy-company">{employer?.name || "Не указано"}</p>
-                </>
-              )}
+      {isLoading ? (
+        <div className="vacancy-content">
+          <div className="vacancy-header">
+            <div className="company-logo loading-placeholder"></div>
+            <div className="vacancy-info">
+              <div className="loading-placeholder company-placeholder"></div>
+              <div className="loading-placeholder title-placeholder"></div>
             </div>
           </div>
-          {!isLoading && country?.name && (
-            <img
-              src={getFlag(country.name)}
-              alt={`${country.name} Flag`}
-              className="country-flag"
-            />
-          )}
-        </div>
-
-        <div className="vacancy-info">
-          {isLoading ? (
-            <>
-              <div className="vacancy-item">
-                <div className="loading-placeholder info-placeholder"></div>
-              </div>
-              <div className="vacancy-item">
-                <div className="loading-placeholder info-placeholder"></div>
-              </div>
-              <div className="vacancy-item">
-                <div className="loading-placeholder info-placeholder"></div>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="vacancy-item">
-                <img src={JobLocation} alt="Location" className="icon" />
-                <span className="vacancy-location">{area?.name || "Не указано"}</span>
-              </div>
-              <div className="vacancy-item">
-                <img src={JobSalary} alt="Salary" className="icon" />
-                <span className="vacancy-salary">{formatSalary({from:vacancy.salaryFrom, to:vacancy.salaryTo, currency:vacancy.currency})}</span>
-              </div>
-              <div className="vacancy-item">
-                <img src={JobPublishedAt} alt="Published" className="icon" />
-                <span className="vacancy-published">{formatDate(publishedAt)}</span>
-              </div>
-            </>
-          )}
-        </div>
-
-        {!isLoading && (
-          <div className="vacancy-description">
-            {renderDescription(description)}
+          <div className="vacancy-details">
+            <div className="loading-placeholder details-placeholder"></div>
+            <div className="loading-placeholder details-placeholder"></div>
+            <div className="loading-placeholder details-placeholder"></div>
           </div>
-        )}
-      </div>
+          <div className="loading-placeholder description-placeholder"></div>
+        </div>
+      ) : (
+        <div className="vacancy-content">
+          <div className="vacancy-header">
+            <div className="company-logo">
+              {employer?.logoUri ? (
+                <img src={employer.logoUri} alt={employer.name} />
+              ) : (
+                <div className="company-logo-placeholder">
+                  {employer?.name?.charAt(0) || 'N'}
+                </div>
+              )}
+            </div>
+            <div className="vacancy-info">
+              <p className="company-name">{employer?.name}</p>
+              <h3 className="vacancy-title">{name}</h3>
+            </div>
+          </div>
+
+          <div className="vacancy-details">
+            <div className="detail-item">
+              <img src={LocationIcon} alt="Location" className="detail-icon" />
+              <span>{area?.name}</span>
+            </div>
+            <div className="detail-item">
+              <img src={SalaryIcon} alt="Salary" className="detail-icon" />
+              <span>{formatSalary()}</span>
+            </div>
+            <div className="detail-item">
+              <img src={CalendarIcon} alt="Date" className="detail-icon" />
+              <span>{formatDate(publishedAt)}</span>
+            </div>
+          </div>
+
+          {description && (
+            <div className="vacancy-description">
+              {truncateDescription(description)}
+            </div>
+          )}
+        </div>
+      )}
+            {area?.country && (
+            <div className="country-flag-wrapper">
+              <img
+                src={getFlag(area.country.name)}
+                alt={`${area.country.name} Flag`}
+                className="country-flag"
+              />
+            </div>
+          )}
     </div>
   );
 };
