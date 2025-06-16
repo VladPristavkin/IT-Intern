@@ -25,18 +25,34 @@ export const getVacanciesNormal = async (params) => {
     if (params.keySkill) params.keySkill.forEach(item => queryParams.append('keySkill', item));
     if (params.experience) params.experience.forEach(item => queryParams.append('experience', item));
 
+    console.log('Request URL:', `${BASE_URL}?${queryParams.toString()}`);
+    console.log('Request params:', params);
+
     const response = await axios.get(`${BASE_URL}?${queryParams.toString()}`);
     
+    console.log('Raw server response:', response);
+    console.log('Response data:', response.data);
+    
     // Transform the response data
-    const transformedVacancies = response.data
-      .filter(vacancy => vacancy !== null);
+    const transformedVacancies = Array.isArray(response.data) 
+      ? response.data.filter(vacancy => vacancy !== null)
+      : response.data.items || [];
 
-    return {
+    const result = {
       items: transformedVacancies,
-      totalCount: transformedVacancies.length
+      totalCount: Array.isArray(response.data) 
+        ? transformedVacancies.length 
+        : response.data.totalCount || transformedVacancies.length
     };
+
+    console.log('Transformed result:', result);
+    return result;
   } catch (error) {
-    console.error('Error fetching vacancies:', error);
+    console.error('Error details:', {
+      message: error.message,
+      response: error.response?.data,
+      status: error.response?.status
+    });
     throw error;
   }
 };

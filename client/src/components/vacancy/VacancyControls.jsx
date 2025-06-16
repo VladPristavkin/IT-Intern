@@ -24,6 +24,11 @@ const VacancyControls = ({
   searchTerm,
   setSearchTerm
 }) => {
+  // Обработчик для поиска с небольшой задержкой
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   return (
     <div className="vacancy-controls-wrapper">
       <div className="vacancy-controls-header">
@@ -34,7 +39,7 @@ const VacancyControls = ({
             className="search-input"
             placeholder="Поиск по вакансиям"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={handleSearchChange}
           />
         </div>
       </div>

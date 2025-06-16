@@ -7,7 +7,7 @@ import JobPublishedAt from '../../assets/CalendarBlank.svg';
 import BelorussianFlag from '../../assets/flags/by.svg';
 import RussianFlag from '../../assets/flags/ru.svg';
 
-const VacancyCardNormal = ({ vacancy }) => {
+const VacancyCardNormal = ({ vacancy, isLoading }) => {
   const navigate = useNavigate();
 
   if (!vacancy) {
@@ -103,21 +103,32 @@ const VacancyCardNormal = ({ vacancy }) => {
   };
 
   return (
-    <div className="vacancy-card" onClick={handleClick}>
+    <div className={`vacancy-card ${isLoading ? 'loading' : ''}`} onClick={handleClick}>
       <div className="vacancy-content">
         <div className="vacancy-header">
           <div className="vacancy-header-left">
-            {employer?.logoUri ? (
+            {isLoading ? (
+              <div className="employer-logo-placeholder loading-placeholder" />
+            ) : employer?.logoUri ? (
               <img src={employer.logoUri} alt={employer.name} className="employer-logo"/>
             ) : (
               <div className="employer-logo-placeholder" />
             )}
             <div className="vacancy-title-container">
-              <h2 className="vacancy-title">{name || "Не указано"}</h2>
-              <p className="vacancy-company">{employer?.name || "Не указано"}</p>
+              {isLoading ? (
+                <>
+                  <div className="loading-placeholder title-placeholder"></div>
+                  <div className="loading-placeholder company-placeholder"></div>
+                </>
+              ) : (
+                <>
+                  <h2 className="vacancy-title">{name || "Не указано"}</h2>
+                  <p className="vacancy-company">{employer?.name || "Не указано"}</p>
+                </>
+              )}
             </div>
           </div>
-          {country?.name && (
+          {!isLoading && country?.name && (
             <img
               src={getFlag(country.name)}
               alt={`${country.name} Flag`}
@@ -127,23 +138,41 @@ const VacancyCardNormal = ({ vacancy }) => {
         </div>
 
         <div className="vacancy-info">
-          <div className="vacancy-item">
-            <img src={JobLocation} alt="Location" className="icon" />
-            <span className="vacancy-location">{area?.name || "Не указано"}</span>
-          </div>
-          <div className="vacancy-item">
-            <img src={JobSalary} alt="Salary" className="icon" />
-            <span className="vacancy-salary">{formatSalary({from:vacancy.salaryFrom, to:vacancy.salaryTo, currency:vacancy.currency})}</span>
-          </div>
-          <div className="vacancy-item">
-            <img src={JobPublishedAt} alt="Published" className="icon" />
-            <span className="vacancy-published">{formatDate(publishedAt)}</span>
-          </div>
+          {isLoading ? (
+            <>
+              <div className="vacancy-item">
+                <div className="loading-placeholder info-placeholder"></div>
+              </div>
+              <div className="vacancy-item">
+                <div className="loading-placeholder info-placeholder"></div>
+              </div>
+              <div className="vacancy-item">
+                <div className="loading-placeholder info-placeholder"></div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="vacancy-item">
+                <img src={JobLocation} alt="Location" className="icon" />
+                <span className="vacancy-location">{area?.name || "Не указано"}</span>
+              </div>
+              <div className="vacancy-item">
+                <img src={JobSalary} alt="Salary" className="icon" />
+                <span className="vacancy-salary">{formatSalary({from:vacancy.salaryFrom, to:vacancy.salaryTo, currency:vacancy.currency})}</span>
+              </div>
+              <div className="vacancy-item">
+                <img src={JobPublishedAt} alt="Published" className="icon" />
+                <span className="vacancy-published">{formatDate(publishedAt)}</span>
+              </div>
+            </>
+          )}
         </div>
 
-        <div className="vacancy-description">
-          {renderDescription(description)}
-        </div>
+        {!isLoading && (
+          <div className="vacancy-description">
+            {renderDescription(description)}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../../UI/shared/header/Header'
 import HeaderMain from '../../components/mainHeader/HeaderMain'
 import VacancyListNormal from '../../components/vacancy/VacancyListNormal'
@@ -7,6 +7,20 @@ import RightSideBar from '../../components/RightSideBar/RightSideBar'
 // import BackgroundComplex from '../../UI/shared/background/BackgroundComplex'
 
 export default function PageMain() {
+  const [filters, setFilters] = useState({
+    salary: '',
+    employment: [],
+    country: '',
+    area: [],
+    experience: [],
+    schedule: [],
+    specialization: [],
+  });
+
+  const handleFiltersChange = (newFilters) => {
+    setFilters(newFilters);
+  };
+
   return (
     <div className='background'>
     {/* <BackgroundComplex> */}
@@ -14,8 +28,8 @@ export default function PageMain() {
       <HeaderMain />
     {/* </BackgroundComplex> */}
       <div className='main-page-content' style={{ display: 'flex', justifyContent: 'space-between'}}>
-        <LeftBarFilter />
-        <VacancyListNormal />
+        <LeftBarFilter onFiltersChange={handleFiltersChange} />
+        <VacancyListNormal filters={filters} />
         <RightSideBar />
       </div>
     </div>

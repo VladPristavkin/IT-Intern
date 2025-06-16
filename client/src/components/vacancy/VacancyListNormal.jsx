@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { getVacanciesNormal } from '../../api/getVacanciesNormal';
 import VacancyControls from './VacancyControls';
 import VacancyCardNormal from './VacancyCardNormal';
 import Pagination from '../common/Pagination';
 import './VacancyListNormal.css';
 
-const VacancyListNormal = () => {
+const VacancyListNormal = ({ filters: externalFilters }) => {
   const [vacancies, setVacancies] = useState([]);
   const [totalVacancies, setTotalVacancies] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -19,72 +19,83 @@ const VacancyListNormal = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [dateFilter, setDateFilter] = useState(null);
   const [salarySort, setSalarySort] = useState(null);
-  const [filters, setFilters] = useState({
-    country: '',
-    area: [],
-    employment: [],
-    schedule: [],
-    experience: [],
-    specialization: [],
-    salary: ''
-  });
 
-  useEffect(() => {
-    const fetchVacancies = async () => {
-      setError(null);
+  // Функция для выполнения запроса
+  const fetchVacancies = useCallback(async () => {
+    setLoading(true);
+    setError(null);
 
-      try {
-        const queryParams = {
-          page: currentPage,
-          pageSize: itemsPerPage,
-          searchText: searchTerm || undefined,
-          searchPeriod: dateFilter || undefined,
-          orderBy: salarySort || undefined,
-          country: filters.country ? [filters.country] : undefined,
-          area: filters.area.length > 0 ? filters.area : undefined,
-          employment: filters.employment.length > 0 ? filters.employment : undefined,
-          schedule: filters.schedule.length > 0 ? filters.schedule : undefined,
-          experience: filters.experience.length > 0 ? filters.experience : undefined,
-          professionalRole: filters.specialization.length > 0 ? filters.specialization : undefined,
-          salaryFrom: filters.salary ? Number(filters.salary) : undefined
-        };
+    try {
+      const queryParams = {
+        page: currentPage,
+        pageSize: itemsPerPage,
+        searchText: searchTerm || undefined,
+        searchPeriod: dateFilter || undefined,
+        orderBy: salarySort || undefined,
+        country: externalFilters.country ? [externalFilters.country] : undefined,
+        area: externalFilters.area.length > 0 ? externalFilters.area : undefined,
+        employment: externalFilters.employment.length > 0 ? externalFilters.employment : undefined,
+        schedule: externalFilters.schedule.length > 0 ? externalFilters.schedule : undefined,
+        experience: externalFilters.experience.length > 0 ? externalFilters.experience : undefined,
+        professionalRole: externalFilters.specialization.length > 0 ? externalFilters.specialization : undefined,
+        salaryFrom: externalFilters.salary ? Number(externalFilters.salary) : undefined
+      };
 
-        const response = await getVacanciesNormal(queryParams);
-        console.log('API Response:', {
-          totalCount: response.totalCount,
-          itemsCount: response.items?.length,
-          firstItem: response.items?.[0],
-          allItems: response.items,
-          rawResponse: response
-        });
+      console.log('Sending request with params:', queryParams);
+      const response = await getVacanciesNormal(queryParams);
+      console.log('Received response:', response);
 
-        if (!response.items) {
-          console.error('No items array in response:', response);
-          setError('Неверный формат данных с сервера');
-          return;
-        }
-
-        setVacancies(response.items);
-        setTotalVacancies(response.totalCount || 0);
-      } catch (err) {
-        setError('Произошла ошибка при загрузке вакансий. Пожалуйста, попробуйте позже.');
-        console.error('Error fetching vacancies:', err);
-      } finally {
-        setLoading(false);
+      if (!response || typeof response !== 'object') {
+        throw new Error('Invalid response format from server');
       }
-    };
 
+      const { items, totalCount } = response;
+
+      if (!Array.isArray(items)) {
+        throw new Error('Items is not an array');
+      }
+
+      setVacancies(items);
+      setTotalVacancies(totalCount || 0);
+    } catch (err) {
+      console.error('Error details:', err);
+      setError(err.response?.data?.message || err.message || 'Произошла ошибка при загрузке вакансий');
+      setVacancies([]);
+      setTotalVacancies(0);
+    } finally {
+      setLoading(false);
+    }
+  }, [currentPage, itemsPerPage, searchTerm, dateFilter, salarySort, externalFilters]);
+
+  // Эффект для отслеживания изменений фильтров
+  useEffect(() => {
     fetchVacancies();
-  }, [currentPage, itemsPerPage, searchTerm, dateFilter, salarySort, filters]);
+  }, [fetchVacancies]);
+
+  // Обработчики изменения фильтров с немедленным применением
+  const handleSearchTermChange = (value) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  };
+
+  const handleDateFilterChange = (value) => {
+    setDateFilter(value);
+    setCurrentPage(1);
+  };
+
+  const handleSalarySortChange = (value) => {
+    setSalarySort(value);
+    setCurrentPage(1);
+  };
+
+  const handleItemsPerPageChange = (value) => {
+    setItemsPerPage(value);
+    setCurrentPage(1);
+  };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
     window.scrollTo(0, 0);
-  };
-
-  const handleFiltersChange = (newFilters) => {
-    setFilters(newFilters);
-    setCurrentPage(1); // Reset to first page when filters change
   };
 
   return (
@@ -92,13 +103,13 @@ const VacancyListNormal = () => {
       <VacancyControls
         totalVacancies={totalVacancies}
         itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
+        setItemsPerPage={handleItemsPerPageChange}
         dateFilter={dateFilter}
-        setDateFilter={setDateFilter}
+        setDateFilter={handleDateFilterChange}
         salarySort={salarySort}
-        setSalarySort={setSalarySort}
+        setSalarySort={handleSalarySortChange}
         searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
+        setSearchTerm={handleSearchTermChange}
       />
 
       {error && (
@@ -107,32 +118,29 @@ const VacancyListNormal = () => {
         </div>
       )}
 
-      {loading ? (
-        <div className="loading-spinner">
-          Загрузка...
-        </div>
-      ) : (
-        <>
-          <div className="vacancies-grid">
-            {vacancies && vacancies.length > 0 ? (
-              vacancies.map((vacancy) => (
-                <VacancyCardNormal vacancy={vacancy} />
-              ))
-            ) : (
-              <div className="no-vacancies">
-                Вакансии не найдены. Попробуйте изменить параметры поиска.
-              </div>
-            )}
+      <div className="vacancies-grid">
+        {loading ? (
+          // Показываем плейсхолдеры во время загрузки
+          Array.from({ length: itemsPerPage }).map((_, index) => (
+            <VacancyCardNormal key={`loading-${index}`} vacancy={{}} isLoading={true} />
+          ))
+        ) : vacancies && vacancies.length > 0 ? (
+          vacancies.map((vacancy) => (
+            <VacancyCardNormal key={vacancy.id} vacancy={vacancy} isLoading={false} />
+          ))
+        ) : (
+          <div className="no-vacancies">
+            Вакансии не найдены. Попробуйте изменить параметры поиска.
           </div>
+        )}
+      </div>
 
-          {totalVacancies > itemsPerPage && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={Math.ceil(totalVacancies / itemsPerPage)}
-              onPageChange={handlePageChange}
-            />
-          )}
-        </>
+      {totalVacancies > itemsPerPage && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={Math.ceil(totalVacancies / itemsPerPage)}
+          onPageChange={handlePageChange}
+        />
       )}
     </div>
   );

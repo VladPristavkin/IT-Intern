@@ -179,3 +179,40 @@
   size: 70px;
 }
 
+.vacancy-card.loading {
+  background: rgba(240, 247, 255, 0.8);
+  pointer-events: none;
+}
+
+.loading-placeholder {
+  background: linear-gradient(90deg, #f0f7ff 25%, #e6f0ff 50%, #f0f7ff 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.title-placeholder {
+  height: 24px;
+  width: 70%;
+  margin-bottom: 8px;
+}
+
+.company-placeholder {
+  height: 18px;
+  width: 50%;
+}
+
+.info-placeholder {
+  height: 16px;
+  width: 120px;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
