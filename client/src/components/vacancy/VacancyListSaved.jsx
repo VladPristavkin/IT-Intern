@@ -193,7 +193,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import VacancyCardNormal from './VacancyCardNormal';
 import './VacancyListSaved.css';
-import { getVacancies } from '../../api/getVacanciesNormal';
+import { getVacanciesNormal } from '../../api/getVacanciesNormal';
 import VacancyControls from './VacancyControls';
 
 const useQuery = () => {
@@ -213,15 +213,26 @@ const VacancyListSaved = () => {
   const [salarySort, setSalarySort] = useState(Number(query.get('salarySort')) || 0);
   const [searchTerm, setSearchTerm] = useState(query.get('searchText') || '');
   const [country, setCountry] = useState(query.get('country') || '');
+  const [error, setError] = useState('');
 
   const fetchVacancies = async () => {
     try {
-      const data = await getVacancies(currentPage, itemsPerPage, dateFilter, salarySort, searchTerm, country);
+      const queryParams = {
+        page: currentPage,
+        pageSize: itemsPerPage,
+        searchText: searchTerm || undefined,
+        searchPeriod: dateFilter || undefined,
+        orderBy: salarySort || undefined,
+        country: country ? [country] : undefined
+      };
+
+      const data = await getVacanciesNormal(queryParams);
       setVacancies(data.items);
-      setTotalPages(data.pages); // Assuming 'data.pages' provides the total number of pages
-      setTotalVacancies(data.count); // Assuming 'data.count' provides the total number of vacancies
+      setTotalPages(data.pages);
+      setTotalVacancies(data.count);
     } catch (error) {
       console.error('Error fetching vacancies:', error);
+      setError('Произошла ошибка при загрузке вакансий');
     }
   };
 

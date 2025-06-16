@@ -1,310 +1,95 @@
-// import React, { useEffect, useState } from 'react';
-// import VacancyCardNormal from './VacancyCardNormal';
-// import VacancyControls from './VacancyControls';
-// import { getVacancies } from '../../api/getVacanciesNormal.js';
-// import './VacancyListNormal.css';
-
-// const VacancyListNormal = () => {
-//   const [vacancies, setVacancies] = useState([]);
-//   const [totalVacancies, setTotalVacancies] = useState(0);
-
-//   useEffect(() => {
-//     const fetchVacancies = async () => {
-//       try {
-//         const data = await getVacancies();
-//         setVacancies(data.items);
-//         setTotalVacancies(data.count);
-//       } catch (error) {
-//         console.error('Error fetching vacancies:', error);
-//       }
-//     };
-
-//     fetchVacancies();
-//   }, []);
-
-//   return (
-//     <div className="main-vacancies-list">
-//       <VacancyControls totalVacancies={totalVacancies} />
-//       <div className="vacancy-list">
-//         {vacancies.map(vacancy => (
-//           <VacancyCardNormal key={vacancy.id} vacancy={vacancy} />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default VacancyListNormal;
-
-
-
-
-
-// import React, { useEffect, useState } from 'react';
-// import VacancyCardNormal from './VacancyCardNormal';
-// import './VacancyListNormal.css';
-// import { getVacancies } from '../../api/getVacanciesNormal';
-
-// const VacancyListNormal = () => {
-//   const [vacancies, setVacancies] = useState([]);
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const [totalPages, setTotalPages] = useState(1);
-
-//   useEffect(() => {
-//     const fetchVacancies = async () => {
-//       try {
-//         const data = await getVacancies(currentPage);
-//         setVacancies(data.items);
-//         setTotalPages(data.pages); // Assuming 'data.pages' provides the total number of pages
-//       } catch (error) {
-//         console.error('Error fetching vacancies:', error);
-//       }
-//     };
-
-//     fetchVacancies();
-//   }, [currentPage]);
-
-//   const handlePreviousPage = () => {
-//     if (currentPage > 1) {
-//       setCurrentPage(currentPage - 1);
-//     }
-//   };
-
-//   const handleNextPage = () => {
-//     if (currentPage < totalPages) {
-//       setCurrentPage(currentPage + 1);
-//     }
-//   };
-
-//   return (
-//     <div>
-    
-//       <div className="vacancy-list">
-//         {vacancies.map(vacancy => (
-//           <VacancyCardNormal key={vacancy.id} vacancy={vacancy} />
-//         ))}
-//       </div>
-//       <div className="pagination">
-//         <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-//           Previous
-//         </button>
-//         <span>Page {currentPage} of {totalPages}</span>
-//         <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-//           Next
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default VacancyListNormal;
-
-
-// import React, { useEffect, useState } from 'react';
-// import VacancyCardNormal from './VacancyCardNormal';
-// import './VacancyListNormal.css';
-// import { getVacancies } from '../../api/getVacanciesNormal';
-// import VacancyControls from './VacancyControls';
-
-// const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-//   const pageNumbers = [];
-//   for (let i = 1; i <= totalPages; i++) {
-//     pageNumbers.push(i);
-//   }
-
-//   return (
-//     <div className="pagination">
-//       <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
-//         &lt;
-//       </button>
-//       {pageNumbers.map(number => (
-//         <button
-//           key={number}
-//           onClick={() => onPageChange(number)}
-//           className={currentPage === number ? 'active' : ''}
-//         >
-//           {number}
-//         </button>
-//       ))}
-//       <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-//         &gt;
-//       </button>
-//     </div>
-//   );
-// };
-
-
-
-
-// const VacancyListNormal = () => {
-//   const [vacancies, setVacancies] = useState([]);
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const [totalPages, setTotalPages] = useState(1);
-//   const [totalVacancies, setTotalVacancies] = useState(0);
-//   const [itemsPerPage, setItemsPerPage] = useState(10);
-//   const [dateFilter, setDateFilter] = useState(0);
-//   const [salarySort, setSalarySort] = useState(0);
-
-//   useEffect(() => {
-//     const fetchVacancies = async () => {
-//       try {
-//         const data = await getVacancies(currentPage, itemsPerPage, dateFilter, salarySort);
-//         setVacancies(data.items);
-//         setTotalPages(data.pages); // Assuming 'data.pages' provides the total number of pages
-//         setTotalVacancies(data.count); // Assuming 'data.count' provides the total number of vacancies
-//       } catch (error) {
-//         console.error('Error fetching vacancies:', error);
-//       }
-//     };
-
-//     fetchVacancies();
-//   }, [currentPage, itemsPerPage, dateFilter, salarySort]);
-
-//   return (
-//     <div>
-//       <VacancyControls 
-//         totalVacancies={totalVacancies}
-//         itemsPerPage={itemsPerPage}
-//         setItemsPerPage={setItemsPerPage}
-//         dateFilter={dateFilter}
-//         setDateFilter={setDateFilter}
-//         salarySort={salarySort}
-//         setSalarySort={setSalarySort}
-//       />
-//       <div className="vacancy-list">
-//         {vacancies.map(vacancy => (
-//           <VacancyCardNormal key={vacancy.id} vacancy={vacancy} />
-//         ))}
-//       </div>
-//       <Pagination
-//         currentPage={currentPage}
-//         totalPages={totalPages}
-//         onPageChange={setCurrentPage}
-//       />
-//     </div>
-//   );
-// };
-
-// export default VacancyListNormal;
-
-
-
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import VacancyCardNormal from './VacancyCardNormal';
-import './VacancyListNormal.css';
-import { getVacancies } from '../../api/getVacanciesNormal';
+import React, { useState, useEffect } from 'react';
+import { getVacanciesNormal } from '../../api/getVacanciesNormal';
 import VacancyControls from './VacancyControls';
-
-const useQuery = () => {
-  return new URLSearchParams(useLocation().search);
-};
+import VacancyCardNormal from './VacancyCardNormal';
+import Pagination from '../common/Pagination';
+import './VacancyListNormal.css';
 
 const VacancyListNormal = () => {
-  const navigate = useNavigate();
-  const query = useQuery();
-
   const [vacancies, setVacancies] = useState([]);
-  const [currentPage, setCurrentPage] = useState(Number(query.get('page')) || 1);
-  const [totalPages, setTotalPages] = useState(1);
   const [totalVacancies, setTotalVacancies] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(Number(query.get('itemsPerPage')) || 10);
-  const [dateFilter, setDateFilter] = useState(Number(query.get('dateFilter')) || 0);
-  const [salarySort, setSalarySort] = useState(Number(query.get('salarySort')) || 0);
-  const [searchTerm, setSearchTerm] = useState(query.get('searchText') || '');
-  const [country, setCountry] = useState(query.get('country') || '');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const fetchVacancies = async () => {
-    try {
-      const data = await getVacancies(currentPage, itemsPerPage, dateFilter, salarySort, searchTerm, country);
-      setVacancies(data.items);
-      setTotalPages(data.pages); // Assuming 'data.pages' provides the total number of pages
-      setTotalVacancies(data.count); // Assuming 'data.count' provides the total number of vacancies
-    } catch (error) {
-      console.error('Error fetching vacancies:', error);
-    }
-  };
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  // Filter state
+  const [searchTerm, setSearchTerm] = useState('');
+  const [dateFilter, setDateFilter] = useState(null);
+  const [salarySort, setSalarySort] = useState(null);
+  const [filters, setFilters] = useState({
+    country: '',
+    area: [],
+    employment: [],
+    schedule: [],
+    experience: [],
+    specialization: [],
+    salary: ''
+  });
 
   useEffect(() => {
+    const fetchVacancies = async () => {
+      setError(null);
+
+      try {
+        const queryParams = {
+          page: currentPage,
+          pageSize: itemsPerPage,
+          searchText: searchTerm || undefined,
+          searchPeriod: dateFilter || undefined,
+          orderBy: salarySort || undefined,
+          country: filters.country ? [filters.country] : undefined,
+          area: filters.area.length > 0 ? filters.area : undefined,
+          employment: filters.employment.length > 0 ? filters.employment : undefined,
+          schedule: filters.schedule.length > 0 ? filters.schedule : undefined,
+          experience: filters.experience.length > 0 ? filters.experience : undefined,
+          professionalRole: filters.specialization.length > 0 ? filters.specialization : undefined,
+          salaryFrom: filters.salary ? Number(filters.salary) : undefined
+        };
+
+        const response = await getVacanciesNormal(queryParams);
+        console.log('API Response:', {
+          totalCount: response.totalCount,
+          itemsCount: response.items?.length,
+          firstItem: response.items?.[0],
+          allItems: response.items,
+          rawResponse: response
+        });
+
+        if (!response.items) {
+          console.error('No items array in response:', response);
+          setError('Неверный формат данных с сервера');
+          return;
+        }
+
+        setVacancies(response.items);
+        setTotalVacancies(response.totalCount || 0);
+      } catch (err) {
+        setError('Произошла ошибка при загрузке вакансий. Пожалуйста, попробуйте позже.');
+        console.error('Error fetching vacancies:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchVacancies();
-  }, [currentPage, itemsPerPage, dateFilter, salarySort, searchTerm, country]);
-
-  useEffect(() => {
-    const params = new URLSearchParams();
-    if (currentPage) params.append('page', currentPage);
-    if (itemsPerPage) params.append('itemsPerPage', itemsPerPage);
-    if (dateFilter) params.append('dateFilter', dateFilter);
-    if (salarySort) params.append('salarySort', salarySort);
-    if (searchTerm) params.append('searchText', searchTerm);
-    if (country) params.append('country', country);
-    navigate(`?${params.toString()}`, { replace: true });
-  }, [currentPage, itemsPerPage, dateFilter, salarySort, searchTerm, country, navigate]);
+  }, [currentPage, itemsPerPage, searchTerm, dateFilter, salarySort, filters]);
 
   const handlePageChange = (page) => {
-    if (page > 0 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    setCurrentPage(page);
+    window.scrollTo(0, 0);
   };
 
-  const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-    const maxPageNumbersToShow = 6; // Изменено на 6 страниц
-    const pageNumbers = [];
-
-    if (totalPages <= maxPageNumbersToShow) {
-      for (let i = 1; i <= totalPages; i++) {
-        pageNumbers.push(i);
-      }
-    } else {
-      const startPage = Math.max(1, currentPage - Math.floor(maxPageNumbersToShow / 2));
-      const endPage = Math.min(totalPages, startPage + maxPageNumbersToShow - 1);
-
-      if (startPage > 1) {
-        pageNumbers.push(1);
-        if (startPage > 2) {
-          pageNumbers.push('start-ellipsis');
-        }
-      }
-
-      for (let i = startPage; i <= endPage; i++) {
-        pageNumbers.push(i);
-      }
-
-      if (endPage < totalPages) {
-        if (endPage < totalPages - 1) {
-          pageNumbers.push('end-ellipsis');
-        }
-        pageNumbers.push(totalPages);
-      }
-    }
-
-    return (
-      <div className="pagination">
-        <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>
-          &lt;
-        </button>
-        {pageNumbers.map((number, index) =>
-          number === 'start-ellipsis' || number === 'end-ellipsis' ? (
-            <span key={number + index} className="pagination-ellipsis">...</span>
-          ) : (
-            <button
-              key={number}
-              onClick={() => onPageChange(number)}
-              className={currentPage === number ? 'active' : ''}
-            >
-              {number}
-            </button>
-          )
-        )}
-        <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPages}>
-          &gt;
-        </button>
-      </div>
-    );
+  const handleFiltersChange = (newFilters) => {
+    setFilters(newFilters);
+    setCurrentPage(1); // Reset to first page when filters change
   };
 
   return (
-    <div>
-      <VacancyControls 
+    <div className="vacancy-list-normal">
+      <VacancyControls
         totalVacancies={totalVacancies}
         itemsPerPage={itemsPerPage}
         setItemsPerPage={setItemsPerPage}
@@ -312,17 +97,43 @@ const VacancyListNormal = () => {
         setDateFilter={setDateFilter}
         salarySort={salarySort}
         setSalarySort={setSalarySort}
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
       />
-      <div className="vacancy-list">
-        {vacancies.map(vacancy => (
-          <VacancyCardNormal key={vacancy.id} vacancy={vacancy} />
-        ))}
-      </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+
+      {error && (
+        <div className="error-message">
+          {error}
+        </div>
+      )}
+
+      {loading ? (
+        <div className="loading-spinner">
+          Загрузка...
+        </div>
+      ) : (
+        <>
+          <div className="vacancies-grid">
+            {vacancies && vacancies.length > 0 ? (
+              vacancies.map((vacancy) => (
+                <VacancyCardNormal vacancy={vacancy} />
+              ))
+            ) : (
+              <div className="no-vacancies">
+                Вакансии не найдены. Попробуйте изменить параметры поиска.
+              </div>
+            )}
+          </div>
+
+          {totalVacancies > itemsPerPage && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={Math.ceil(totalVacancies / itemsPerPage)}
+              onPageChange={handlePageChange}
+            />
+          )}
+        </>
+      )}
     </div>
   );
 };

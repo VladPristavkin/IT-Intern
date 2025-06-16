@@ -1,64 +1,137 @@
+.vacancy-controls-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.vacancy-controls-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
 .vacancy-controls {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filters-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.controls-section {
+  display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  gap: 12px;
+  background-color: white;
+  padding: 12px;
+  border: 1px solid #E7E9ED;
+  border-radius: 17px;
 }
 
 .total-vacancies {
   font-size: 32px;
-  font-weight: bold;
+  font-weight: 500;
   color: var(--header-text-color);
-  font-family: 'Inter', sans-serif;
-  line-height: 150%;
+  margin: 0;
 }
 
 .control-group {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-left: 20px;
 }
 
 .control-group label {
+  font-size: 15px;
+  color: var(--main-text-color);
+}
+
+.search-input {
+  width: 400px;
+  padding: 16px;
   font-size: 16px;
-  display: flex;
-  align-items: center;
+  border: 1px solid #E7E9ED;
+  border-radius: 17px;
+  background-color: white;
+  color: var(--main-text-color);
+}
+
+.search-input::placeholder {
+  color: #9CA3AF;
 }
 
 .control-group select {
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: white;
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-}
-.control-group.time select {
-  width: 244px;
-  height: 48px;
-  border-radius: 10px;
-}
-.control-group.salary-group select {
-  height: 48px;
-  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 15px;
+  border: 1px solid #E7E9ED;
+  border-radius: 8px;
+  background-color: white;
+  color: var(--main-text-color);
+  cursor: pointer;
+  min-width: 120px;
 }
 
-#date-filter {
-  padding: 12px;
-  width: fit-content;
+.control-group select:focus {
+  outline: none;
+  border-color: var(--button-color);
 }
-#date-filter option {
+
+select[multiple] {
+  height: auto;
+  min-height: 120px;
+  padding: 8px;
+}
+
+.country-select {
+  min-width: 200px !important;
+}
+
+.area-select,
+.employment-select,
+.schedule-select,
+.experience-select,
+.key-skills-select,
+.professional-roles-select {
+  min-width: 250px !important;
+}
+
+.control-group.time select,
+.control-group.salary-group select {
+  width: 200px;
+  height: 48px;
+}
+
+.salary-range {
+  display: flex;
+  gap: 8px;
+}
+
+.salary-input {
+  width: 120px;
+  padding: 12px;
   font-size: 16px;
-  font-weight: medium;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   color: var(--header-text-color);
-  font-family: 'NotoSans', sans-serif;
-  line-height: 150%;
 }
+
+#date-filter,
 #salary-sort {
-  padding: 12px;
+  padding: 8px 12px;
   width: fit-content;
 }
+
+#date-filter option,
 #salary-sort option {
   font-size: 16px;
   font-weight: medium;
@@ -87,10 +160,87 @@
   color: #295AAF;
 }
 
-.icon-option {
-  width: 20px;
-  height: 20px;
-  margin-right: 6px;
-  vertical-align: middle;
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrapper::after {
+  content: '';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #666;
+  pointer-events: none;
+}
+
+/* Стили для состояний */
+.search-input:focus,
+.control-group select:focus,
+.salary-input:focus {
+  outline: none;
+  border-color: #4285f4;
+  box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+}
+
+/* Стили для плейсхолдеров */
+.search-input::placeholder,
+.salary-input::placeholder {
+  color: #999;
+}
+
+/* Стили для отключенных элементов */
+.control-group select:disabled,
+.salary-input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+/* Стили для опций в селектах */
+.control-group select option {
+  padding: 8px;
+  font-size: 16px;
+  color: var(--header-text-color);
+}
+
+.control-group select option:checked {
+  background-color: #4285f4;
+  color: white;
+}
+
+/* Стили для мобильных устройств */
+@media (max-width: 768px) {
+  .vacancy-controls-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input {
+    min-width: 100%;
+  }
+
+  .filters-section,
+  .controls-section {
+    flex-direction: column;
+  }
+
+  .control-group {
+    width: 100%;
+  }
+
+  .control-group select,
+  .salary-input {
+    width: 100%;
+    min-width: 100% !important;
+  }
+
+  .salary-range {
+    flex-direction: column;
+  }
 }
 

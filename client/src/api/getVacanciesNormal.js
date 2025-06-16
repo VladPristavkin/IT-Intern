@@ -1,22 +1,52 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:7059/api/vacancies';
+const BASE_URL = 'https://localhost:7292/vacancies';
 
-export const getVacancies = async (page = 1, pageSize = 10, searchPeriod = 0, orderBy = 0, searchText = '', country = '') => {
+
+export const getVacanciesNormal = async (params) => {
   try {
-    const response = await axios.get(`${BASE_URL}`, {
-      params: {
-        Page: page,
-        PageSize: pageSize,
-        SearchPeriod: searchPeriod,
-        OrderBy: orderBy,
-        SearchText: searchText,
-        Country: country, // добавили параметр поиска
-      }
-    });
-    return response.data;
+    const queryParams = new URLSearchParams();
+
+    // Add non-array parameters
+    if (params.page) queryParams.append('page', params.page);
+    if (params.pageSize) queryParams.append('pageSize', params.pageSize);
+    if (params.searchText) queryParams.append('searchText', params.searchText);
+    if (params.searchPeriod) queryParams.append('searchPeriod', params.searchPeriod);
+    if (params.orderBy) queryParams.append('orderBy', params.orderBy);
+    if (params.salaryFrom) queryParams.append('salaryFrom', params.salaryFrom);
+    if (params.salaryTo) queryParams.append('salaryTo', params.salaryTo);
+
+    // Add array parameters
+    if (params.country) params.country.forEach(item => queryParams.append('country', item));
+    if (params.area) params.area.forEach(item => queryParams.append('area', item));
+    if (params.employment) params.employment.forEach(item => queryParams.append('employment', item));
+    if (params.schedule) params.schedule.forEach(item => queryParams.append('schedule', item));
+    if (params.professionalRole) params.professionalRole.forEach(item => queryParams.append('professionalRole', item));
+    if (params.keySkill) params.keySkill.forEach(item => queryParams.append('keySkill', item));
+    if (params.experience) params.experience.forEach(item => queryParams.append('experience', item));
+
+    const response = await axios.get(`${BASE_URL}?${queryParams.toString()}`);
+    
+    // Transform the response data
+    const transformedVacancies = response.data
+      .filter(vacancy => vacancy !== null);
+
+    return {
+      items: transformedVacancies,
+      totalCount: transformedVacancies.length
+    };
   } catch (error) {
     console.error('Error fetching vacancies:', error);
+    throw error;
+  }
+};
+
+export const getVacancyById = async (id) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching vacancy by ID:', error);
     throw error;
   }
 };

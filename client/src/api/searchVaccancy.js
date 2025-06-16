@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const VACANCY_URL = 'https://localhost:7059/api/vacancies?SearchText';
+const VACANCY_URL = 'https://localhost:7292/vacancies?SearchText';
 
 export const getVacancies = async () => {
   try {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://localhost:7059/api/vacancies';
+const BASE_URL = 'https://localhost:7292/vacancies';
 
 export const getVacancyById = async (id) => {
   try {
