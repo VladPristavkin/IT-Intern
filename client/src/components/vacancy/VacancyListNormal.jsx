@@ -5,7 +5,7 @@ import VacancyCardNormal from './VacancyCardNormal';
 import Pagination from '../common/Pagination';
 import './VacancyListNormal.css';
 
-const VacancyListNormal = ({ filters: externalFilters }) => {
+const VacancyListNormal = ({ filters: externalFilters, searchText }) => {
   const [vacancies, setVacancies] = useState([]);
   const [totalVacancies, setTotalVacancies] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -16,9 +16,15 @@ const VacancyListNormal = ({ filters: externalFilters }) => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   // Filter state
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(searchText || '');
   const [dateFilter, setDateFilter] = useState(null);
   const [salarySort, setSalarySort] = useState(null);
+
+  // Обновляем searchTerm при изменении searchText из пропсов
+  useEffect(() => {
+    setSearchTerm(searchText || '');
+    setCurrentPage(1);
+  }, [searchText]);
 
   // Функция для выполнения запроса
   const fetchVacancies = useCallback(async () => {
@@ -41,9 +47,7 @@ const VacancyListNormal = ({ filters: externalFilters }) => {
         salaryFrom: externalFilters.salary ? Number(externalFilters.salary) : undefined
       };
 
-      console.log('Sending request with params:', queryParams);
       const response = await getVacanciesNormal(queryParams);
-      console.log('Received response:', response);
 
       if (!response || typeof response !== 'object') {
         throw new Error('Invalid response format from server');
@@ -58,7 +62,7 @@ const VacancyListNormal = ({ filters: externalFilters }) => {
       setVacancies(items);
       setTotalVacancies(totalCount || 0);
     } catch (err) {
-      console.error('Error details:', err);
+      console.error('Error fetching vacancies:', err);
       setError(err.response?.data?.message || err.message || 'Произошла ошибка при загрузке вакансий');
       setVacancies([]);
       setTotalVacancies(0);
@@ -72,7 +76,7 @@ const VacancyListNormal = ({ filters: externalFilters }) => {
     fetchVacancies();
   }, [fetchVacancies]);
 
-  // Обработчики изменения фильтров с немедленным применением
+  // Обработчики изменения фильтров
   const handleSearchTermChange = (value) => {
     setSearchTerm(value);
     setCurrentPage(1);
@@ -109,7 +113,7 @@ const VacancyListNormal = ({ filters: externalFilters }) => {
         salarySort={salarySort}
         setSalarySort={handleSalarySortChange}
         searchTerm={searchTerm}
-        setSearchTerm={handleSearchTermChange}
+        onSearchChange={handleSearchTermChange}
       />
 
       {error && (
@@ -120,7 +124,6 @@ const VacancyListNormal = ({ filters: externalFilters }) => {
 
       <div className="vacancies-grid">
         {loading ? (
-          // Показываем плейсхолдеры во время загрузки
           Array.from({ length: itemsPerPage }).map((_, index) => (
             <VacancyCardNormal key={`loading-${index}`} vacancy={{}} isLoading={true} />
           ))

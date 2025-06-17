@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import './LeftBarFilter.css';
 import { getAuxiliaryData } from '../../api/getAuxiliaryData';
 
-const LeftBarFilter = ({ onFiltersChange }) => {
+const LeftBarFilter = ({ onFiltersChange, initialCountry }) => {
   // Словари для перевода числовых значений в читаемые названия
   const translationMaps = {
     experiences: {
@@ -31,7 +31,7 @@ const LeftBarFilter = ({ onFiltersChange }) => {
   const [filters, setFilters] = useState({
     salary: '',
     employment: [],
-    country: '',
+    country: initialCountry || '',
     area: [],
     experience: [],
     schedule: [],
@@ -79,6 +79,12 @@ const LeftBarFilter = ({ onFiltersChange }) => {
 
     fetchAuxiliaryData();
   }, []);
+
+  useEffect(() => {
+    if (initialCountry !== undefined) {
+      handleFilterChange('country', initialCountry);
+    }
+  }, [initialCountry]);
 
   // Функция для получения переведенного названия
   const getTranslatedValue = (type, value) => {

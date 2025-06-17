@@ -1,40 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { getAuxiliaryData } from '../../api/getAuxiliaryData';
 import './HeaderMain.css';
 
-const HeaderMain = () => {
+const HeaderMain = ({ onSearch, initialCountry = '', initialSearchText = '' }) => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const [countries, setCountries] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(initialSearchText);
+  const [country, setCountry] = useState(initialCountry);
   
-  const useQuery = () => {
-    return new URLSearchParams(location.search);
-  };
-  
-  const query = useQuery();
-  
-  const [searchTerm, setSearchTerm] = useState(query.get('searchText') || '');
-  const [country, setCountry] = useState(query.get('country') || '');
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const data = await getAuxiliaryData();
+        setCountries(data.countries || []);
+      } catch (error) {
+        console.error('Error fetching countries:', error);
+      }
+    };
+    fetchCountries();
+  }, []);
 
-  // const handleSearch = () => {
-  //   const params = new URLSearchParams();
-  //   if (searchTerm) params.append('searchText', searchTerm);
-  //   if (country) params.append('country', country);
-  //   navigate(`/search?${params.toString()}`);
-  // };
-
-  const handleSearch = () => {
-    const params = new URLSearchParams();
-    if (searchTerm) params.append('searchText', searchTerm);
-    if (country) params.append('country', country);
-    navigate(`/search?${params.toString()}`); // Удалено `{ replace: true }`
-  };
-  
-  
+  // Синхронизация с внешними значениями
+  useEffect(() => {
+    setCountry(initialCountry);
+  }, [initialCountry]);
 
   useEffect(() => {
-    setSearchTerm(query.get('searchText') || '');
-    setCountry(query.get('country') || '');
-  }, [location.search]);
+    setSearchTerm(initialSearchText);
+  }, [initialSearchText]);
+
+  const handleSearch = () => {
+    navigate('/search', { replace: true });
+    if (onSearch) {
+      onSearch({
+        searchText: searchTerm,
+        country: country
+      });
+    }
+  };
 
   return (
     <div className="header-main">
@@ -52,18 +56,31 @@ const HeaderMain = () => {
             className="search-input" 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch();
+              }
+            }}
           />
           <select 
             className="country-select"
             value={country}
-            onChange={(e) => setCountry(e.target.value)}
+            onChange={(e) => {
+              setCountry(e.target.value);
+              onSearch({
+                searchText: searchTerm,
+                country: e.target.value
+              });
+            }}
           >
-            <option value="" disabled>Выберите страну</option>
-            <option value="16">Беларусь</option>
-            <option value="113">Россия</option>
-            <option value="">Неважно</option>
+            <option value="">Не имеет значения</option>
+            {countries.map(country => (
+              <option key={country.id} value={country.id}>{country.name}</option>
+            ))}
           </select>
-          <button className="search-button" onClick={handleSearch}>Искать работу</button>
+          <button className="search-button" onClick={handleSearch}>
+            Искать работу
+          </button>
         </div>
       </div>
     </div>

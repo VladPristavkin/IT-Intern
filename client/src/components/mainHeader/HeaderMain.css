@@ -68,5 +68,34 @@
     line-height: 150%;
     border: none;
     cursor: pointer;
+    transition: background-color 0.2s ease;
+    position: relative;
+  }
+  
+  .search-button:hover {
+    background-color: var(--button-color-hover, #0056b3);
+  }
+  
+  .selected-filters {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+  }
+  
+  .filter-tag {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--button-color);
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
