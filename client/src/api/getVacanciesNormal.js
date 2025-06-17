@@ -24,6 +24,7 @@ export const getVacanciesNormal = async (params) => {
     if (params.professionalRole) params.professionalRole.forEach(item => queryParams.append('professionalRole', item));
     if (params.keySkill) params.keySkill.forEach(item => queryParams.append('keySkill', item));
     if (params.experience) params.experience.forEach(item => queryParams.append('experience', item));
+    if (params.vacancyIds) params.vacancyIds.forEach(id => queryParams.append('vacancyIds', id));
 
     console.log('Request URL:', `${BASE_URL}?${queryParams.toString()}`);
     console.log('Request params:', params);
