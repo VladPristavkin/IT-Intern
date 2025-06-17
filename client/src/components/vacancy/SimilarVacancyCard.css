@@ -1,0 +1,135 @@
+.similar-vacancy-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.similar-vacancy-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid #E7E9ED;
+  position: relative;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.similar-vacancy-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.similar-vacancy-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.similar-vacancy-salary-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.similar-country-flag {
+  width: 20px;
+  height: 14px;
+  border-radius: 2px;
+  object-fit: cover;
+}
+
+.similar-money-icon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+}
+
+.similar-salary-amount {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.similar-vacancy-company-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.similar-company-logo-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.similar-company-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.similar-company-logo-placeholder {
+  width: 100%;
+  height: 100%;
+  background: #4F46E5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.similar-company-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.similar-company-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.similar-location-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.similar-location-icon {
+  width: 14px;
+  height: 14px;
+  opacity: 0.6;
+}
+
+.similar-location-text {
+  font-size: 13px;
+  color: #666;
+}
+
+.similar-vacancy-bookmark {
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+
+.similar-bookmark-icon {
+  width: 40px;
+  height: 40px;
+}

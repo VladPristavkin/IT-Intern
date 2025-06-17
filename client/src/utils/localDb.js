@@ -85,6 +85,7 @@ class LocalDB {
                 department: 'ПОИТ',
                 role: 'teacher',
                 isAdmin: true,
+                savedVacancies: [],
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString()
             };
@@ -105,6 +106,7 @@ class LocalDB {
                 speciality: 'ПОИТ-211',
                 role: 'student',
                 isAdmin: false,
+                savedVacancies: [],
                 createdAt: new Date().toISOString(),
                 updatedAt: new Date().toISOString()
             };
