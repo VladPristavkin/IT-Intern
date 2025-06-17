@@ -1,7 +1,15 @@
 .header-main {
     background-size: cover;
     background-position: center;
+    position: relative;
+    z-index: 1;
   }
+
+.main-page-content-header {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 32px 0px;
+}
   
   .main-title {
     color: var(--header-text-color);

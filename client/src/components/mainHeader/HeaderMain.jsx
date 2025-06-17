@@ -41,7 +41,7 @@ const HeaderMain = ({ onSearch, initialCountry = '', initialSearchText = '' }) =
   };
 
   return (
-    <div className="header-main">
+    <div className="header-main main-page-content-header">
       <div className="header-content">
         <h1 className="main-title">
           Найди <span className="highlighted">работу</span> уже сегодня!

@@ -4,7 +4,8 @@ import HeaderMain from '../../components/mainHeader/HeaderMain'
 import VacancyListNormal from '../../components/vacancy/VacancyListNormal'
 import LeftBarFilter from '../../components/LeftBarFilter/LeftBarFilter'
 import RightSideBar from '../../components/RightSideBar/RightSideBar'
-// import BackgroundComplex from '../../UI/shared/background/BackgroundComplex'
+import BackgroundComplex from '../../UI/shared/background/BackgroundComplex'
+import './PageMain.css'
 
 export default function PageMain() {
   const [filters, setFilters] = useState({
@@ -23,11 +24,11 @@ export default function PageMain() {
 
   return (
     <div className='background'>
-    {/* <BackgroundComplex> */}
+    <BackgroundComplex>
       <Header />
       <HeaderMain />
-    {/* </BackgroundComplex> */}
-      <div className='main-page-content' style={{ display: 'flex', justifyContent: 'space-between'}}>
+    </BackgroundComplex>
+      <div className='main-page-content-main'>
         <LeftBarFilter onFiltersChange={handleFiltersChange} />
         <VacancyListNormal filters={filters} />
         <RightSideBar />

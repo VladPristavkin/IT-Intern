@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import './Header.css';
 import lOGO from '../../../assets/lOGO.svg';
-import AccountLogo from '../../../assets/account_circle.svg';
+import AccountLogo from '../../../assets/profile_account_circle.svg';
 import LogInForm from '../../../components/modals/login/LogInForm';
 import RegistrationForm from '../../../components/modals/registration/RegistrationForm';
 import { useNavigate } from 'react-router-dom';
@@ -44,31 +44,33 @@ const Header = () => {
   };
 
   return (
-    <>
-      <header className="header">
-        <img src={lOGO} alt="Logo" className="logo" onClick={handleLogoClick} />
-        <div className="button-group-header">
-          {isAuthenticated ? (
-            <>
-              <img
-                src={AccountLogo}
-                alt="Account"
-                className="account-logo"
-                onClick={handleAccountClick} // Обработчик клика для AccountLogo
-              />
-              <button className="logout-button" onClick={logout}>Выйти</button>
-            </>
-          ) : (
-            <>
-              <button className="login-button" onClick={handleLoginClick}>Войти</button>
-              <button className="register-button" onClick={handleRegisterClick}>Регистрация</button>
-            </>
-          )}
+    <div className="header">
+      {/* <header className="header"> */}
+        <div className='header-container'>
+          <img src={lOGO} alt="Logo" className="logo" onClick={handleLogoClick} />
+          <div className="button-group-header">
+            {isAuthenticated ? (
+              <>
+                <img
+                  src={AccountLogo}
+                  alt="Account"
+                  className="account-logo-header"
+                  onClick={handleAccountClick} // Обработчик клика для AccountLogo
+                />
+                <button className="logout-button" onClick={logout}>Выйти</button>
+              </>
+            ) : (
+              <>
+                <button className="login-button" onClick={handleLoginClick}>Войти</button>
+                <button className="register-button" onClick={handleRegisterClick}>Регистрация</button>
+              </>
+            )}
+          </div>
         </div>
-      </header>
+      {/* </header> */}
       {isLoginFormOpen && <LogInForm onClose={closeModals} />}
       {isRegistrationFormOpen && <RegistrationForm onClose={closeModals} />}
-    </>
+    </div>
   );
 };
 

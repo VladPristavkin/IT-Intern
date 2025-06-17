@@ -1,0 +1,10 @@
+.bg-complex {
+    position: absolute;
+    width: 100%;
+    height: 58.3vh;
+    z-index: 0;
+    top: -10px;
+}
+.header-wrapper-page-main {
+    margin: 0 auto;
+}

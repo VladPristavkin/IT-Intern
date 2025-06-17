@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
+import MoneyIcon from '../../assets/MoneySearch.svg';
+import CalendarIcon from '../../assets/CalendarBlankBlack.svg';
 
 const VacancyControls = ({
   totalVacancies = 3177,
@@ -47,21 +49,21 @@ const VacancyControls = ({
     }
   };
 
-  const MoneyIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M10 17.5C14.1421 17.5 17.5 14.1421 17.5 10C17.5 5.85786 14.1421 2.5 10 2.5C5.85786 2.5 2.5 5.85786 2.5 10C2.5 14.1421 5.85786 17.5 10 17.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M7.5 8.75C7.5 8.08696 7.76339 7.45107 8.23223 6.98223C8.70107 6.51339 9.33696 6.25 10 6.25C10.663 6.25 11.2989 6.51339 11.7678 6.98223C12.2366 7.45107 12.5 8.08696 12.5 8.75C12.5 9.41304 12.2366 10.0489 11.7678 10.5178C11.2989 10.9866 10.663 11.25 10 11.25C9.33696 11.25 8.70107 11.5134 8.23223 11.9822C7.76339 12.4511 7.5 13.087 7.5 13.75C7.5 14.413 7.76339 15.0489 8.23223 15.5178C8.70107 15.9866 9.33696 16.25 10 16.25C10.663 16.25 11.2989 15.9866 11.7678 15.5178C12.2366 15.0489 12.5 14.413 12.5 13.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M10 4.375V6.25M10 16.25V13.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  );
+  // const MoneyIcon = () => (
+  //   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  //     <path d="M10 17.5C14.1421 17.5 17.5 14.1421 17.5 10C17.5 5.85786 14.1421 2.5 10 2.5C5.85786 2.5 2.5 5.85786 2.5 10C2.5 14.1421 5.85786 17.5 10 17.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  //     <path d="M7.5 8.75C7.5 8.08696 7.76339 7.45107 8.23223 6.98223C8.70107 6.51339 9.33696 6.25 10 6.25C10.663 6.25 11.2989 6.51339 11.7678 6.98223C12.2366 7.45107 12.5 8.08696 12.5 8.75C12.5 9.41304 12.2366 10.0489 11.7678 10.5178C11.2989 10.9866 10.663 11.25 10 11.25C9.33696 11.25 8.70107 11.5134 8.23223 11.9822C7.76339 12.4511 7.5 13.087 7.5 13.75C7.5 14.413 7.76339 15.0489 8.23223 15.5178C8.70107 15.9866 9.33696 16.25 10 16.25C10.663 16.25 11.2989 15.9866 11.7678 15.5178C12.2366 15.0489 12.5 14.413 12.5 13.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  //     <path d="M10 4.375V6.25M10 16.25V13.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  //   </svg>
+  // );
 
-  const CalendarIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M2.5 5H17.5V17.5H2.5V5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
-      <path d="M13.75 2.5V5M6.25 2.5V5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <path d="M2.5 8.75H17.5" stroke="currentColor" strokeWidth="1.5"/>
-    </svg>
-  );
+  // const CalendarIcon = () => (
+  //   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+  //     <path d="M2.5 5H17.5V17.5H2.5V5Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/>
+  //     <path d="M13.75 2.5V5M6.25 2.5V5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+  //     <path d="M2.5 8.75H17.5" stroke="currentColor" strokeWidth="1.5"/>
+  //   </svg>
+  // );
 
   const ChevronIcon = () => (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -141,11 +143,11 @@ const VacancyControls = ({
               onChange={(e) => setItemsPerPage(Number(e.target.value))}
               style={{
                 padding: '6px 12px',
-                border: '1px solid #e0e0e0',
-                borderRadius: '8px',
-                backgroundColor: '#fff',
+                // border: '1px solid #e0e0e0',
+                // borderRadius: '8px',
+                // backgroundColor: '#fff',
                 fontSize: '14px',
-                color: '#333',
+                color: '#295AAF',
                 cursor: 'pointer',
                 outline: 'none'
               }}
@@ -171,21 +173,24 @@ const VacancyControls = ({
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                padding: showDateText ? '8px 16px' : '8px 12px',
+                padding: showDateText ? '12px 16px' : '10px 9px',
                 backgroundColor: '#fff',
-                border: (activeFilter === 'date' && dateFilter !== 0) ? '1px solid #4a90e2' : '1px solid #e0e0e0',
+                border: '1px solid #E7E9ED',
                 borderRadius: '8px',
-                color: dateFilter !== 0 ? '#4a90e2' : '#666',
+                color: '#18191c',
                 cursor: 'pointer',
                 fontSize: '14px',
                 outline: 'none',
                 transition: 'all 0.2s ease',
-                minHeight: '36px',
-                minWidth: showDateText ? 'auto' : '36px',
+                height: '48px',
+                minWidth: showDateText ? 'auto' : '44px',
                 whiteSpace: 'nowrap'
               }}
             >
-              <CalendarIcon />
+              <img
+                src={CalendarIcon}
+                style={{ height: '22.5px', width: '22.5px'}}
+              />
               {showDateText && (
                 <>
                   <span>{getDateFilterText()}</span>
@@ -223,7 +228,7 @@ const VacancyControls = ({
                       border: 'none',
                       borderRadius: '6px',
                       textAlign: 'left',
-                      color: (dateFilter === option.value && option.value !== 0) ? '#4a90e2' : '#666',
+                      color: (dateFilter === option.value && option.value !== 0) ? '#4a90e2' : '#18191c',
                       cursor: 'pointer',
                       fontSize: '14px',
                       fontWeight: (dateFilter === option.value && option.value !== 0) ? '500' : '400',
@@ -257,22 +262,24 @@ const VacancyControls = ({
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
-                padding: showSalaryText ? '8px 16px' : '8px 12px',
+                gap: '6px',
+                padding: showSalaryText ? '12px 16px' : '10px 9px',
                 backgroundColor: '#fff',
-                border: (activeFilter === 'salary' && salarySort !== 0) ? '1px solid #4a90e2' : '1px solid #e0e0e0',
+                border: '1px solid #E7E9ED',
                 borderRadius: '8px',
-                color: salarySort !== 0 ? '#4a90e2' : '#666',
+                color: '#18191c',
                 cursor: 'pointer',
                 fontSize: '14px',
                 outline: 'none',
                 transition: 'all 0.2s ease',
-                minHeight: '36px',
-                minWidth: showSalaryText ? 'auto' : '36px',
+                height: '48px',
+                width: showSalaryText ? 'auto' : '44px',
                 whiteSpace: 'nowrap'
               }}
             >
-              <MoneyIcon />
+              <img
+                src={MoneyIcon}
+              />
               {showSalaryText && (
                 <>
                   <span>{getSalaryFilterText()}</span>
@@ -309,7 +316,7 @@ const VacancyControls = ({
                       border: 'none',
                       borderRadius: '6px',
                       textAlign: 'left',
-                      color: (salarySort === option.value && option.value !== 0) ? '#4a90e2' : '#666',
+                      color: (salarySort === option.value && option.value !== 0) ? '#4a90e2' : '#18191c',
                       cursor: 'pointer',
                       fontSize: '14px',
                       fontWeight: (salarySort === option.value && option.value !== 0) ? '500' : '400',
