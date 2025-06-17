@@ -1,11 +1,13 @@
 .vcn-card {
   background: #FFFFFF;
   border: 1px solid #E7E9ED;
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 17px;
+  padding: 24px;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
+  font-family: 'Noto-sans', sans-serif;
+  overflow: hidden; /* Добавлено для корректного отображения флага */
 }
 
 .vcn-card:hover {
@@ -15,9 +17,9 @@
 
 .vcn-content {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  gap: 1.5rem;
   position: relative;
+  padding-right: 32px; /* Добавляем отступ для флага */
 }
 
 .vcn-header {
@@ -57,56 +59,62 @@
 .vcn-info {
   flex-grow: 1;
   min-width: 0;
-  padding-right: 32px;
+  padding-right: 16px; /* Уменьшили отступ */
 }
 
 .vcn-company-name {
-  font-size: 18px;
-  font-weight: 500;
-  color: #2C3E50;
-  margin: 0 0 6px 0;
-  line-height: 1.3;
+  font-size: 17px;
+  font-weight: 400;
+  color: #18191C;
+  margin: 0;
+  line-height: 1.5;
 }
 
 .vcn-title {
-  font-size: 15px;
-  color: #64748B;
-  margin: 0;
-  line-height: 1.4;
+  font-size: 24px;
+  color: #18191C;
+  margin: 0 0 6px 0;
+  line-height: 1.5;
+  font-weight: 500;
 }
 
+/* ОБНОВЛЕННЫЕ СТИЛИ ДЛЯ ФЛАГА */
 .vcn-country-flag-wrapper {
   position: absolute;
-  right: -20px;
-  top: 0;
-  bottom: 0;
-  width: 24px;
+  right: -24px; /* Компенсируем padding карточки */
+  top: -24px; /* Компенсируем padding карточки */
+  bottom: -24px; /* Компенсируем padding карточки */
+  width: 54px; /* Увеличили ширину */
   display: flex;
   align-items: stretch;
-  border: 1px solid #E7E9ED;
-  border-radius: 0 12px 12px 0;
+  z-index: 1;
+  border-radius: 0 17px 17px 0; /* Соответствует border-radius карточки */
+  overflow: hidden;
 }
 
 .vcn-country-flag {
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
   object-fit: cover;
-  border-radius: 0 12px 12px 0;
+  opacity: 0.96;
 }
 
 .vcn-details {
+  font-family: Inter;
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 4px;
+  gap: 32px;
+  line-height: 1.5;
+  margin-bottom: 12px;
 }
 
 .vcn-detail-item {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #64748B;
-  font-size: 14px;
+  color: #5E6670;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .vcn-detail-icon {
@@ -116,10 +124,11 @@
 }
 
 .vcn-description {
-  font-size: 14px;
-  color: #64748B;
+  font-size: 15px;
+  font-family: Inter;
+  font-weight: 400;
+  color: #5E6670;
   line-height: 1.5;
-  margin-top: 4px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -178,6 +187,7 @@
 @media (max-width: 768px) {
   .vcn-content {
     padding: 16px;
+    padding-right: 40px; /* Увеличиваем отступ на мобильных */
   }
 
   .vcn-title {
@@ -187,17 +197,14 @@
   .vcn-company {
     font-size: 15px;
   }
+
+  .vcn-country-flag-wrapper {
+    width: 28px; /* Немного уменьшаем на мобильных */
+  }
 }
 
-.vcn-flag {
-  position: absolute;
-  top: 0.5px;
-  right: 0px;
-}
-
-.vcn-flag img {
-  height: 100%;
-}
+/* Удаляем старые стили флага */
+/* .vcn-flag и связанные стили больше не нужны */
 
 .vcn-employment,
 .vcn-experience,
@@ -209,4 +216,3 @@
 .vcn-logo {
   size: 70px;
 }
-
