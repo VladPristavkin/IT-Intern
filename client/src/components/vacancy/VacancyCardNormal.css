@@ -1,4 +1,4 @@
-.vacancy-card {
+.vcn-card {
   background: #FFFFFF;
   border: 1px solid #E7E9ED;
   border-radius: 12px;
@@ -8,25 +8,25 @@
   position: relative;
 }
 
-.vacancy-card:hover {
+.vcn-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   border-color: #D1D5DB;
 }
 
-.vacancy-content {
+.vcn-content {
   display: flex;
   flex-direction: column;
   gap: 16px;
   position: relative;
 }
 
-.vacancy-card-header {
+.vcn-header {
   display: flex;
   align-items: flex-start;
   gap: 16px;
 }
 
-.company-logo {
+.vcn-company-logo {
   width: 48px;
   height: 48px;
   border-radius: 8px;
@@ -35,14 +35,14 @@
   border: 1px solid #E7E9ED;
 }
 
-.company-logo img {
+.vcn-company-logo img {
   width: 100%;
   height: 100%;
   object-fit: contain;
   background: #fff;
 }
 
-.company-logo-placeholder {
+.vcn-company-logo-placeholder {
   width: 100%;
   height: 100%;
   background: #F5F7FA;
@@ -54,13 +54,13 @@
   color: #9AA4B2;
 }
 
-.vacancy-info {
+.vcn-info {
   flex-grow: 1;
   min-width: 0;
   padding-right: 32px;
 }
 
-.company-name {
+.vcn-company-name {
   font-size: 18px;
   font-weight: 500;
   color: #2C3E50;
@@ -68,14 +68,14 @@
   line-height: 1.3;
 }
 
-.vacancy-title {
+.vcn-title {
   font-size: 15px;
   color: #64748B;
   margin: 0;
   line-height: 1.4;
 }
 
-.country-flag-wrapper {
+.vcn-country-flag-wrapper {
   position: absolute;
   right: -20px;
   top: 0;
@@ -87,21 +87,21 @@
   border-radius: 0 12px 12px 0;
 }
 
-.country-flag {
+.vcn-country-flag {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 0 12px 12px 0;
 }
 
-.vacancy-details {
+.vcn-details {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
   margin-top: 4px;
 }
 
-.detail-item {
+.vcn-detail-item {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -109,13 +109,13 @@
   font-size: 14px;
 }
 
-.detail-icon {
+.vcn-detail-icon {
   width: 16px;
   height: 16px;
   opacity: 0.7;
 }
 
-.vacancy-description {
+.vcn-description {
   font-size: 14px;
   color: #64748B;
   line-height: 1.5;
@@ -127,41 +127,41 @@
   text-overflow: ellipsis;
 }
 
-/* Стили для состояния загрузки */
-.vacancy-card.loading {
+/* Loading state styles */
+.vcn-card.vcn-loading {
   pointer-events: none;
   background: rgba(240, 247, 255, 0.8);
 }
 
-.loading-placeholder {
+.vcn-loading-placeholder {
   background: linear-gradient(90deg, #f0f7ff 25%, #e6f0ff 50%, #f0f7ff 75%);
   background-size: 200% 100%;
-  animation: loading 1.5s infinite;
+  animation: vcn-loading 1.5s infinite;
   border-radius: 4px;
 }
 
-.title-placeholder {
+.vcn-title-placeholder {
   height: 22px;
   width: 80%;
   margin-bottom: 8px;
 }
 
-.company-placeholder {
+.vcn-company-placeholder {
   height: 18px;
   width: 60%;
 }
 
-.details-placeholder {
+.vcn-details-placeholder {
   height: 16px;
   width: 120px;
 }
 
-.description-placeholder {
+.vcn-description-placeholder {
   height: 40px;
   width: 100%;
 }
 
-@keyframes loading {
+@keyframes vcn-loading {
   0% {
     background-position: 200% 0;
   }
@@ -170,43 +170,43 @@
   }
 }
 
-.vacancy-footer {
+.vcn-footer {
   margin-top: 16px;
 }
 
 /* Responsive styles */
 @media (max-width: 768px) {
-  .vacancy-content {
+  .vcn-content {
     padding: 16px;
   }
 
-  .vacancy-title {
+  .vcn-title {
     font-size: 20px;
   }
 
-  .vacancy-company {
+  .vcn-company {
     font-size: 15px;
   }
 }
 
-.vacancy-flag {
+.vcn-flag {
   position: absolute;
-  top: 0.5px; /* Adjust based on your design */
-  right: 0px; /* Adjust based on your design */
+  top: 0.5px;
+  right: 0px;
 }
 
-.vacancy-flag img {
-  height: 100%; /* Adjust based on your design */
+.vcn-flag img {
+  height: 100%;
 }
 
-.vacancy-employment,
-.vacancy-experience,
-.vacancy-schedule {
+.vcn-employment,
+.vcn-experience,
+.vcn-schedule {
   font-size: 14px;
   color: #767F8C;
 } 
 
-.lOGO {
+.vcn-logo {
   size: 70px;
 }
 
