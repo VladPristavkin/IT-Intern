@@ -35,11 +35,11 @@ const VacancyPage = () => {
   console.log(vacancy);
 
   return (
-    <div className="vacancy-page">
+    <div className="vp-page">
       <Header />
-      <div className="vacancy-container">
+      <div className="vp-main-container">
         <VacancyHeader vacancy={vacancy} />
-        <div className="vacancy-content">
+        <div className="vp-content-grid">
           <VacancyLeftBar vacancy={vacancy} />
           <VacancyRightBar vacancy={vacancy} />
         </div>

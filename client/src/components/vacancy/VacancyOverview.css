@@ -1,11 +1,11 @@
-.vacancy-overview {
+.vo-container {
   background: #FFFFFF;
   border-radius: 12px;
   padding: 24px;
   border: 1px solid #E5E7EB;
 }
 
-.overview-title {
+.vo-main-title {
   font-family: 'Inter', sans-serif;
   font-weight: 600;
   font-size: 20px;
@@ -14,32 +14,32 @@
   margin: 0 0 24px 0;
 }
 
-.overview-grid {
+.vo-info-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   margin-bottom: 24px;
 }
 
-.overview-item {
+.vo-info-item {
   display: flex;
   align-items: flex-start;
   gap: 12px;
 }
 
-.overview-icon {
+.vo-item-icon {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
 }
 
-.overview-text {
+.vo-item-content {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.overview-text h3 {
+.vo-item-content h3 {
   font-family: 'Inter', sans-serif;
   font-size: 12px;
   line-height: 16px;
@@ -49,7 +49,7 @@
   text-transform: uppercase;
 }
 
-.overview-text p {
+.vo-item-content p {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   line-height: 20px;
@@ -58,17 +58,17 @@
   margin: 0;
 }
 
-.languages-list {
+.vo-languages-list {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.overview-skills {
+.vo-skills-section {
   margin-top: 24px;
 }
 
-.keyskills-title {
+.vo-skills-title {
   font-family: 'Inter', sans-serif;
   font-size: 16px;
   line-height: 24px;
@@ -77,13 +77,13 @@
   margin: 0 0 16px 0;
 }
 
-.skills-list {
+.vo-skills-list {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-.skill-tag {
+.vo-skill-tag {
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   line-height: 20px;
@@ -96,7 +96,7 @@
   align-items: center;
 }
 
-.no-skill {
+.vo-no-skills {
   margin: 0;
   font-family: 'Inter', sans-serif;
   font-size: 14px;

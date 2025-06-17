@@ -1,4 +1,4 @@
-.employee-card {
+.ec-container {
     padding: 24px;
     border: 1px solid #E5E7EB;
     border-radius: 12px;
@@ -10,18 +10,18 @@
     align-items: flex-start;
 }
   
-.employer-info {
+.ec-info-wrapper {
     width: 100%;
 }
   
-.logo-employee-card {
+.ec-logo {
     width: 48px;
     height: 48px;
     object-fit: contain;
     margin-bottom: 16px;
 }
   
-.employer-name {
+.ec-company-name {
     font-family: 'Inter', sans-serif;
     font-size: 24px;
     line-height: 32px;
@@ -30,7 +30,7 @@
     margin: 0 0 12px 0;
 }
   
-.employer-address {
+.ec-address-container {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -40,13 +40,13 @@
     line-height: 20px;
 }
   
-.location-icon {
+.ec-location-icon {
     width: 20px;
     height: 20px;
     flex-shrink: 0;
 }
   
-.employer-metro {
+.ec-metro-info {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -54,19 +54,19 @@
     color: #888;
 }
   
-.subway-icon {
+.ec-subway-icon {
     width: 16px;
     height: 16px;
     margin-bottom: 5px;
 }
   
-.metro-station {
+.ec-metro-station {
     display: flex;
     align-items: center;
     margin-bottom: 5px;
 }
   
-.metro-dot {
+.ec-metro-dot {
     margin-right: 5px;
 }
   

@@ -1,15 +1,15 @@
-.vacancy-page {
+.vp-page {
     min-height: 100vh;
     background-color: #F9FAFB;
 }
 
-.vacancy-container {
+.vp-main-container {
     max-width: 1280px;
     margin: 0 auto;
     padding: 24px;
 }
 
-.vacancy-content {
+.vp-content-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 24px;
@@ -17,37 +17,37 @@
     margin-bottom: 24px;
 }
 
-.similar-vacancies {
+.vp-similar-vacancies-section {
     margin-top: 32px;
 }
 
-.similar-vacancies-title {
+.vp-similar-vacancies-heading {
     font-size: 20px;
     font-weight: 600;
     color: #111827;
     margin-bottom: 16px;
 }
 
-.similar-vacancies-grid {
+.vp-similar-vacancies-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
 }
 
-.similar-vacancies-loading {
+.vp-similar-vacancies-loading {
     text-align: center;
     color: #6B7280;
     padding: 24px;
 }
 
 @media (max-width: 1024px) {
-    .similar-vacancies-grid {
+    .vp-similar-vacancies-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 768px) {
-    .similar-vacancies-grid {
+    .vp-similar-vacancies-grid {
         grid-template-columns: 1fr;
     }
 }

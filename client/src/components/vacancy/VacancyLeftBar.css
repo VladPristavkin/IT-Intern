@@ -1,4 +1,4 @@
-.vacancy-left-bar {
+.vlb-container {
     background: #FFFFFF;
     border-radius: 12px;
     padding: 24px;
@@ -6,7 +6,7 @@
     flex: 1;
 }
 
-.description-header {
+.vlb-main-header {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 20px;
@@ -15,7 +15,7 @@
     margin: 0 0 16px 0;
 }
 
-.section-header {
+.vlb-section-header {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 16px;
@@ -24,7 +24,7 @@
     margin: 24px 0 16px 0;
 }
 
-.description-text {
+.vlb-description-text {
     font-family: 'Inter', sans-serif;
     font-size: 14px;
     line-height: 20px;
@@ -32,13 +32,13 @@
     white-space: pre-line;
 }
 
-.section-list {
+.vlb-section-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.section-list li {
+.vlb-section-list li {
     font-family: 'Inter', sans-serif;
     font-size: 14px;
     line-height: 20px;
@@ -48,7 +48,7 @@
     margin-bottom: 12px;
 }
 
-.section-list li:before {
+.vlb-section-list li:before {
     content: "";
     position: absolute;
     left: 8px;
@@ -59,11 +59,11 @@
     background: #374151;
 }
 
-.vacancy-description-full {
+.vlb-description-wrapper {
     margin-top: 10px;
 }
   
-.vacancy-description p {
+.vlb-description p {
     margin-bottom: 10px;
 }
 

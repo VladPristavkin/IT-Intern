@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { getVacanciesNormal } from '../../api/getVacanciesNormal';
 import SimilarVacancyCard from './SimilarVacancyCard';
-import './VacancyListNormal.css';
+import './SimilarVacancies.css';
 
 const SimilarVacancies = ({ currentVacancyId, keySkills }) => {
   const [similarVacancies, setSimilarVacancies] = useState([]);
@@ -41,7 +41,7 @@ const SimilarVacancies = ({ currentVacancyId, keySkills }) => {
   }, [fetchSimilarVacancies]);
 
   if (loading) {
-    return <div className="similar-vacancies-loading">Загрузка похожих вакансий...</div>;
+    return <div className="sv-loading">Загрузка похожих вакансий...</div>;
   }
 
   if (!similarVacancies.length) {
@@ -49,9 +49,9 @@ const SimilarVacancies = ({ currentVacancyId, keySkills }) => {
   }
 
   return (
-    <div className="similar-vacancies">
-      <h2 className="similar-vacancies-title">Похожие вакансии</h2>
-      <div className="similar-vacancies-grid">
+    <div className="sv-container">
+      <h2 className="sv-title">Похожие вакансии</h2>
+      <div className="sv-grid">
         {similarVacancies.map((vacancy) => (
           <div key={`similar-vacancy-${vacancy.id}`}>
             <SimilarVacancyCard vacancy={vacancy} />

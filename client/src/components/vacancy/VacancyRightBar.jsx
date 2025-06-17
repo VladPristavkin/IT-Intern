@@ -7,7 +7,7 @@ const VacancyRightBar = ({ vacancy }) => {
   const { employer, address } = vacancy;
 
   return (
-    <div className="vacancy-right-bar">
+    <div className="vrb-container">
       <EmployeeCard employer={employer} address={address} />
       <VacancyOverview vacancy={vacancy} />
     </div>

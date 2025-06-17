@@ -98,37 +98,37 @@ const VacancyHeader = ({ vacancy }) => {
   };
 
   return (
-    <div className="vacancy-header-full">
-      <div className="vacancy-header-left"> 
-        <div className="employer-logo-vacancy-header">
+    <div className="vh-container">
+      <div className="vh-left-section"> 
+        <div className="vh-employer-logo">
         {employer?.logoUri ? (
                   <img src={employer.logoUri} alt={employer.name} />
                 ) : (
-                  <div className="company-logo-placeholder">
+                  <div className="vh-employer-logo-placeholder">
                     {employer?.name?.charAt(0) || 'N'}
                   </div>
                 )}
           </div>
-        <div className="header-content">
-          <div className="company-info">
+        <div className="vh-content-wrapper">
+          <div className="vh-company-info">
             {area?.country?.name && (
-              <img src={getFlag(area.country.name)} alt={`${area.country.name} Flag`} className="header-country-flag" />
+              <img src={getFlag(area.country.name)} alt={`${area.country.name} Flag`} className="vh-country-flag" />
             )}
-            <h2 className='employer-name-header'>{employer?.name || 'Не указано'}</h2>
+            <h2 className='vh-employer-name'>{employer?.name || 'Не указано'}</h2>
           </div>
-          <h1 className="job-title">{name || 'Не указано'}</h1>
-          <p className="salary">{formatSalary()}</p>
+          <h1 className="vh-job-title">{name || 'Не указано'}</h1>
+          <p className="vh-salary">{formatSalary()}</p>
         </div>
       </div>
-      <div className="vacancy-buttons">
-        <button onClick={handleSaveClick} className="save-button">
+      <div className="vh-buttons-container">
+        <button onClick={handleSaveClick} className="vh-save-button">
           <img 
             src={isSaved ? DeleteIcon : SaveIcon} 
             alt={isSaved ? "Remove from saved" : "Save"} 
-            className="save-icon" 
+            className="vh-save-icon" 
           />
         </button>
-        <button className="apply-button" onClick={handleApplyClick}>
+        <button className="vh-apply-button" onClick={handleApplyClick}>
           Откликнуться <ArrowForwardIcon />
         </button>
       </div>

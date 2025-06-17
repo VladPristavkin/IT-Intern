@@ -5,10 +5,10 @@ const VacancyLeftBar = ({ vacancy }) => {
   const { description } = vacancy;
 
   return (
-    <div className="vacancy-left-bar">
-      <h2 className="description-header-vacancy">Описание вакансии</h2>
+    <div className="vlb-container">
+      <h2 className="vlb-main-header">Описание вакансии</h2>
       <div
-        className="vacancy-description-full"
+        className="vlb-description-wrapper"
         dangerouslySetInnerHTML={{ __html: description }}
       />
     </div>
