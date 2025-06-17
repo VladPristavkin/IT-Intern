@@ -11,66 +11,108 @@ const TestModal = ({ isOpen, onClose, testData }) => {
     const [confidenceLevel, setConfidenceLevel] = useState({});
     const [isReviewMode, setIsReviewMode] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const navigate = useNavigate(); // для редиректа
+    const [testQuestions, setTestQuestions] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
     const [cameFromReview, setCameFromReview] = useState(false);
 
     useEffect(() => {
-        if (isSubmitting) {
-            const timer = setTimeout(() => {
-                navigate('/student/analytics'); // редирект
-            }, 5000);
+        if (testData) {
+            // TODO: Replace with actual API call when backend is ready
+            // For now using mock data
+            const fetchTestQuestions = async () => {
+                try {
+                    // Simulating API call
+                    const mockQuestions = {
+                        id: testData.id,
+                        testName: testData.testName,
+                        teacher: testData.teacher,
+                        date: testData.date,
+                        questions: [
+                            {
+                                id: 1,
+                                category: 'C#',
+                                subcategory: 'ASP.NET',
+                                type: 'closed',
+                                question: 'Какой из следующих методов используется для создания Web API контроллера в ASP.NET Core?',
+                                options: ['Controller', 'ApiController', 'ControllerBase', 'WebApiController'],
+                            },
+                            {
+                                id: 2,
+                                category: 'C#',
+                                subcategory: 'LINQ',
+                                type: 'open',
+                                question: 'Напишите LINQ запрос для выбора всех элементов из коллекции, где свойство Age больше 18',
+                            },
+                            {
+                                id: 3,
+                                category: 'Database',
+                                subcategory: 'SQL',
+                                type: 'closed',
+                                question: 'Какая команда SQL используется для получения данных из таблицы?',
+                                options: ['GET', 'SELECT', 'FETCH', 'RETRIEVE'],
+                            },
+                            {
+                                id: 4,
+                                category: 'React',
+                                subcategory: 'Hooks',
+                                type: 'closed',
+                                question: 'Какой хук используется для управления локальным состоянием компонента в React?',
+                                options: ['useEffect', 'useState', 'useRef', 'useReducer'],
+                            },
+                            {
+                                id: 5,
+                                category: 'C#',
+                                subcategory: 'OOP',
+                                type: 'closed',
+                                question: 'Какой модификатор доступа позволяет использовать метод только внутри текущего класса?',
+                                options: ['public', 'private', 'protected', 'internal'],
+                            }
+                        ],
+                    };
+                    setTestQuestions(mockQuestions);
+                    setLoading(false);
+                } catch (error) {
+                    console.error('Error fetching test questions:', error);
+                    setLoading(false);
+                }
+            };
 
-            return () => clearTimeout(timer); // очистка таймера
+            fetchTestQuestions();
         }
-    }, [isSubmitting, navigate]);
+    }, [testData]);
 
-    const mockTestData = {
-        id: 1,
-        testName: 'Проверка знаний',
-        teacher: 'Сергиенко О.В.',
-        date: '29.05.2025',
-        questions: [
-            {
-                id: 1,
-                category: 'C#',
-                subcategory: 'ASP.NET',
-                type: 'closed',
-                question: 'Какой из следующих методов используется для создания Web API контроллера в ASP.NET Core?',
-                options: ['Controller', 'ApiController', 'ControllerBase', 'WebApiController'],
-            },
-            {
-                id: 2,
-                category: 'C#',
-                subcategory: 'LINQ',
-                type: 'open',
-                question: 'Напишите LINQ запрос для выбора всех элементов из коллекции, где свойство Age больше 18',
-            },
-            {
-                id: 3,
-                category: 'Database',
-                subcategory: 'SQL',
-                type: 'closed',
-                question: 'Какая команда SQL используется для получения данных из таблицы?',
-                options: ['GET', 'SELECT', 'FETCH', 'RETRIEVE'],
-            },
-            {
-                id: 4,
-                category: 'React',
-                subcategory: 'Hooks',
-                type: 'closed',
-                question: 'Какой хук используется для управления локальным состоянием компонента в React?',
-                options: ['useEffect', 'useState', 'useRef', 'useReducer'],
-            },
-            {
-                id: 5,
-                category: 'C#',
-                subcategory: 'OOP',
-                type: 'closed',
-                question: 'Какой модификатор доступа позволяет использовать метод только внутри текущего класса?',
-                options: ['public', 'private', 'protected', 'internal'],
-            }
-        ],
-    };
+    useEffect(() => {
+        if (isSubmitting) {
+            const submitTestResults = async () => {
+                try {
+                    // TODO: Replace with actual API call when backend is ready
+                    // For now just simulating API call
+                    const results = {
+                        testId: testData.id,
+                        answers,
+                        subjects,
+                        confidenceLevels: confidenceLevel,
+                        submittedAt: new Date().toISOString()
+                    };
+                    
+                    console.log('Submitting test results:', results);
+                    
+                    // Simulate API delay
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    
+                    // Navigate to analytics page after successful submission
+                    navigate('/student/analytics');
+                } catch (error) {
+                    console.error('Error submitting test results:', error);
+                    setIsSubmitting(false);
+                    // TODO: Show error message to user
+                }
+            };
+
+            submitTestResults();
+        }
+    }, [isSubmitting, testData, answers, subjects, confidenceLevel, navigate]);
 
     const subjectOptions = [
         'Программирование',
@@ -81,42 +123,7 @@ const TestModal = ({ isOpen, onClose, testData }) => {
         'Самостоятельное изучение',
     ];
 
-    const currentQuestionData = mockTestData.questions[currentQuestion];
-    const totalQuestions = mockTestData.questions.length;
-
-    const handleAnswerChange = (value) => {
-        setAnswers((prev) => ({ ...prev, [currentQuestion]: value }));
-    };
-
-    const handleSubjectChange = (subject) => {
-        setSubjects((prev) => ({ ...prev, [currentQuestion]: subject }));
-    };
-
-    const handleConfidenceChange = (value) => {
-        setConfidenceLevel((prev) => ({ ...prev, [currentQuestion]: value }));
-    };
-
-    const handleNext = () => {
-        if (currentQuestion < totalQuestions - 1) {
-            setCurrentQuestion((prev) => prev + 1);
-        }
-    };
-
-    const handlePrevious = () => {
-        if (currentQuestion > 0) {
-            setCurrentQuestion((prev) => prev - 1);
-        }
-    };
-
-    const handleSubmit = () => {
-        console.log('Ответы:', answers);
-        console.log('Предметы:', subjects);
-        console.log('Уровень уверенности:', confidenceLevel);
-        setIsSubmitting(true);
-    };
-
-    if (!isOpen) return null;
-
+    if (!isOpen || !testData || loading) return null;
 
     if (isSubmitting) {
         return (
@@ -128,6 +135,59 @@ const TestModal = ({ isOpen, onClose, testData }) => {
             </div>
         );
     }
+
+    const currentQuestionData = testQuestions?.questions[currentQuestion];
+    const totalQuestions = testQuestions?.questions.length || 0;
+
+    const handleAnswerChange = (value) => {
+        setAnswers(prev => ({ ...prev, [currentQuestion]: value }));
+    };
+
+    const handleSubjectChange = (subject) => {
+        setSubjects(prev => ({ ...prev, [currentQuestion]: subject }));
+    };
+
+    const handleConfidenceChange = (value) => {
+        setConfidenceLevel(prev => ({ ...prev, [currentQuestion]: value }));
+    };
+
+    const handleNext = () => {
+        if (currentQuestion < totalQuestions - 1) {
+            setCurrentQuestion(prev => prev + 1);
+        }
+    };
+
+    const handlePrevious = () => {
+        if (currentQuestion > 0) {
+            setCurrentQuestion(prev => prev - 1);
+        }
+    };
+
+    const handleSubmit = () => {
+        // Validate that all questions have been answered
+        const unansweredQuestions = testQuestions.questions.reduce((acc, _, index) => {
+            if (!answers[index]) acc.push(index + 1);
+            return acc;
+        }, []);
+
+        if (unansweredQuestions.length > 0) {
+            alert(`Пожалуйста, ответьте на все вопросы. Не отвечены вопросы: ${unansweredQuestions.join(', ')}`);
+            return;
+        }
+
+        // Validate that all subjects are selected
+        const unselectedSubjects = testQuestions.questions.reduce((acc, _, index) => {
+            if (!subjects[index]) acc.push(index + 1);
+            return acc;
+        }, []);
+
+        if (unselectedSubjects.length > 0) {
+            alert(`Пожалуйста, выберите предмет для всех вопросов. Не выбраны предметы для вопросов: ${unselectedSubjects.join(', ')}`);
+            return;
+        }
+
+        setIsSubmitting(true);
+    };
 
     if (isReviewMode) {
         return (
@@ -150,7 +210,7 @@ const TestModal = ({ isOpen, onClose, testData }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {mockTestData.questions.map((q, index) => (
+                                {testQuestions.questions.map((q, index) => (
                                     <tr key={q.id}>
                                         <td>{index + 1}</td>
                                         <td>{answers[index] ? '✔ Ответ дан' : '— Нет ответа'}</td>
@@ -160,7 +220,7 @@ const TestModal = ({ isOpen, onClose, testData }) => {
                                                 onClick={() => {
                                                     setCurrentQuestion(index);
                                                     setIsReviewMode(false);
-                                                    setCameFromReview(true); // <- добавляем
+                                                    setCameFromReview(true);
                                                 }}
                                             >
                                                 Перейти
@@ -190,12 +250,12 @@ const TestModal = ({ isOpen, onClose, testData }) => {
                     <div className="modal-header-left">
                         <div className="modal-icon">IT</div>
                         <div>
-                            <h2 className="modal-title">{mockTestData.testName}</h2>
+                            <h2 className="modal-title">{testQuestions.testName}</h2>
                             <div className="modal-meta">
                                 <Calendar className="icon-small" />
-                                <span>{mockTestData.date}</span>
+                                <span>{testQuestions.date}</span>
                                 <span className="separator"></span>
-                                <span>{mockTestData.teacher}</span>
+                                <span>{testQuestions.teacher}</span>
                             </div>
                         </div>
                     </div>
@@ -229,7 +289,6 @@ const TestModal = ({ isOpen, onClose, testData }) => {
                     {/* Tags */}
                     <div className="tags">
                         <span className="tag tag-blue">{currentQuestionData.category}</span>
-                        {/* <span className="tag tag-green">{currentQuestionData.subcategory}</span> */}
                         <span className="tag tag-purple">
                             {currentQuestionData.type === 'open' ? 'Открытый вопрос' : 'Закрытый вопрос'}
                         </span>
@@ -248,43 +307,29 @@ const TestModal = ({ isOpen, onClose, testData }) => {
                         subjectOptions={subjectOptions}
                     />
                 </div>
+
                 {/* Footer */}
                 <div className="modal-footer">
-                    <button
-                        onClick={handlePrevious}
-                        disabled={currentQuestion === 0}
-                        className="btn btn-secondary"
-                    >
-                        <ChevronLeft className="icon-small" />
-                        <span>Предыдущий</span>
-                    </button>
-
-                    <div className="footer-progress">
-                        {currentQuestion + 1} / {totalQuestions}
-                    </div>
-
-                    {currentQuestion === totalQuestions - 1 ? (
-                        <button onClick={() => setIsReviewMode(true)} className="btn btn-yellow">
-                            Перейти к проверке
-                        </button>
-                    ) : (
-                        <button onClick={handleNext} className="btn btn-blue">
-                            <span>Следующий</span>
-                            <ChevronRight className="icon-small" />
-                        </button>
-                    )}
-
-                    {cameFromReview && currentQuestion < totalQuestions - 1 && (
+                    <div className="modal-navigation">
                         <button
-                            onClick={() => {
-                                setIsReviewMode(true);
-                                setCameFromReview(false);
-                            }}
-                            className="btn btn-outline"
+                            onClick={handlePrevious}
+                            className="btn btn-icon"
+                            disabled={currentQuestion === 0}
                         >
-                            Назад к проверке
+                            <ChevronLeft className="icon-medium" />
+                            Назад
                         </button>
-                    )}
+                        {currentQuestion < totalQuestions - 1 ? (
+                            <button onClick={handleNext} className="btn btn-icon">
+                                Далее
+                                <ChevronRight className="icon-medium" />
+                            </button>
+                        ) : (
+                            <button onClick={() => setIsReviewMode(true)} className="btn btn-green">
+                                Проверить
+                            </button>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

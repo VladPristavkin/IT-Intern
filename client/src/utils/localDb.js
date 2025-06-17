@@ -62,10 +62,11 @@
                 };
                 
                 // Проверяем, есть ли уже админ в системе
-                const adminExists = users.data.some(user => user.role === 'admin' && user.userId ==='admin_default_id');
+                const adminExists = users.data.some(user => user.role === 'admin' && user.userId === 'admin_default_id');
+                const studentExists = users.data.some(user => user.role === 'student' && user.userId === 'student_default_id');
                 
                 // Если админа нет, создаем его
-                if (!users.data.length || adminExists.adminExists) {
+                if (!users.data.length || !adminExists) {
                     const adminUser = {
                         userId: "admin_default_id", // Фиксированный userId для админа
                         username: 'admin',
@@ -82,28 +83,50 @@
                     // Добавляем админа в коллекцию, минуя стандартный insert для сохранения userId
                     users.data.push(adminUser);
                     // Устанавливаем lastId коллекции
-                    users.lastId = 1;
+                    users.lastId = Math.max(users.lastId, 1);
+                    this.saveToStorage();
+                }
+
+                // Если студента нет, создаем его
+                if (!users.data.length || !studentExists) {
+                    const studentUser = {
+                        userId: "student_default_id",
+                        username: 'student',
+                        email: 'student@example.com',
+                        password: 'Student123',
+                        name: 'Иванов Иван Иванович',
+                        speciality: 'ПОИТ-1',
+                        gender: 'Мужской',
+                        role: 'student',
+                        isAdmin: false,
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    };
+                    
+                    // Добавляем студента в коллекцию
+                    users.data.push(studentUser);
+                    // Обновляем lastId коллекции
+                    users.lastId = Math.max(users.lastId, 2);
                     this.saveToStorage();
                 }
 
                 if (!categories.data.length) {
                     CATEGORIES.forEach(category => {
-                      categories.data.push({
-                        id: category.id, 
-                        name: category.name,
-                        createdAt: new Date().toISOString(),
-                        updatedAt: new Date().toISOString()
-                      });
+                        categories.data.push({
+                            id: category.id, 
+                            name: category.name,
+                            createdAt: new Date().toISOString(),
+                            updatedAt: new Date().toISOString()
+                        });
                     });
-                  
+                    
                     categories.lastId = CATEGORIES.length;
                     this.saveToStorage();
-                  }
-                  
+                }
                 
                 if (!subcategories.data.length) {
                     const allSubcategories = [];
-                
+                    
                     Object.entries(SUBCATEGORIES).forEach(([categoryId, subcats]) => {
                         subcats.forEach(subcat => {
                             allSubcategories.push({
@@ -115,13 +138,11 @@
                             });
                         });
                     });
-                
+                    
                     allSubcategories.forEach(subcat => subcategories.data.push(subcat));
                     subcategories.lastId = allSubcategories.length;
                     this.saveToStorage();
                 }
-                
-
             }
             
             // Создать коллекцию

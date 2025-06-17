@@ -1,26 +1,35 @@
-import React, {useContext} from 'react';
+import React, { useContext } from 'react';
 import './StudentCard.css';
 import Avatar from '../../assets/UserPhoto.svg'
 import AuthContext from '../../context/AuthContext';
-import  db  from '../../utils/localDb';
+import db from '../../utils/localDb';
 
 const StudentCard = () => {
   const { user, isAuthenticated } = useContext(AuthContext);
-  
-  const dbUser = db.getUserById(user.userId);
-  if (dbUser.role !== 'student') {
-    return null;
+
+  // Return empty div if not authenticated or no user
+  if (!isAuthenticated || !user) {
+    return <div className="card-container"></div>;
   }
+
+  // Get user data from local DB
+  const dbUser = db.getUserById(user.userId);
+  
+  // Return empty div if user not found or not a student
+  if (!dbUser || dbUser.role !== 'student') {
+    return <div className="card-container"></div>;
+  }
+
   return (
     <div className="card-container">
       <div className="card">
         <div className="profile-section">
           <div className="avatar">
-          <img
-                    src={Avatar}
-                    alt="Avatar"
-                    className="account-avatar"
-                />
+            <img
+              src={Avatar}
+              alt="Avatar"
+              className="account-avatar"
+            />
           </div>
         </div>
         <div className="info-section">

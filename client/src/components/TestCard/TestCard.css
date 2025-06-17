@@ -94,76 +94,164 @@
     background-color: #2861c7;
 }
 
+.test-card {
+    background: #FFFFFF;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.test-card-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.test-card-icon {
+    width: 48px;
+    height: 48px;
+    background: #3B82F6;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    margin-right: 16px;
+}
+
+.test-card-info {
+    flex: 1;
+}
+
+.test-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1F2937;
+    margin: 0 0 8px 0;
+}
+
+.test-card-meta {
+    display: flex;
+    align-items: center;
+    color: #6B7280;
+    font-size: 0.875rem;
+}
+
+.test-card-meta .icon-small {
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+}
+
+.test-card-meta .separator {
+    margin: 0 8px;
+}
+
+.test-card-description {
+    color: #4B5563;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0 0 20px 0;
+}
+
+.test-card-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-primary {
+    background: #3B82F6;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background: #2563EB;
+}
+
 .teacher-test-card {
     background: #FFFFFF;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .teacher-test-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
 }
 
 .teacher-test-name {
-    font-size: 16px;
+    font-size: 0.875rem;
+    color: #6B7280;
 }
 
 .teacher-test-actions {
     display: flex;
-    gap: 10px;
-    align-items: center;
+    gap: 8px;
 }
 
 .teacher-action-button {
-    padding: 8px 16px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.875rem;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s;
 }
 
 .teacher-action-button.results {
-    background-color: #2196F3;
-    color: white;
+    background: #E5E7EB;
+    color: #374151;
 }
 
 .teacher-action-button.analysis {
-    background-color: #4CAF50;
-    color: white;
+    background: #DBEAFE;
+    color: #1D4ED8;
 }
 
 .teacher-icon-button {
-    background: none;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border: none;
+    background: none;
     cursor: pointer;
-    padding: 4px;
+    padding: 0;
 }
 
 .teacher-icon-button img {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
 }
 
 .teacher-test-title {
-    font-size: 20px;
-    margin: 10px 0;
-    color: #333;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1F2937;
+    margin: 0 0 8px 0;
 }
 
 .teacher-test-date {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 10px;
+    font-size: 0.875rem;
+    color: #6B7280;
+    margin-bottom: 12px;
 }
 
 .teacher-test-description {
-    font-size: 14px;
-    color: #444;
+    color: #4B5563;
+    font-size: 0.875rem;
     line-height: 1.5;
+    margin: 0;
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, Navigate } from 'react-router-dom';
 import './ProfileMenu.css';
 import lOGO from '../../assets/lOGO.svg';
 import UserProfileCard from './UserProfileCard';
@@ -9,13 +9,14 @@ import StudentsAnalytics from '../../assets/insert_chart.svg';
 import SavedVacancies from '../../assets/bookmarks.svg';
 import LookForJob from '../../assets/work.svg';
 import AuthContext from '../../context/AuthContext';
-import  db  from '../../utils/localDb';
+import db from '../../utils/localDb';
 
 const StudentProfileMenu = () => {
     const [openMenu, setOpenMenu] = useState(null);
     const [activeItem, setActiveItem] = useState(null);
     const location = useLocation();
     const indicatorRef = useRef(null);
+    const { user, isAuthenticated } = useContext(AuthContext);
 
     useEffect(() => {
         const path = location.pathname;
@@ -59,12 +60,19 @@ const StudentProfileMenu = () => {
         setOpenMenu(openMenu === menu ? null : menu);
     };
 
-    const { user } = useContext(AuthContext);
-  
-    const dbUser = db.getUserById(user.userId);
-    if (dbUser.role !== 'student') {
-      return null;
+    // Redirect to login if not authenticated
+    if (!isAuthenticated || !user) {
+        return <Navigate to="/login" replace />;
     }
+
+    // Get user data from local DB
+    const dbUser = db.getUserById(user.userId);
+    
+    // Redirect to home if user is not a student
+    if (!dbUser || dbUser.role !== 'student') {
+        return <Navigate to="/" replace />;
+    }
+
     return (
         <div className="sidebar">
             <div className="logo-section">

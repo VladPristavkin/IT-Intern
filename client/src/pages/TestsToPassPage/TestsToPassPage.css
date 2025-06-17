@@ -1,15 +1,42 @@
 .tests {
     display: flex;
-    gap: 56px;
-    align-items: flex-start;
-    justify-content: center;
-    margin: 0px auto;
+    min-height: 100vh;
+    background-color: #F3F4F6;
 }
+
 .tests-counter {
-    font-size: 26px;
-    font-weight: 500;
-    font-family: 'Inter', sans-serif;
-    color: #18191C;
-    margin-top: 41px;
-    margin-bottom: 40px;
+    font-size: 1.1rem;
+    color: #4B5563;
+    margin-bottom: 1.5rem;
+    padding: 0 1.5rem;
+}
+
+.tests-list {
+    padding: 0 1.5rem;
+}
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    color: #4B5563;
+    font-size: 1.1rem;
+}
+
+.loading-spinner::after {
+    content: '';
+    width: 24px;
+    height: 24px;
+    margin-left: 12px;
+    border: 3px solid #E5E7EB;
+    border-top-color: #3B82F6;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }

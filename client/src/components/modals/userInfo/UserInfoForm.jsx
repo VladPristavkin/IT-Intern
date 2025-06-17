@@ -84,12 +84,15 @@ const UserInfoForm = ({ onClose, onRegister, registrationData }) => {
       return;
     }
 
+    const yearShort = formData.year % 100;   // последние две цифры
+    const groupNumber = `${yearShort}1`; // добавляем "1" в конец
+
     const userId = uuidv4();
     const newUser = {
       userId,
       ...registrationData,
       ...formData,
-      speciality: formData.speciality.toUpperCase()
+      speciality: formData.speciality.toUpperCase() + '-' + groupNumber
     };
 
     const savedUser = db.insert('users', newUser);
