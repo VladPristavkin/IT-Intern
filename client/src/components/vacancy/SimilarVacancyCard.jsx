@@ -13,6 +13,7 @@ import './SimilarVacancyCard.css';
 const SimilarVacancyCard = ({ vacancy }) => {
   const { user } = useContext(AuthContext);
   const [isSaved, setIsSaved] = useState(false);
+  const [canSave, setCanSave] = useState(false);
   const {
     id,
     name,
@@ -26,9 +27,13 @@ const SimilarVacancyCard = ({ vacancy }) => {
   useEffect(() => {
     if (user) {
       const userData = db.getUserById(user.userId);
+      // Check if user is a student
+      setCanSave(userData?.role === 'student');
       if (userData?.savedVacancies?.includes(id)) {
         setIsSaved(true);
       }
+    } else {
+      setCanSave(false);
     }
   }, [user, id]);
 
@@ -61,7 +66,7 @@ const SimilarVacancyCard = ({ vacancy }) => {
 
   const handleBookmarkClick = (e) => {
     e.preventDefault(); // Prevent navigation
-    if (!user) return; // Do nothing if user is not logged in
+    if (!user || !canSave) return; // Do nothing if user is not logged in or not a student
 
     const userData = db.getUserById(user.userId);
     if (!userData) return;
@@ -120,15 +125,17 @@ const SimilarVacancyCard = ({ vacancy }) => {
               <span className="similar-location-text">{area?.name || 'Не указано'}</span>
             </div>
           </div>
-          <button 
-            className="similar-vacancy-bookmark"
-            onClick={handleBookmarkClick}>
-            <img 
-              src={isSaved ? DeleteIcon : SaveIcon} 
-              alt={isSaved ? "Remove from saved" : "Save"} 
-              className="similar-bookmark-icon" 
-            />
-          </button>
+          {canSave && (
+            <button 
+              className="similar-vacancy-bookmark"
+              onClick={handleBookmarkClick}>
+              <img 
+                src={isSaved ? DeleteIcon : SaveIcon} 
+                alt={isSaved ? "Remove from saved" : "Save"} 
+                className="similar-bookmark-icon" 
+              />
+            </button>
+          )}
         </div>
       </div>
     </Link>

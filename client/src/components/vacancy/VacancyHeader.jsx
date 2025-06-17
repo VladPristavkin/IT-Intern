@@ -11,6 +11,7 @@ import db from '../../utils/localDb';
 const VacancyHeader = ({ vacancy }) => {
   const { user } = useContext(AuthContext);
   const [isSaved, setIsSaved] = useState(false);
+  const [canSave, setCanSave] = useState(false);
   const { 
     id,
     name, 
@@ -27,9 +28,13 @@ const VacancyHeader = ({ vacancy }) => {
   useEffect(() => {
     if (user) {
       const userData = db.getUserById(user.userId);
+      // Check if user is a student
+      setCanSave(userData?.role === 'student');
       if (userData?.savedVacancies?.includes(id)) {
         setIsSaved(true);
       }
+    } else {
+      setCanSave(false);
     }
   }, [user, id]);
 
@@ -72,7 +77,7 @@ const VacancyHeader = ({ vacancy }) => {
   };
 
   const handleSaveClick = () => {
-    if (!user) return; // Do nothing if user is not logged in
+    if (!user || !canSave) return; // Do nothing if user is not logged in or not a student
 
     const userData = db.getUserById(user.userId);
     if (!userData) return;
@@ -121,13 +126,15 @@ const VacancyHeader = ({ vacancy }) => {
         </div>
       </div>
       <div className="vh-buttons-container">
-        <button onClick={handleSaveClick} className="vh-save-button">
-          <img 
-            src={isSaved ? DeleteIcon : SaveIcon} 
-            alt={isSaved ? "Remove from saved" : "Save"} 
-            className="vh-save-icon" 
-          />
-        </button>
+        {canSave && (
+          <button onClick={handleSaveClick} className="vh-save-button">
+            <img 
+              src={isSaved ? DeleteIcon : SaveIcon} 
+              alt={isSaved ? "Remove from saved" : "Save"} 
+              className="vh-save-icon" 
+            />
+          </button>
+        )}
         <button className="vh-apply-button" onClick={handleApplyClick}>
           Откликнуться <ArrowForwardIcon />
         </button>
