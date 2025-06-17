@@ -58,15 +58,26 @@ const VacancyHeader = ({ vacancy }) => {
 
   return (
     <div className="vacancy-header-full">
-      <div className="header-content">
-        <div className="company-info">
-          {area?.country?.name && (
-            <img src={getFlag(area.country.name)} alt={`${area.country.name} Flag`} className="header-country-flag" />
-          )}
-          <h2 className='employer-name-header'>{employer?.name || 'Не указано'}</h2>
+      <div className="vacancy-header-left"> 
+        <div className="employer-logo-vacancy-header">
+        {employer?.logoUri ? (
+                  <img src={employer.logoUri} alt={employer.name} />
+                ) : (
+                  <div className="company-logo-placeholder">
+                    {employer?.name?.charAt(0) || 'N'}
+                  </div>
+                )}
+          </div>
+        <div className="header-content">
+          <div className="company-info">
+            {area?.country?.name && (
+              <img src={getFlag(area.country.name)} alt={`${area.country.name} Flag`} className="header-country-flag" />
+            )}
+            <h2 className='employer-name-header'>{employer?.name || 'Не указано'}</h2>
+          </div>
+          <h1 className="job-title">{name || 'Не указано'}</h1>
+          <p className="salary">{formatSalary()}</p>
         </div>
-        <h1 className="job-title">{name || 'Не указано'}</h1>
-        <p className="salary">{formatSalary()}</p>
       </div>
       <div className="vacancy-buttons">
         <img src={SaveIcon} alt="Save Icon" className="save-icon" />

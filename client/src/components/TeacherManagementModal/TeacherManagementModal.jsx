@@ -120,9 +120,9 @@ const TeacherManagementModal = ({ open, onClose, teacherData }) => {
 
         const teacherInfo = {
             ...formData,
-            id: teacherData?.id || null,
+            userId: teacherData?.userId || null,
             role: 'teacher',
-            isAdmin: false
+            isAdmin: teacherData?.isAdmin || false
         };
 
         // Only include password in the update if it was changed

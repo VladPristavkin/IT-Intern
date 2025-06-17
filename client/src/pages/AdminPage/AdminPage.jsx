@@ -6,6 +6,7 @@ import TeacherManagementModal from '../../components/TeacherManagementModal/Teac
 import SystemConfigPanel from '../../components/SystemConfigPanel/SystemConfigPanel';
 import AuthContext from '../../context/AuthContext';
 import db from '../../utils/localDb';
+import { v4 as uuidv4 } from 'uuid';
 import './AdminPage.css';
 
 const AdminPage = () => {
@@ -16,13 +17,13 @@ const AdminPage = () => {
     const { user, isAuthenticated } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(true);
 
+    const loadTeachers = () => {
+        const savedTeachers = db.getAll('users').filter(user => user.role === 'teacher') || [];
+        setTeachers(savedTeachers);
+        setIsLoading(false);
+    };
+
     useEffect(() => {
-        const loadTeachers = () => {
-            const savedTeachers = db.getAll('users').filter(user => user.role === 'teacher') || [];
-            setTeachers(savedTeachers);
-            setIsLoading(false);
-        };
-        
         loadTeachers();
     }, []);
 
@@ -34,12 +35,6 @@ const AdminPage = () => {
     // Handle authentication
     if (!isAuthenticated || !user) {
         return <Navigate to="/login" replace />;
-    }
-
-    // Check admin status
-    const dbUser = db.getUserById(user.userId);
-    if (!dbUser?.isAdmin) {
-        return <div>Доступ запрещен</div>;
     }
 
     const handleAddTeacher = () => {
@@ -54,19 +49,32 @@ const AdminPage = () => {
 
     const handleCloseModal = (teacherInfo) => {
         if (teacherInfo) {
-            if (teacherInfo.id) {
+            if (teacherInfo.userId) {
+                // Обновление существующего преподавателя
                 db.update('users', teacherInfo);
             } else {
-                db.insert('users', teacherInfo);
+                // Добавление нового преподавателя
+                const newTeacher = {
+                    ...teacherInfo,
+                    userId: uuidv4(),
+                };
+                db.insert('users', newTeacher);
             }
+            // Обновляем список преподавателей
+            loadTeachers();
         }
         setIsModalOpen(false);
         setSelectedTeacher(null);
     };
 
     const handleDeleteTeacher = (teacherId) => {
+        // Don't allow deleting the default admin
+        if (teacherId === 'admin_default_id') {
+            alert('Невозможно удалить главного администратора');
+            return;
+        }
         db.delete('users', teacherId);
-        setTeachers(prev => prev.filter(teacher => teacher.userId === teacherId));
+        setTeachers(prev => prev.filter(teacher => teacher.userId !== teacherId));
     };
 
     return (

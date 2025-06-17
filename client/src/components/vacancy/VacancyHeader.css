@@ -7,8 +7,24 @@
     align-items: center;
 }
 
+.vacancy-header-left {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
 .header-content {
     width: fit-content;
+}
+
+.employer-logo-vacancy-header img {
+    width: 100px;
+    height: 100px;
+}
+
+.employer-logo-vacancy-header company-logo-placeholder{
+    width: 100px;
+    height: 100px;
 }
 
 .company-info {

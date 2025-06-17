@@ -1,26 +1,18 @@
 .vacancy-page {
-    max-width: 1440px;
-    margin: 0 auto;
-    padding: 0 80px;
+    min-height: 100vh;
+    background-color: #F9FAFB;
 }
 
 .vacancy-container {
-    margin-bottom: 80px;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px;
 }
 
 .vacancy-content {
     display: grid;
-    grid-template-columns: 1fr 350px;
+    grid-template-columns: 2fr 1fr;
     gap: 24px;
-    margin-top: 32px;
+    margin-top: 24px;
 }
 
-@media (max-width: 1024px) {
-    .vacancy-page {
-        padding: 0 20px;
-    }
-
-    .vacancy-content {
-        grid-template-columns: 1fr;
-    }
-}

@@ -175,14 +175,20 @@
             }
             
             // Обновить документ
-            update(collectionName, id, updates) {
+            update(collectionName, document) {
                 const collection = this.getCollection(collectionName);
-                const index = collection.data.findIndex(doc => doc.id === id);
+                let index;
+                
+                if (collectionName === 'users') {
+                    index = collection.data.findIndex(doc => doc.userId === document.userId);
+                } else {
+                    index = collection.data.findIndex(doc => doc.id === document.id);
+                }
                 
                 if (index !== -1) {
                     collection.data[index] = {
                         ...collection.data[index],
-                        ...updates,
+                        ...document,
                         updatedAt: new Date().toISOString()
                     };
                     this.saveToStorage();
@@ -195,7 +201,12 @@
             delete(collectionName, id) {
                 const collection = this.getCollection(collectionName);
                 const initialLength = collection.data.length;
-                collection.data = collection.data.filter(doc => doc.id !== id);
+                
+                if (collectionName === 'users') {
+                    collection.data = collection.data.filter(doc => doc.userId !== id);
+                } else {
+                    collection.data = collection.data.filter(doc => doc.id !== id);
+                }
                 
                 if (collection.data.length < initialLength) {
                     this.saveToStorage();

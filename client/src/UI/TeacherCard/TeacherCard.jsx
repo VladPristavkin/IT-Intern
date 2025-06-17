@@ -7,8 +7,12 @@ import  db  from '../../utils/localDb';
 const TeacherCard = () => {
   const { user, isAuthenticated } = useContext(AuthContext);
   
+  if (!isAuthenticated || !user) {
+    return null; // Don't render anything if user is not authenticated
+  }
+
   const dbUser = db.getUserById(user.userId);
-  if (dbUser.role !== 'teacher') {
+  if (!dbUser || dbUser.role !== 'teacher') {
     return null;
   }
   return (

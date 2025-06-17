@@ -1,38 +1,32 @@
 import React from 'react';
 import './EmployeeCard.css';
-import LocationIconBlue from '../../assets/location-icon-blue.svg';
-import SubwayIcon from '../../assets/subway.svg';
+import LocationIcon from '../../assets/MapPin.svg';
 import NoLogo from "../../assets/No-Company-Logo.svg";
 
 const EmployeeCard = ({ employer, address }) => {
   const { name } = employer;
+  const { city = '', street = '', building = '' } = address || {};
   
-  // Проверка наличия address и деструктуризация с значениями по умолчанию
-  const { city = '', street = '', building = '', metro_stations = [] } = address || {};
+  const fullAddress = [city, street, building].filter(Boolean).join(', ');
 
   return (
     <div className="employee-card">
-      <img className='logo-employee-card' src={employer?.logoUrl || NoLogo} alt={employer?.name || "No Company Logo"} />
-      <h2 className="employer-name">{name}</h2>
-      <div className="employer-address">
-        <img src={LocationIconBlue} alt="Location Icon" className="location-icon" />
-        {address ? (
-          <span>{`${city}, ${street}, ${building}`}</span>
-        ) : (
-          <span>Не указан адрес</span>
+      <div className="employer-info">
+        <div className="logo-container">
+          <img 
+            className='company-logo' 
+            src={employer?.logoUri || NoLogo} 
+            alt={employer?.name || "Company Logo"} 
+          />
+        </div>
+        <h2 className="employer-name">{name}</h2>
+        {address && (
+          <div className="employer-address">
+            <img src={LocationIcon} alt="Location" className="location-icon" />
+            <span>{fullAddress}</span>
+          </div>
         )}
       </div>
-      {metro_stations.length > 0 && (
-        <div className="employer-metro">
-          <img src={SubwayIcon} alt="Subway Icon" className="subway-icon" />
-          {metro_stations.map((station, index) => (
-            <div key={index} className="metro-station">
-              <span className="metro-dot" style={{ color: station.color || '#000' }}>●</span>
-              {station.station_name}
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };

@@ -96,7 +96,7 @@ const VacancyCardNormal = ({ vacancy, isLoading }) => {
       ) : (
         <div className="vacancy-content">
           <div className="vacancy-card-header">
-            <div className="company-logo">
+          <div className="company-logo">
               {employer?.logoUri ? (
                 <img src={employer.logoUri} alt={employer.name} />
               ) : (
