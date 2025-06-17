@@ -113,7 +113,7 @@ const VacancyControls = ({
       {/* Header */}
       <div style={{
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'baseline',
         justifyContent: 'space-between',
         marginBottom: '20px'
       }}>
@@ -129,12 +129,12 @@ const VacancyControls = ({
         {/* Items per page */}
         <div style={{
             display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
+            alignItems: 'flex-end',
+            // gap: '8px'
           }}>
             <span style={{
-              color: '#666',
-              fontSize: '14px'
+              color: '#18191c',
+              fontSize: '16px'
             }}>
               Показывать
             </span>
@@ -142,12 +142,12 @@ const VacancyControls = ({
               value={itemsPerPage}
               onChange={(e) => setItemsPerPage(Number(e.target.value))}
               style={{
-                padding: '6px 12px',
-                // border: '1px solid #e0e0e0',
-                // borderRadius: '8px',
-                // backgroundColor: '#fff',
-                fontSize: '14px',
+                // padding: '6px 12px',
+                border: 'none',
+                backgroundColor: 'transparent',
+                fontSize: '16px',
                 color: '#295AAF',
+                textDecoration: 'underline',
                 cursor: 'pointer',
                 outline: 'none'
               }}
