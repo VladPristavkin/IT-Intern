@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getVacancyById } from '../../api/getVacancyById'; 
+import { getVacancyById } from '../../api/getVacancyById';
 import VacancyHeader from '../../components/vacancy/VacancyHeader';
 import VacancyLeftBar from '../../components/vacancy/VacancyLeftBar';
 import VacancyRightBar from '../../components/vacancy/VacancyRightBar';
-import Header from '../../UI/shared/header/Header'; 
+import SimilarVacancies from '../../components/vacancy/SimilarVacancies';
+import Header from '../../UI/shared/header/Header';
 import './VacancyPage.css';
 
 const VacancyPage = () => {
@@ -42,6 +43,10 @@ const VacancyPage = () => {
           <VacancyLeftBar vacancy={vacancy} />
           <VacancyRightBar vacancy={vacancy} />
         </div>
+        <SimilarVacancies 
+          currentVacancyId={vacancy.id} 
+          keySkills={vacancy.keySkills?.map(skill => skill.name) || []} 
+        />
       </div>
     </div>
   );

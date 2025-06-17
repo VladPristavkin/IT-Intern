@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './VacancyHeader.css';
 import RussianFlag from '../../assets/flags/ru.svg'; 
 import BelarusFlag from '../../assets/flags/by.png';
 import SaveIcon from '../../assets/Save.svg';
+import DeleteIcon from '../../assets/delete_forever.svg';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import AuthContext from '../../context/AuthContext';
+import db from '../../utils/localDb';
 
 const VacancyHeader = ({ vacancy }) => {
+  const { user } = useContext(AuthContext);
+  const [isSaved, setIsSaved] = useState(false);
   const { 
+    id,
     name, 
     salaryFrom, 
     salaryTo, 
@@ -17,6 +23,15 @@ const VacancyHeader = ({ vacancy }) => {
     originalVacancyUri,
     originalVacancyUrl 
   } = vacancy;
+
+  useEffect(() => {
+    if (user) {
+      const userData = db.getUserById(user.userId);
+      if (userData?.savedVacancies?.includes(id)) {
+        setIsSaved(true);
+      }
+    }
+  }, [user, id]);
 
   const getFlag = (countryName) => {
     switch (countryName?.toLowerCase()) {
@@ -56,6 +71,32 @@ const VacancyHeader = ({ vacancy }) => {
     }
   };
 
+  const handleSaveClick = () => {
+    if (!user) return; // Do nothing if user is not logged in
+
+    const userData = db.getUserById(user.userId);
+    if (!userData) return;
+
+    const savedVacancies = userData.savedVacancies || [];
+    let updatedVacancies;
+
+    if (isSaved) {
+      // Remove vacancy from saved
+      updatedVacancies = savedVacancies.filter(savedId => savedId !== id);
+    } else {
+      // Add vacancy to saved
+      updatedVacancies = [...savedVacancies, id];
+    }
+
+    // Update user data
+    db.update('users', {
+      ...userData,
+      savedVacancies: updatedVacancies
+    });
+
+    setIsSaved(!isSaved);
+  };
+
   return (
     <div className="vacancy-header-full">
       <div className="vacancy-header-left"> 
@@ -80,7 +121,13 @@ const VacancyHeader = ({ vacancy }) => {
         </div>
       </div>
       <div className="vacancy-buttons">
-        <img src={SaveIcon} alt="Save Icon" className="save-icon" />
+        <button onClick={handleSaveClick} className="save-button">
+          <img 
+            src={isSaved ? DeleteIcon : SaveIcon} 
+            alt={isSaved ? "Remove from saved" : "Save"} 
+            className="save-icon" 
+          />
+        </button>
         <button className="apply-button" onClick={handleApplyClick}>
           Откликнуться <ArrowForwardIcon />
         </button>
