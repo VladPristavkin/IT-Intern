@@ -1,0 +1,44 @@
+.profile {
+  display: flex;
+  min-height: 100vh;
+  background: #F8F9FA;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.saved-vacancies-container {
+  padding: 0 32px;
+  width: 100%;
+}
+
+.saved-vacancies-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 24px;
+}
+
+.saved-vacancies-loading,
+.saved-vacancies-error,
+.saved-vacancies-empty {
+  text-align: left;
+  padding: 48px 24px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  color: #6B7280;
+  font-size: 16px;
+}
+
+.saved-vacancies-error {
+  color: #EF4444;
+}
+
+.saved-vacancies-empty {
+  color: #9CA3AF;
+}
+
+@media (max-width: 640px) {
+  .saved-vacancies-container {
+    padding: 0 16px;
+  }
+}
