@@ -15,6 +15,14 @@
     display: flex;
     flex-direction: row;
     gap: 7px;
+    align-items: center;
+}
+
+.header-country-flag{
+    width: 40px;
+    height: 24px;
+    object-fit: contain;
+    border-radius: 4px;
 }
 
 .employer-name-header {
@@ -23,6 +31,7 @@
     font-weight: 400;
     line-height: 150%;
 }
+
 .job-title {
     margin: 0px 0px 10px 0px;
     font-size: 32px;
@@ -61,4 +70,18 @@
     background-color: var(--button-color);
     border: none;
     border-radius: 17px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.apply-button:hover {
+    background-color: var(--button-hover-color);
+}
+
+.save-icon {
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
 }

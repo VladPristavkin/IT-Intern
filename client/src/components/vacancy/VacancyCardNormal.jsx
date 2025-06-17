@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './VacancyCardNormal.css';
-import RussianFlag from '../../assets/flags/ru.svg';
-import BelarusFlag from '../../assets/flags/by.svg';
+import RussianFlag from '../../assets/Russia.png';
+import BelarusFlag from '../../assets/Belarus.png';
 import LocationIcon from '../../assets/MapPin.svg';
 import SalaryIcon from '../../assets/Money.svg';
 import CalendarIcon from '../../assets/CalendarBlank.svg';
@@ -79,7 +79,7 @@ const VacancyCardNormal = ({ vacancy, isLoading }) => {
     <div className={`vacancy-card ${isLoading ? 'loading' : ''}`} onClick={handleClick}>
       {isLoading ? (
         <div className="vacancy-content">
-          <div className="vacancy-header">
+          <div className="vacancy-card-header">
             <div className="company-logo loading-placeholder"></div>
             <div className="vacancy-info">
               <div className="loading-placeholder company-placeholder"></div>
@@ -95,7 +95,7 @@ const VacancyCardNormal = ({ vacancy, isLoading }) => {
         </div>
       ) : (
         <div className="vacancy-content">
-          <div className="vacancy-header">
+          <div className="vacancy-card-header">
             <div className="company-logo">
               {employer?.logoUri ? (
                 <img src={employer.logoUri} alt={employer.name} />

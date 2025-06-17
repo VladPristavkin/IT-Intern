@@ -8,8 +8,6 @@ const LeftBarFilter = ({ onFiltersChange, initialCountry }) => {
     experiences: {
       '0': 'Нет опыта',
       '1': 'от 1 года до 3 лет', 
-      '2': 'от 3 до 6 лет',
-      '3': 'более 6 лет'
       // Добавьте здесь свои соответствия
     },
     employments: {

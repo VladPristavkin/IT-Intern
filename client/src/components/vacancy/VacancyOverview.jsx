@@ -5,6 +5,7 @@ import EmploymentIcon from '../../assets/badge.svg';
 import ScheduleIcon from '../../assets/Timer.svg';
 import ExperienceIcon from '../../assets/cases.svg';
 import LanguagesIcon from '../../assets/language.svg';
+import { getTranslatedValue } from '../../utils/translationMaps';
 
 const VacancyOverview = ({ vacancy }) => {
   const { publishedAt, employment, schedule, experience, languages = [], keySkills = [] } = vacancy;
@@ -24,21 +25,21 @@ const VacancyOverview = ({ vacancy }) => {
             <img src={EmploymentIcon} alt="Employment" className="overview-icon" />
             <div className="overview-text">
             <h3>Занятость:</h3>
-            <p>{employment.name}</p>
+            <p>{getTranslatedValue('employments', employment)}</p>
             </div>
         </div>
         <div className="overview-item">
             <img src={ScheduleIcon} alt="Schedule" className="overview-icon" />
             <div className="overview-text">
             <h3>График:</h3>
-            <p>{schedule.name}</p>
+            <p>{getTranslatedValue('schedules', schedule)}</p>
             </div>
         </div>
         <div className="overview-item">
             <img src={ExperienceIcon} alt="Experience" className="overview-icon" />
             <div className="overview-text">
             <h3>Опыт работы:</h3>
-            <p>{experience.name}</p>
+            <p>{getTranslatedValue('experiences', experience)}</p>
             </div>
         </div>
         <div className="overview-item overview-languages">

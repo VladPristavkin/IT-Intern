@@ -20,7 +20,7 @@
   position: relative;
 }
 
-.vacancy-header {
+.vacancy-card-header {
   display: flex;
   align-items: flex-start;
   gap: 16px;

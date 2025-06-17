@@ -118,7 +118,7 @@ const App = () => {
             path="/user/:userId"
             element={<PrivateRoute />}
           />
-          <Route path="/vacancy/:id" element={<VacancyPage />} />
+          <Route path="/vacancies/:id" element={<VacancyPage />} />
           <Route path="/search" element={<PageSearch />} />
         </Routes>
       </Router>

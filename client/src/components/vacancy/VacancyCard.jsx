@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './VacancyCard.css';
+import { getTranslatedValue } from '../../utils/translationMaps';
 
 const VacancyCard = ({ vacancy }) => {
   const formatSalary = () => {
@@ -53,9 +54,9 @@ const VacancyCard = ({ vacancy }) => {
           )}
           
           <div className="employment-info">
-            {vacancy.employment && <span className="tag">{vacancy.employment}</span>}
-            {vacancy.schedule && <span className="tag">{vacancy.schedule}</span>}
-            {vacancy.experience && <span className="tag">{vacancy.experience}</span>}
+            {vacancy.employment && <span className="tag">{getTranslatedValue('employments', vacancy.employment)}</span>}
+            {vacancy.schedule && <span className="tag">{getTranslatedValue('schedules', vacancy.schedule)}</span>}
+            {vacancy.experience && <span className="tag">{getTranslatedValue('experiences', vacancy.experience)}</span>}
           </div>
 
           {vacancy.keySkills && vacancy.keySkills.length > 0 && (

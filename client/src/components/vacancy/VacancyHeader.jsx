@@ -1,37 +1,56 @@
 import React from 'react';
 import './VacancyHeader.css';
-import RussianFlag from '../../assets/Russia-icon.svg'; 
-import BelorussianFlag from '../../assets/Belarus-icon.svg';
+import RussianFlag from '../../assets/flags/ru.svg'; 
+import BelarusFlag from '../../assets/flags/by.png';
 import SaveIcon from '../../assets/Save.svg';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 
 const VacancyHeader = ({ vacancy }) => {
-  const { name, salary, employer, country, originalVacancyUrl } = vacancy;
+  const { 
+    name, 
+    salaryFrom, 
+    salaryTo, 
+    currency,
+    employer,
+    area,
+    originVacancyUri, 
+    originalVacancyUri,
+    originalVacancyUrl 
+  } = vacancy;
 
   const getFlag = (countryName) => {
-    switch (countryName) {
-      case 'Россия':
+    switch (countryName?.toLowerCase()) {
+      case 'россия':
         return RussianFlag;
-      case 'Беларусь':
-        return BelorussianFlag;
+      case 'беларусь':
+        return BelarusFlag;
       default:
         return null;
     }
   };
 
-  const formatSalary = (salary) => {
-    if (salary?.from != null && salary.from !== 0) {
-      return salary.to != null ? `от ${salary.from} до ${salary.to} ${salary.currency || ''}` : `от ${salary.from} ${salary.currency || ''}`;
-    } else if (salary?.to != null) {
-      return `до ${salary.to} ${salary.currency || ''}`;
-    } else {
+  const formatSalary = () => {
+    if (!salaryFrom && !salaryTo) {
       return 'Зарплата не указана';
     }
+    const curr = currency || '';
+    
+    if (salaryFrom && salaryTo) {
+      return `от ${salaryFrom} до ${salaryTo} ${curr}`;
+    }
+    if (salaryFrom) {
+      return `от ${salaryFrom} ${curr}`;
+    }
+    if (salaryTo) {
+      return `до ${salaryTo} ${curr}`;
+    }
+    return 'Зарплата не указана';
   };
 
   const handleApplyClick = () => {
-    if (originalVacancyUrl) {
-      window.open(originalVacancyUrl, '_blank');
+    const vacancyLink = originVacancyUri || originalVacancyUri || originalVacancyUrl;
+    if (vacancyLink) {
+      window.open(vacancyLink, '_blank');
     } else {
       alert('Ссылка на оригинальную вакансию недоступна');
     }
@@ -41,11 +60,13 @@ const VacancyHeader = ({ vacancy }) => {
     <div className="vacancy-header-full">
       <div className="header-content">
         <div className="company-info">
-          <img src={getFlag(country?.name)} alt={`${country?.name} Flag`} className="country-flag" />
+          {area?.country?.name && (
+            <img src={getFlag(area.country.name)} alt={`${area.country.name} Flag`} className="header-country-flag" />
+          )}
           <h2 className='employer-name-header'>{employer?.name || 'Не указано'}</h2>
         </div>
         <h1 className="job-title">{name || 'Не указано'}</h1>
-        <p className="salary">{formatSalary(salary)}</p>
+        <p className="salary">{formatSalary()}</p>
       </div>
       <div className="vacancy-buttons">
         <img src={SaveIcon} alt="Save Icon" className="save-icon" />

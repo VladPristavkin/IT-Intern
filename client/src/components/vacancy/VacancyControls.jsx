@@ -71,18 +71,19 @@ const VacancyControls = ({
 
   const getDateFilterText = () => {
     switch(dateFilter) {
-      case 'today': return 'За сегодня';
-      case '3days': return 'За 3 дня';
-      case 'week': return 'За неделю';
-      case 'month': return 'За месяц';
+      case 30: return 'За месяц';
+      case 7: return 'За неделю';
+      case 3: return 'За 3 дня';
+      case 0: return 'По дате размещения';
       default: return 'По дате размещения';
     }
   };
 
   const getSalaryFilterText = () => {
     switch(salarySort) {
-      case 'asc': return 'По возрастанию З/П';
-      case 'desc': return 'По убыванию З/П';
+      case 1: return 'По убыванию З/П';
+      case 2: return 'По возрастанию З/П';
+      case 0:
       default: return 'По зарплате';
     }
   };
@@ -172,9 +173,9 @@ const VacancyControls = ({
                 gap: '8px',
                 padding: showDateText ? '8px 16px' : '8px 12px',
                 backgroundColor: '#fff',
-                border: (activeFilter === 'date' && dateFilter !== null) ? '1px solid #4a90e2' : '1px solid #e0e0e0',
+                border: (activeFilter === 'date' && dateFilter !== 0) ? '1px solid #4a90e2' : '1px solid #e0e0e0',
                 borderRadius: '8px',
-                color: dateFilter !== null ? '#4a90e2' : '#666',
+                color: dateFilter !== 0 ? '#4a90e2' : '#666',
                 cursor: 'pointer',
                 fontSize: '14px',
                 outline: 'none',
@@ -207,37 +208,36 @@ const VacancyControls = ({
                 padding: '8px'
               }}>
                 {[
-                  { value: 'today', label: 'За сегодня' },
-                  { value: '3days', label: 'За 3 дня' },
-                  { value: 'week', label: 'За неделю' },
-                  { value: 'month', label: 'За месяц' },
-                  { value: null, label: 'За все время' }
-                ].map((option) => (
+                  { value: 30, label: 'За месяц' },
+                  { value: 7, label: 'За неделю' },
+                  { value: 3, label: 'За 3 дня' },
+                  { value: 0, label: 'По дате размещения' }
+                ].map(option => (
                   <button
-                    key={option.value || 'all'}
+                    key={option.value}
                     onClick={() => handleDateFilterSelect(option.value)}
                     style={{
                       width: '100%',
                       padding: '8px 12px',
-                      backgroundColor: (dateFilter === option.value && option.value !== null) ? 'rgba(74, 144, 226, 0.1)' : 'transparent',
+                      backgroundColor: (dateFilter === option.value && option.value !== 0) ? 'rgba(74, 144, 226, 0.1)' : 'transparent',
                       border: 'none',
                       borderRadius: '6px',
                       textAlign: 'left',
-                      color: (dateFilter === option.value && option.value !== null) ? '#4a90e2' : '#666',
+                      color: (dateFilter === option.value && option.value !== 0) ? '#4a90e2' : '#666',
                       cursor: 'pointer',
                       fontSize: '14px',
-                      fontWeight: (dateFilter === option.value && option.value !== null) ? '500' : '400',
+                      fontWeight: (dateFilter === option.value && option.value !== 0) ? '500' : '400',
                       transition: 'all 0.2s ease',
                       marginBottom: '2px'
                     }}
                     onMouseEnter={(e) => {
-                      if (dateFilter !== option.value || option.value === null) {
+                      if (dateFilter !== option.value) {
                         e.target.style.backgroundColor = 'rgba(74, 144, 226, 0.05)';
                         e.target.style.color = '#4a90e2';
                       }
                     }}
                     onMouseLeave={(e) => {
-                      if (dateFilter !== option.value || option.value === null) {
+                      if (dateFilter !== option.value) {
                         e.target.style.backgroundColor = 'transparent';
                         e.target.style.color = '#666';
                       }
@@ -260,9 +260,9 @@ const VacancyControls = ({
                 gap: '8px',
                 padding: showSalaryText ? '8px 16px' : '8px 12px',
                 backgroundColor: '#fff',
-                border: (activeFilter === 'salary' && salarySort !== null) ? '1px solid #4a90e2' : '1px solid #e0e0e0',
+                border: (activeFilter === 'salary' && salarySort !== 0) ? '1px solid #4a90e2' : '1px solid #e0e0e0',
                 borderRadius: '8px',
-                color: salarySort !== null ? '#4a90e2' : '#666',
+                color: salarySort !== 0 ? '#4a90e2' : '#666',
                 cursor: 'pointer',
                 fontSize: '14px',
                 outline: 'none',
@@ -295,35 +295,35 @@ const VacancyControls = ({
                 padding: '8px'
               }}>
                 {[
-                  { value: 'asc', label: 'По возрастанию' },
-                  { value: 'desc', label: 'По убыванию' },
-                  { value: null, label: 'По умолчанию' }
-                ].map((option) => (
+                  { value: 0, label: 'По умолчанию' },
+                  { value: 1, label: 'По убыванию З/П' },
+                  { value: 2, label: 'По возрастанию З/П' }
+                ].map(option => (
                   <button
-                    key={option.value || 'default'}
+                    key={option.value}
                     onClick={() => handleSalaryFilterSelect(option.value)}
                     style={{
                       width: '100%',
                       padding: '8px 12px',
-                      backgroundColor: (salarySort === option.value && option.value !== null) ? 'rgba(74, 144, 226, 0.1)' : 'transparent',
+                      backgroundColor: (salarySort === option.value && option.value !== 0) ? 'rgba(74, 144, 226, 0.1)' : 'transparent',
                       border: 'none',
                       borderRadius: '6px',
                       textAlign: 'left',
-                      color: (salarySort === option.value && option.value !== null) ? '#4a90e2' : '#666',
+                      color: (salarySort === option.value && option.value !== 0) ? '#4a90e2' : '#666',
                       cursor: 'pointer',
                       fontSize: '14px',
-                      fontWeight: (salarySort === option.value && option.value !== null) ? '500' : '400',
+                      fontWeight: (salarySort === option.value && option.value !== 0) ? '500' : '400',
                       transition: 'all 0.2s ease',
                       marginBottom: '2px'
                     }}
                     onMouseEnter={(e) => {
-                      if (salarySort !== option.value || option.value === null) {
+                      if (salarySort !== option.value) {
                         e.target.style.backgroundColor = 'rgba(74, 144, 226, 0.05)';
                         e.target.style.color = '#4a90e2';
                       }
                     }}
                     onMouseLeave={(e) => {
-                      if (salarySort !== option.value || option.value === null) {
+                      if (salarySort !== option.value) {
                         e.target.style.backgroundColor = 'transparent';
                         e.target.style.color = '#666';
                       }
