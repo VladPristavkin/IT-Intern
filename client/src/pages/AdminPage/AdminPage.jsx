@@ -8,6 +8,7 @@ import AuthContext from '../../context/AuthContext';
 import db from '../../utils/localDb';
 import { v4 as uuidv4 } from 'uuid';
 import './AdminPage.css';
+import BackgroundProfile from '../../UI/shared/profileBackground/profileBackground';
 
 const AdminPage = () => {
     const [teachers, setTeachers] = useState([]);
@@ -80,7 +81,8 @@ const AdminPage = () => {
     return (
         <div className="admin-page-container">
             <TeacherProfileMenu />
-            <div className="admin-content-container">
+            {/* <div className="admin-content-container"> */}
+                <BackgroundProfile>
                 <div className="admin-tabs">
                     <button 
                         className={`admin-tab-button ${activeTab === 'teachers' ? 'active' : ''}`}
@@ -96,37 +98,36 @@ const AdminPage = () => {
                     </button>
                 </div>
 
-                {activeTab === 'teachers' ? (
-                    <div className="admin-section">
-                        <div className="admin-header">
-                            <h1 className="admin-header-title">Управление преподавателями</h1>
-                            <button className="admin-add-teacher-button" onClick={handleAddTeacher}>
-                                Добавить преподавателя
-                            </button>
-                        </div>
-                        
-                        <div className="admin-info">
-                            <p className="admin-teachers-count">Всего преподавателей: {teachers.length}</p>
-                        </div>
+                    {activeTab === 'teachers' ? (
+                        <div className="admin-section">
+                            <div className="admin-header">
+                                <h1 className="admin-header-title">Управление преподавателями</h1>
+                                <button className="admin-add-teacher-button" onClick={handleAddTeacher}>
+                                    Добавить преподавателя
+                                </button>
+                            </div>
+                            
+                            <div className="admin-info">
+                                <p className="admin-teachers-count">Всего преподавателей: {teachers.length}</p>
+                            </div>
 
-                        <div className="admin-teachers-list">
-                            {teachers.map(teacher => (
-                                <TeacherManagementCard
-                                    key={teacher.userId}
-                                    teacher={teacher}
-                                    onEdit={handleEditTeacher}
-                                    onDelete={handleDeleteTeacher}
-                                />
-                            ))}
+                            <div className="admin-teachers-list">
+                                {teachers.map(teacher => (
+                                    <TeacherManagementCard
+                                        key={teacher.userId}
+                                        teacher={teacher}
+                                        onEdit={handleEditTeacher}
+                                        onDelete={handleDeleteTeacher}
+                                    />
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                ) : (
-                    <div className="admin-section">
-                        <SystemConfigPanel />
-                    </div>
-                )}
-            </div>
-
+                    ) : (
+                        <div className="admin-section">
+                            <SystemConfigPanel />
+                        </div>
+                    )}
+            </BackgroundProfile>
             <TeacherManagementModal
                 open={isModalOpen}
                 onClose={handleCloseModal}
