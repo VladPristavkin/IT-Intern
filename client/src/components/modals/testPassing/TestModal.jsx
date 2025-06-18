@@ -18,7 +18,7 @@ const TestModal = ({ isOpen, onClose, testData }) => {
         if (isSubmitting) {
             const timer = setTimeout(() => {
                 navigate('/student/analytics'); // редирект
-            }, 5000);
+            }, 50000);
 
             return () => clearTimeout(timer); // очистка таймера
         }
@@ -122,7 +122,7 @@ const TestModal = ({ isOpen, onClose, testData }) => {
         return (
             <div className="modal-overlay">
                 <div className="modal-container loading-modal">
-                    <div className="loading-spinner" />
+                    <div className="loading-spinner-test" />
                     <p>Обработка результатов... Пожалуйста, подождите</p>
                 </div>
             </div>

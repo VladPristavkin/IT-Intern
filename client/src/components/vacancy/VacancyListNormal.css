@@ -85,7 +85,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 32px;
+  /* padding: 32px; */
   color: var(--main-text-color);
 }
 
