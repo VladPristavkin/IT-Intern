@@ -1,13 +1,14 @@
 .svc-card {
   background: #FFFFFF;
   border: 1px solid #E7E9ED;
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 17px;
+  padding: 24px;
   cursor: pointer;
   transition: all 0.2s ease;
   position: relative;
-  max-width: 800px;
-  width: 100%;
+  font-family: 'Noto-sans', sans-serif;
+  overflow: hidden; /* Добавлено для корректного отображения флага */
+  width: 718px;
 }
 
 .svc-card:hover {
@@ -17,10 +18,9 @@
 
 .svc-content {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  gap: 1.5rem;
   position: relative;
-  padding-right: 32px;
+  padding-right: 80px; /* Увеличили отступ для флага и кнопки удаления */
 }
 
 .svc-header {
@@ -60,36 +60,41 @@
 .svc-info {
   flex-grow: 1;
   min-width: 0;
+  padding-right: 16px;
 }
 
 .svc-company-name {
-  font-size: 18px;
-  font-weight: 500;
-  color: #2C3E50;
-  margin: 0 0 6px 0;
-  line-height: 1.3;
+  font-size: 17px;
+  font-weight: 400;
+  color: #18191C;
+  margin: 0;
+  line-height: 1.5;
 }
 
 .svc-title {
-  font-size: 15px;
-  color: #64748B;
-  margin: 0;
-  line-height: 1.4;
+  font-size: 24px;
+  color: #18191C;
+  margin: 0 0 6px 0;
+  line-height: 1.5;
+  font-weight: 500;
 }
 
 .svc-details {
+  font-family: Inter;
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 4px;
+  gap: 32px;
+  line-height: 1.5;
+  margin-bottom: 12px;
 }
 
 .svc-detail-item {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #64748B;
-  font-size: 14px;
+  color: #5E6670;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .svc-detail-icon {
@@ -99,10 +104,11 @@
 }
 
 .svc-description {
-  font-size: 14px;
-  color: #64748B;
+  font-size: 15px;
+  font-family: Inter;
+  font-weight: 400;
+  color: #5E6670;
   line-height: 1.5;
-  margin-top: 4px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -153,47 +159,96 @@
   }
 }
 
+/* ПРАВИЛЬНЫЕ СТИЛИ ДЛЯ ФЛАГА */
 .svc-country-flag-wrapper {
   position: absolute;
-  right: -20px;
-  top: 0;
-  bottom: 0;
-  width: 24px;
+  right: -24px; /* Компенсируем padding карточки */
+  top: -24px; /* Компенсируем padding карточки */
+  bottom: -24px; /* Компенсируем padding карточки */
+  width: 54px; /* Увеличили ширину */
   display: flex;
   align-items: stretch;
-  border: 1px solid #E7E9ED;
-  border-radius: 0 12px 12px 0;
+  z-index: 1;
+  border-radius: 0 17px 17px 0; /* Соответствует border-radius карточки */
+  overflow: hidden;
 }
 
 .svc-country-flag {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 0 12px 12px 0;
+  opacity: 0.96;
 }
 
+/* СТИЛИ ДЛЯ КНОПКИ УДАЛЕНИЯ */
 .svc-remove-button {
   position: absolute;
-  top: 20px;
-  right: 32px;
-  background: none;
-  border: none;
+  top: 12px;
+  right: 64px; /* Размещаем левее флага */
+  background: transparent;
+  border: unset;
   cursor: pointer;
-  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  /* border-radius: 8px;
+  padding: 6px; */
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1;
+  z-index: 2; /* Выше флага */
+  /* backdrop-filter: blur(2px); */
 }
 
 .svc-remove-button:hover {
-  opacity: 0.8;
+  background: rgba(255, 255, 255, 1);
+  border-color: #D1D5DB;
+  transform: scale(1.05);
 }
 
 .svc-remove-icon {
-  width: 35px;
-  height: 35px;
-  opacity: 0.7;
+  /* width: 26px;
+  height: 30px; */
+  /* opacity: 0.7; */
   transition: opacity 0.2s ease;
 } 
+
+.svc-employment,
+.svc-experience,
+.svc-schedule {
+  font-size: 14px;
+  color: #767F8C;
+} 
+
+.svc-logo {
+  size: 70px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .svc-content {
+    padding-right: 70px; /* Уменьшаем отступ на мобильных */
+  }
+
+  .svc-title {
+    font-size: 20px;
+  }
+
+  .svc-company-name {
+    font-size: 15px;
+  }
+
+  .svc-country-flag-wrapper {
+    width: 40px; /* Уменьшаем ширину флага на мобильных */
+  }
+
+  .svc-remove-button {
+    right: 48px; /* Корректируем позицию кнопки */
+    padding: 4px;
+  }
+
+  .svc-remove-icon {
+    width: 16px;
+    height: 16px;
+  }
+}
