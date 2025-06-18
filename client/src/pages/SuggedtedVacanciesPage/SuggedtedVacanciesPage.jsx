@@ -25,7 +25,7 @@ export default function SuggedtedVacanciesPage() {
       try {
         const params = {
           keySkill: keySkills,
-          pageSize: 10 // Limiting to 10 suggestions at a time
+          pageSize: 4 // Limiting to 10 suggestions at a time
         };
 
         const response = await getVacanciesNormal(params);

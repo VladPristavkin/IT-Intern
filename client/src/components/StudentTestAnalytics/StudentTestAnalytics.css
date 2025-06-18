@@ -19,6 +19,10 @@
     flex: 1;
     min-width: 200px;
   }
+
+  .recharts-default-legend {
+    margin-right: -100px !important;
+  }
   
   .filter-button {
     display: flex;

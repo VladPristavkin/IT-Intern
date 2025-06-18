@@ -13,51 +13,76 @@ import db from '../../utils/localDb';
 
 const StudentProfileMenu = () => {
     const [openMenu, setOpenMenu] = useState(null);
-    const [activeItem, setActiveItem] = useState(null);
     const location = useLocation();
-    const indicatorRef = useRef(null);
+    const testingIndicatorRef = useRef(null);
+    const analyticsIndicatorRef = useRef(null);
     const { user, isAuthenticated } = useContext(AuthContext);
 
-    useEffect(() => {
-        const path = location.pathname;
-        let newActiveItem = null;
-
+    // Функция для получения активной секции и подсекции
+    const getActiveSection = (path) => {
         if (path.includes('/student/testing')) {
-            newActiveItem = 'testing';
-        } else if (path.includes('/student/suggested') || path.includes('/student/analytics')) {
-            newActiveItem = 'analytics';
-        } else if (path.includes('/student/saved')) {
-            newActiveItem = 'saved';
-        } else if (path === '/student') {
-            newActiveItem = 'profile';
-        } else if (path === '/') {
-            newActiveItem = 'job-search';
+            return {
+                section: 'testing',
+                subsection: path.includes('/student/testing/history') ? 'history' : 'main'
+            };
         }
-
-        if (newActiveItem === 'testing' || newActiveItem === 'analytics') {
-            setOpenMenu(newActiveItem);
+        if (path.includes('/student/analytics') || path.includes('/student/suggested')) {
+            return {
+                section: 'analytics',
+                subsection: path.includes('/student/suggested') ? 'suggested' : 'main'
+            };
         }
+        if (path.includes('/student/saved')) return { section: 'saved' };
+        if (path === '/student') return { section: 'profile' };
+        if (path === '/') return { section: 'job-search' };
+        return { section: null };
+    };
 
-        // Обновляем положение индикатора после перерисовки
-        setTimeout(() => {
-            if (indicatorRef.current) {
-                if (path.includes('/student/testing/history') || path.includes('/student/suggested')) {
-                    indicatorRef.current.style.transform = 'translateY(42px)';
-                } else {
-                    indicatorRef.current.style.transform = 'translateY(0px)';
-                }
-            }
-        }, 0);
-    }, [location]);
+    // Функция для обновления позиции индикатора
+    const updateIndicatorPosition = (section, subsection) => {
+        const indicatorRef = section === 'testing' ? testingIndicatorRef : analyticsIndicatorRef;
+        
+        if (!indicatorRef.current) return;
+
+        // Используем requestAnimationFrame для плавной анимации
+        requestAnimationFrame(() => {
+            const translateY = subsection === 'main' ? '0px' : '42px';
+            indicatorRef.current.style.transform = `translateY(${translateY})`;
+        });
+    };
 
     useEffect(() => {
-        if (activeItem === 'testing' || activeItem === 'analytics') {
-            setOpenMenu(activeItem);
+        const { section, subsection } = getActiveSection(location.pathname);
+        
+        // Открываем нужное меню
+        if (section === 'testing' || section === 'analytics') {
+            setOpenMenu(section);
+            
+            // Небольшая задержка для завершения анимации открытия меню
+            const timer = setTimeout(() => {
+                updateIndicatorPosition(section, subsection);
+            }, 100);
+            
+            return () => clearTimeout(timer);
+        } else {
+            // Закрываем подменю если мы не в секциях с подменю
+            setOpenMenu(null);
         }
-    }, [activeItem]);
+    }, [location.pathname]);
 
     const toggleMenu = (menu) => {
-        setOpenMenu(openMenu === menu ? null : menu);
+        const newOpenState = openMenu === menu ? null : menu;
+        setOpenMenu(newOpenState);
+        
+        // Если открываем меню, обновляем позицию индикатора
+        if (newOpenState) {
+            const { section, subsection } = getActiveSection(location.pathname);
+            if (section === newOpenState) {
+                setTimeout(() => {
+                    updateIndicatorPosition(section, subsection);
+                }, 150); // Даем время для анимации открытия
+            }
+        }
     };
 
     // Redirect to login if not authenticated
@@ -73,6 +98,8 @@ const StudentProfileMenu = () => {
         return <Navigate to="/" replace />;
     }
 
+    const { section: activeSection } = getActiveSection(location.pathname);
+
     return (
         <div className="sidebar">
             <div className="logo-section">
@@ -86,8 +113,12 @@ const StudentProfileMenu = () => {
                         <span>Профиль</span>
                     </div>
                 </NavLink>
+                
                 <div>
-                    <button onClick={() => toggleMenu('testing')} className={`menu-item menu-toggle ${openMenu === 'testing' ? 'menu-active' : ''} ${activeItem === 'testing' ? 'active' : ''}`}>
+                    <button 
+                        onClick={() => toggleMenu('testing')} 
+                        className={`menu-item menu-toggle ${openMenu === 'testing' ? 'menu-active' : ''} ${activeSection === 'testing' ? 'active' : ''}`}
+                    >
                         <div className="menu-item-label">
                             <img src={StudentsTesting} alt="Student testing" className="menu-icon" />
                             <span>Тестирование</span>
@@ -96,17 +127,25 @@ const StudentProfileMenu = () => {
                     {openMenu === 'testing' && (
                         <div className="submenu">
                             <div className="indicator-bar">
-                                <div className="indicator-active" ref={indicatorRef}></div>
+                                <div className="indicator-active" ref={testingIndicatorRef}></div>
                             </div>
                             <div className='submenu-items'>
-                                <NavLink to="/student/testing" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>Прохождение теста</NavLink>
-                                <NavLink to="/student/testing/history" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>История прохождений</NavLink>
+                                <NavLink to="/student/testing" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>
+                                    Прохождение теста
+                                </NavLink>
+                                <NavLink to="/student/testing/history" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>
+                                    История прохождений
+                                </NavLink>
                             </div>
                         </div>
                     )}
                 </div>
+                
                 <div>
-                    <button onClick={() => toggleMenu('analytics')} className={`menu-item menu-toggle ${openMenu === 'analytics' ? 'menu-active' : ''} ${activeItem === 'analytics' ? 'active' : ''}`}>
+                    <button 
+                        onClick={() => toggleMenu('analytics')} 
+                        className={`menu-item menu-toggle ${openMenu === 'analytics' ? 'menu-active' : ''} ${activeSection === 'analytics' ? 'active' : ''}`}
+                    >
                         <div className="menu-item-label">
                             <img src={StudentsAnalytics} alt="Students Analytics" className="menu-icon" />
                             <span>Аналитика</span>
@@ -115,22 +154,29 @@ const StudentProfileMenu = () => {
                     {openMenu === 'analytics' && (
                         <div className="submenu">
                             <div className="indicator-bar">
-                                <div className="indicator-active" ref={indicatorRef}></div>
+                                <div className="indicator-active" ref={analyticsIndicatorRef}></div>
                             </div>
                             <div className='submenu-items'>
-                                <NavLink to="/student/analytics" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>Сравнение навыков</NavLink>
-                                <NavLink to="/student/suggested" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>Подбор вакансий</NavLink>
+                                <NavLink to="/student/analytics" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>
+                                    Сравнение навыков
+                                </NavLink>
+                                <NavLink to="/student/suggested" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>
+                                    Подбор вакансий
+                                </NavLink>
                             </div>
                         </div>
                     )}
                 </div>
+                
                 <NavLink to="/student/saved" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`}>
                     <div className="menu-item-label">
                         <img src={SavedVacancies} alt="Saved Vacancies" className="menu-icon" />
                         <span>Сохранённые</span>
                     </div>
                 </NavLink>
+                
                 <div className="menu-divider"></div>
+                
                 <NavLink to="/" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`}>
                     <div className="menu-item-label">
                         <img src={LookForJob} alt="Look for job" className="menu-icon" />
