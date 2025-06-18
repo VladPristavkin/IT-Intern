@@ -13,9 +13,9 @@ const StudentTestAnalytics = () => {
     1: { 
       name: 'Проверка знаний',
       data: [
-        { name: 'C#', value: 81, color: '#6A1B9A' },
-        { name: 'DB', value: 75, color: '#FF7043' },
-        { name: 'React', value: 46, color: '#0288D1' },
+        { name: 'C#', value: 100, color: '#6A1B9A' },
+        { name: 'DB', value: 95, color: '#FF7043' },
+        { name: 'React', value: 50, color: '#0288D1' },
       ]
     }
   };
