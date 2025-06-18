@@ -264,7 +264,7 @@ const TestModal = ({ isOpen, onClose, testData }) => {
                     </div>
 
                     {currentQuestion === totalQuestions - 1 ? (
-                        <button onClick={() => setIsReviewMode(true)} className="btn btn-yellow">
+                        <button onClick={() => setIsReviewMode(true)} className="btn btn-secondary">
                             Перейти к проверке
                         </button>
                     ) : (

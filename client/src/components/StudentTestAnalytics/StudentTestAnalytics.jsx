@@ -6,7 +6,7 @@ import Analytics from '../../assets/analytics.svg';
 import Settings from '../../assets/page_info.svg';
 
 const StudentTestAnalytics = () => {
-  const { testId } = useParams(); // Получаем testId из URL
+  const { testId } = useParams();
 
   // Моковые данные для разных типов тестов с уникальными id
   const testData = {
@@ -31,7 +31,7 @@ const StudentTestAnalytics = () => {
   // Моковые данные для разных курсов по каждому тесту
   const courseData = {
     1: {
-      availableCourses: ['course1', 'course2', 'course3'], // доступные курсы для теста 1
+      availableCourses: ['course1', 'course2', 'course3'],
       'course1': [
         { name: 'C#', value: 30, color: '#9D80F9' },
         { name: 'DB', value: 10, color: '#FF9C9C' },
@@ -49,7 +49,7 @@ const StudentTestAnalytics = () => {
       ],
     },
     2: {
-      availableCourses: ['course2', 'course3'], // доступные курсы для теста 2
+      availableCourses: ['course2', 'course3'],
       'course2': [
         { name: 'JavaScript', value: 17, color: '#FFCA28' },
         { name: 'React', value: 8, color: '#66BB6A' },
@@ -60,27 +60,8 @@ const StudentTestAnalytics = () => {
         { name: 'React', value: 38, color: '#AB47BC' },
         { name: 'Node.js', value: 23, color: '#26A69A' },
       ],
-      // course1 не доступен для теста 2
     }
   };
-
-  // Массив истории прохождения тестов
-  const testHistory = [
-    {
-      id: 1,
-      teacher: 'Сергиенко О.В.',
-      testName: 'Проверка знаний',
-      date: '29.04.2024',
-      description: 'Оцените свои знания и укажите, какой предмет оказал наибольшее влияние на получение этих знаний'
-    },
-    {
-      id: 2,
-      teacher: 'Иванов И.И.',
-      testName: 'Тест по JavaScript',
-      date: '12.03.2024',
-      description: 'Пройдите тест, чтобы оценить ваши знания в области JavaScript и веб-разработки'
-    }
-  ];
 
   const courseOptions = {
     'myStats': 'Моя статистика',
@@ -91,7 +72,7 @@ const StudentTestAnalytics = () => {
 
   const [chartType, setChartType] = useState('pie');
   const [selectedCourse, setSelectedCourse] = useState('myStats');
-  const [selectedTest, setSelectedTest] = useState(Number(testId) || 1); // Используем testId из URL
+  const [selectedTest, setSelectedTest] = useState(Number(testId) || 1);
   const [selectedLanguage, setSelectedLanguage] = useState('');
   const [currentData, setCurrentData] = useState([]);
   const [availableLanguages, setAvailableLanguages] = useState([]);
@@ -101,23 +82,22 @@ const StudentTestAnalytics = () => {
   const [displayLanguage, setDisplayLanguage] = useState('Все языки');
   const [displayChartType, setDisplayChartType] = useState('Круговая диаграмма');
 
-  // Функция для получения доступных опций курса (всегда включает "Моя статистика")
+  // Функция для получения доступных опций курса
   const getAvailableCourseOptions = () => {
     const availableCourses = courseData[selectedTest]?.availableCourses || [];
     return ['myStats', ...availableCourses];
   };
 
   useEffect(() => {
+    console.log('useEffect triggered:', { selectedTest, selectedCourse, selectedLanguage });
+    
     const languages = testData[selectedTest]?.data.map(item => item.name) || [];
     setAvailableLanguages(languages);
     
-    let filteredData;
+    let filteredData = [];
 
-    // Если выбран конкретный язык программирования, показываем данные по всем доступным курсам + моя статистика
     if (selectedLanguage && selectedLanguage !== '') {
-      filteredData = [];
-      
-      // Добавляем данные из "Моя статистика"
+      // Если выбран конкретный язык программирования
       const myStatsData = testData[selectedTest]?.data.find(item => item.name === selectedLanguage);
       if (myStatsData) {
         filteredData.push({
@@ -126,44 +106,52 @@ const StudentTestAnalytics = () => {
         });
       }
       
-      // Добавляем данные из всех доступных курсов
       const availableCourses = courseData[selectedTest]?.availableCourses || [];
       availableCourses.forEach(course => {
-        const courseData_item = courseData[selectedTest]?.[course]?.find(item => item.name === selectedLanguage);
-        if (courseData_item) {
+        const courseDataItem = courseData[selectedTest]?.[course]?.find(item => item.name === selectedLanguage);
+        if (courseDataItem) {
           filteredData.push({
-            ...courseData_item,
+            ...courseDataItem,
             name: `${selectedLanguage} (${courseOptions[course]})`
           });
         }
       });
     } else {
-      // Если язык не выбран, показываем данные как раньше
+      // Если язык не выбран
       if (selectedCourse === 'myStats') {
         filteredData = testData[selectedTest]?.data || [];
       } else {
-        filteredData = courseData[selectedTest]?.[selectedCourse] || [];
+        // Получаем данные для выбранного курса
+        const courseDataForTest = courseData[selectedTest];
+        if (courseDataForTest && courseDataForTest[selectedCourse]) {
+          filteredData = courseDataForTest[selectedCourse];
+        } else {
+          console.warn(`Данные для курса ${selectedCourse} и теста ${selectedTest} не найдены`);
+          // Создаем пустые данные с сообщением
+          filteredData = [];
+        }
       }
     }
 
+    console.log('Filtered data:', filteredData);
     setCurrentData(filteredData);
   }, [selectedTest, selectedCourse, selectedLanguage]);
 
   const handleCourseChange = (e) => {
     const newCourse = e.target.value;
+    console.log('Course changed to:', newCourse);
     setSelectedCourse(newCourse);
     setDisplayCourse(courseOptions[newCourse]);
   };
 
   const handleTestChange = (e) => {
     const newSelectedTest = Number(e.target.value);
+    console.log('Test changed to:', newSelectedTest);
     setSelectedTest(newSelectedTest);
     setSelectedLanguage('');
     
-    // Проверяем, доступен ли текущий выбранный курс для нового теста
     const availableCoursesForNewTest = getAvailableCourseOptions();
     if (!availableCoursesForNewTest.includes(selectedCourse)) {
-      // Если текущий курс недоступен, сбрасываем на "Моя статистика"
       setSelectedCourse('myStats');
       setDisplayCourse(courseOptions['myStats']);
     }
@@ -185,12 +173,27 @@ const StudentTestAnalytics = () => {
   };
 
   const renderChart = () => {
+    if (!currentData || currentData.length === 0) {
+      return (
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '400px', 
+          fontSize: '18px', 
+          color: '#666' 
+        }}>
+          Нет данных для отображения
+        </div>
+      );
+    }
+
     if (chartType === 'pie') {
       return (
-        <PieChart width={500} height={400}>
+        <PieChart width={600} height={400}>
           <Pie
             data={currentData}
-            cx={250}
+            cx={280}
             cy={200}
             innerRadius={70}
             outerRadius={140}
@@ -231,6 +234,15 @@ const StudentTestAnalytics = () => {
       );
     }
   };
+
+  // Отладочный вывод
+  console.log('Current state:', {
+    selectedTest,
+    selectedCourse,
+    selectedLanguage,
+    currentDataLength: currentData.length,
+    availableCourses: courseData[selectedTest]?.availableCourses
+  });
 
   return (
     <div className="dashboard-container">
@@ -289,6 +301,16 @@ const StudentTestAnalytics = () => {
       <div className="chart-container">
         {renderChart()}
       </div>
+
+      {/* Отладочная информация (можно удалить в продакшене)
+      <div style={{ marginTop: '20px', padding: '10px', backgroundColor: '#f5f5f5', fontSize: '12px' }}>
+        <strong>Отладка:</strong><br/>
+        Выбранный тест: {selectedTest}<br/>
+        Выбранный курс: {selectedCourse}<br/>
+        Выбранный язык: {selectedLanguage || 'Не выбран'}<br/>
+        Количество данных: {currentData.length}<br/>
+        Доступные курсы для теста: {JSON.stringify(courseData[selectedTest]?.availableCourses)}
+      </div> */}
     </div>
   );
 };
