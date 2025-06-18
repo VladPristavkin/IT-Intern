@@ -112,7 +112,7 @@ const SystemConfigPanel = () => {
             name: editingCategoryName.trim()
         };
 
-        db.update('categories', updatedCategory);
+        db.update('categories', id, updatedCategory);
         setEditingCategoryId(null);
         setEditingCategoryName('');
         loadCategories();
@@ -159,7 +159,7 @@ const SystemConfigPanel = () => {
             name: editingSubcategoryName.trim()
         };
 
-        db.update('subcategories', updatedSubcategory);
+        db.update('subcategories', id, updatedSubcategory);
         setEditingSubcategoryId(null);
         setEditingSubcategoryName('');
         loadCategories();

@@ -51,7 +51,7 @@ export default function StudentSavedPage() {
       if (!userData) return;
 
       const updatedVacancies = userData.savedVacancies.filter(id => id !== vacancyId);
-      db.update('users', {
+      db.update('users', user.userId, {
         ...userData,
         savedVacancies: updatedVacancies
       });

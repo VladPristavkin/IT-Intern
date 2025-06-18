@@ -83,7 +83,7 @@ const SimilarVacancyCard = ({ vacancy }) => {
     }
 
     // Update user data
-    db.update('users', {
+    db.update('users', user.userId, {
       ...userData,
       savedVacancies: updatedVacancies
     });

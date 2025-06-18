@@ -41,7 +41,7 @@ const CategoryManager = () => {
             name: editingName.trim()
         };
 
-        db.update('categories', updatedCategory);
+        db.update('categories', id, updatedCategory);
         setEditingId(null);
         setEditingName('');
         loadCategories();

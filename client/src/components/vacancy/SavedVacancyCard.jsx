@@ -37,7 +37,7 @@ const SavedVacancyCard = ({ vacancy, onRemove, isLoading }) => {
     if (!userData) return;
 
     const updatedVacancies = userData.savedVacancies.filter(savedId => savedId !== id);
-    db.update('users', {
+    db.update('users', user.userId, {
       ...userData,
       savedVacancies: updatedVacancies
     });

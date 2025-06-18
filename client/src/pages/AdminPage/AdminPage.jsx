@@ -52,7 +52,7 @@ const AdminPage = () => {
         if (teacherInfo) {
             if (teacherInfo.userId) {
                 // Обновление существующего преподавателя
-                db.update('users', teacherInfo);
+                db.update('users', teacherInfo.userId, teacherInfo);
             } else {
                 // Добавление нового преподавателя
                 const newTeacher = {
