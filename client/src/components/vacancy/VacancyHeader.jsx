@@ -77,31 +77,49 @@ const VacancyHeader = ({ vacancy }) => {
   };
 
   const handleSaveClick = () => {
-    if (!user || !canSave) return; // Do nothing if user is not logged in or not a student
-
-    const userData = db.getUserById(user.userId);
-    if (!userData) return;
-
-    const savedVacancies = userData.savedVacancies || [];
-    let updatedVacancies;
-
-    if (isSaved) {
-      // Remove vacancy from saved
-      updatedVacancies = savedVacancies.filter(savedId => savedId !== id);
-    } else {
-      // Add vacancy to saved
-      updatedVacancies = [...savedVacancies, id];
+    console.log('Save click triggered');
+    console.log('User:', user);
+    console.log('Can save:', canSave);
+    console.log('Vacancy ID:', id);
+    
+    if (!user || !canSave) {
+      console.log('Early return: no user or cannot save');
+      return;
     }
-
+  
+    const userData = db.getUserById(user.userId);
+    console.log('User data from DB:', userData);
+    
+    if (!userData) {
+      console.log('No user data found');
+      return;
+    }
+  
+    const savedVacancies = userData.savedVacancies || [];
+    console.log('Current saved vacancies:', savedVacancies);
+    console.log('Is currently saved:', isSaved);
+    
+    let updatedVacancies;
+  
+    if (isSaved) {
+      updatedVacancies = savedVacancies.filter(savedId => savedId !== id);
+      console.log('Removing vacancy, new array:', updatedVacancies);
+    } else {
+      updatedVacancies = [...savedVacancies, id];
+      console.log('Adding vacancy, new array:', updatedVacancies);
+    }
+  
     // Update user data
-    db.update('users', {
-      ...userData,
-      savedVacancies: updatedVacancies
-    });
-
+    const updateResult = db.update('users', 
+       user.userId,
+      {
+        ...userData,
+        savedVacancies: updatedVacancies
+      });
+    
+    console.log('Update result:', updateResult);
     setIsSaved(!isSaved);
   };
-
   return (
     <div className="vh-container">
       <div className="vh-left-section"> 
