@@ -18,7 +18,7 @@ const TestModal = ({ isOpen, onClose, testData }) => {
         if (isSubmitting) {
             const timer = setTimeout(() => {
                 navigate('/student/analytics'); // редирект
-            }, 50000);
+            }, 5000);
 
             return () => clearTimeout(timer); // очистка таймера
         }
