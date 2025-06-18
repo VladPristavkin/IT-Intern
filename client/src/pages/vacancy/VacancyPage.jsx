@@ -7,6 +7,7 @@ import VacancyRightBar from '../../components/vacancy/VacancyRightBar';
 import SimilarVacancies from '../../components/vacancy/SimilarVacancies';
 import Header from '../../UI/shared/header/Header';
 import './VacancyPage.css';
+import BackgroundComplex from '../../UI/shared/background/BackgroundComplex';
 
 const VacancyPage = () => {
   const { id } = useParams();
@@ -36,7 +37,10 @@ const VacancyPage = () => {
 
   return (
     <div className="vp-page">
-      <Header />
+      <BackgroundComplex>
+        <Header className='header-vacancy-pg' />
+      </BackgroundComplex>
+
       <div className="vp-main-container">
         <VacancyHeader vacancy={vacancy} />
         <div className="vp-content-grid">

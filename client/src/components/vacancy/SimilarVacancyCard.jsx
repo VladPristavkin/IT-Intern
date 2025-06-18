@@ -5,7 +5,7 @@ import SaveIcon from '../../assets/Save.svg';
 import DeleteIcon from '../../assets/delete_forever.svg';
 import RussianFlag from '../../assets/flags/ru.svg';
 import BelarusFlag from '../../assets/flags/by.png';
-import MoneyIcon from '../../assets/Money.svg';
+import MoneyIcon from '../../assets/Money-icon.svg';
 import AuthContext from '../../context/AuthContext';
 import db from '../../utils/localDb';
 import './SimilarVacancyCard.css';

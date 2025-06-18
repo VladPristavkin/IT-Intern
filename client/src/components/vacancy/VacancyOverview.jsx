@@ -71,7 +71,7 @@ const VacancyOverview = ({ vacancy }) => {
           </div>
         </div>
       </div>
-
+      <hr className='vacancy-overview-divider'></hr>
       <div className="vo-skills-section">
         <h3 className='vo-skills-title'>Ключевые навыки:</h3>
         <div className="vo-skills-list">
