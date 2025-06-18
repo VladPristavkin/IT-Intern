@@ -68,6 +68,7 @@
   padding: 0.5rem;
   border-radius: 9999px;
   transition: background 0.2s;
+  border: none;
 }
 .modal-close-btn:hover {
   background: #f3f4f6;
