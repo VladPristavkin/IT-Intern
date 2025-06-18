@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './TeacherTestingPage.css';
 import TeacherProfileMenu from '../../components/ProfileMenu/TeacherProfileMenu';
 import MarketAnalysisModal from '../../components/modals/MarketAnalysisModal/MarketAnalysisModal';
@@ -8,6 +8,7 @@ import db from '../../utils/localDb';
 import { v4 as uuidv4 } from 'uuid';
 import BackgroundProfile from '../../UI/shared/profileBackground/profileBackground';
 import ProfileHeader from '../../UI/shared/ProfileHeader/ProfileHeader';
+import AuthContext from '../../context/AuthContext';
 
 const TeacherTestingPage = () => {
     const [isAnalysisModalOpen, setIsAnalysisModalOpen] = useState(false);
@@ -15,11 +16,16 @@ const TeacherTestingPage = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [selectedTest, setSelectedTest] = useState(null);
     const [tests, setTests] = useState([]);
-
     useEffect(() => {
         // Load tests from localStorage
+
         const loadTests = () => {
-            const savedTests = db.getAll('testTemplates') || [];
+            const storedUser = localStorage.getItem('user');
+            console.log(storedUser);
+            var user1= JSON.parse(storedUser);
+            const user = db.getUserById(user1.userId);
+            console.log(user);
+            const savedTests = db.find('testTemplates', x=>x.teacherId === user.userId) || [];
             setTests(savedTests);
         };
         
@@ -43,7 +49,7 @@ const TeacherTestingPage = () => {
     const handleCloseModal = (testData = null) => {
         if (testData) {
             const isNewTest = !testData.id || !tests.some(t => t.id === testData.id);
-            
+            console.log(testData);
             if (isNewTest) {
                 // Create new test
                 const savedTest = db.insert('testTemplates', testData);

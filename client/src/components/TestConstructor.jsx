@@ -17,10 +17,12 @@ const StyledButton = styled(Button)({
 
 const TestConstructor = ({ isEditing, testData, onClose }) => {
   const [testName, setTestName] = useState('');
+  const [testDescription, setTestDescription] = useState('');
 
   useEffect(() => {
     if (isEditing && testData) {
       setTestName(testData.name || '');
+      setTestDescription(testData.description || '');
     }
   }, [isEditing, testData]);
 
@@ -35,6 +37,26 @@ const TestConstructor = ({ isEditing, testData, onClose }) => {
   const handlePublish = () => {
     // Handle publish logic
     onClose();
+  };
+
+  const textFieldStyles = {
+    mb: 2,
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        border: 'none',
+      },
+      '&.Mui-focused fieldset': {
+        border: '1px solid #1976d2',
+      },
+    },
+    '& .MuiInputLabel-root': {
+      width: '100%',
+      textAlign: 'center',
+      left: 0,
+    },
+    '& .MuiInputLabel-shrink': {
+      textAlign: 'left',
+    },
   };
 
   return (
@@ -55,7 +77,6 @@ const TestConstructor = ({ isEditing, testData, onClose }) => {
         borderRadius: 3,
       }}
     >
-
       <Typography
         variant="h5"
         component="h1"
@@ -69,29 +90,25 @@ const TestConstructor = ({ isEditing, testData, onClose }) => {
         variant="outlined"
         value={testName}
         onChange={(e) => setTestName(e.target.value)}
+        sx={textFieldStyles}
+      />
+
+      <TextField
+        fullWidth
+        label="Введите описание теста"
+        variant="outlined"
+        value={testDescription}
+        onChange={(e) => setTestDescription(e.target.value)}
+        multiline
+        rows={3}
         sx={{
-            mb: 2,
-            '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                border: 'none', // без границ по умолчанию
-            },
-            '&.Mui-focused fieldset': {
-                border: '1px solid #1976d2', // граница только при фокусе
-            },
-            '& input': {
-               // textAlign: 'center', // текст по центру
-            },
-            },
-            '& .MuiInputLabel-root': {
-            width: '100%',
-            textAlign: 'center',
-            left: 0,
-            },
-            '& .MuiInputLabel-shrink': {
-            textAlign: 'left',
-            },
+          ...textFieldStyles,
+          '& .MuiOutlinedInput-root': {
+            ...textFieldStyles['& .MuiOutlinedInput-root'],
+            backgroundColor: '#f5f5f5',
+          }
         }}
-        />
+      />
 
       <StyledButton
         variant="contained"

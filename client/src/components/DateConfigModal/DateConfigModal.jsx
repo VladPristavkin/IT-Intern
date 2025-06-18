@@ -48,11 +48,6 @@ const DateConfigModal = ({ open, onClose, onSave, initialConfig, test }) => {
             return;
         }
 
-        if (!config.timeLimit || config.timeLimit <= 0) {
-            alert('Пожалуйста, укажите корректное ограничение по времени');
-            return;
-        }
-
         onSave(config);
         onClose();
     };
@@ -96,16 +91,6 @@ const DateConfigModal = ({ open, onClose, onSave, initialConfig, test }) => {
                         value={config.endDate}
                         onChange={handleInputChange}
                         InputLabelProps={{ shrink: true }}
-                    />
-
-                    <TextField
-                        fullWidth
-                        type="number"
-                        label="Ограничение по времени (в минутах)"
-                        name="timeLimit"
-                        value={config.timeLimit}
-                        onChange={handleInputChange}
-                        InputProps={{ inputProps: { min: 1 } }}
                     />
 
                     <Button
