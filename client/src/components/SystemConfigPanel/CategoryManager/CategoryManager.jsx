@@ -59,42 +59,44 @@ const CategoryManager = () => {
 
     return (
         <div className="category-manager">
-            <h2>Категории</h2>
+            <h2 className="category-manager-title">Категории</h2>
             
-            <div className="add-form">
+            <div className="category-add-form">
                 <input
                     type="text"
+                    className="category-add-input"
                     placeholder="Название категории"
                     value={newCategory}
                     onChange={(e) => setNewCategory(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleAddCategory()}
                 />
-                <button onClick={handleAddCategory}>Добавить</button>
+                <button className="category-add-button" onClick={handleAddCategory}>Добавить</button>
             </div>
 
-            <div className="items-list">
+            <div className="category-items-list">
                 {categories.map(category => (
-                    <div key={category.id} className="item">
+                    <div key={category.id} className="category-item">
                         {editingId === category.id ? (
-                            <div className="edit-form">
+                            <div className="category-edit-form">
                                 <input
                                     type="text"
+                                    className="category-edit-input"
                                     value={editingName}
                                     onChange={(e) => setEditingName(e.target.value)}
                                     onKeyPress={(e) => e.key === 'Enter' && handleUpdateCategory(category.id)}
                                     autoFocus
                                 />
-                                <div className="actions">
-                                    <button onClick={() => handleUpdateCategory(category.id)}>✓</button>
-                                    <button onClick={() => setEditingId(null)}>✕</button>
+                                <div className="category-actions">
+                                    <button className="category-action-button" onClick={() => handleUpdateCategory(category.id)}>✓</button>
+                                    <button className="category-action-button" onClick={() => setEditingId(null)}>✕</button>
                                 </div>
                             </div>
                         ) : (
-                            <div className="item-content">
-                                <span>{category.name}</span>
-                                <div className="actions">
-                                    <button onClick={() => startEditing(category)}>✎</button>
-                                    <button onClick={() => handleDeleteCategory(category.id)}>✕</button>
+                            <div className="category-item-content">
+                                <span className="category-item-text">{category.name}</span>
+                                <div className="category-actions">
+                                    <button className="category-action-button" onClick={() => startEditing(category)}>✎</button>
+                                    <button className="category-action-button" onClick={() => handleDeleteCategory(category.id)}>✕</button>
                                 </div>
                             </div>
                         )}

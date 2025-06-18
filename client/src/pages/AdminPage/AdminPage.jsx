@@ -29,7 +29,7 @@ const AdminPage = () => {
 
     // Handle loading state
     if (isLoading) {
-        return <div>Загрузка...</div>;
+        return <div className="admin-loading">Загрузка...</div>;
     }
 
     // Handle authentication
@@ -83,13 +83,13 @@ const AdminPage = () => {
             <div className="admin-content-container">
                 <div className="admin-tabs">
                     <button 
-                        className={`tab-button ${activeTab === 'teachers' ? 'active' : ''}`}
+                        className={`admin-tab-button ${activeTab === 'teachers' ? 'active' : ''}`}
                         onClick={() => setActiveTab('teachers')}
                     >
                         Управление преподавателями
                     </button>
                     <button 
-                        className={`tab-button ${activeTab === 'config' ? 'active' : ''}`}
+                        className={`admin-tab-button ${activeTab === 'config' ? 'active' : ''}`}
                         onClick={() => setActiveTab('config')}
                     >
                         Настройки системы
@@ -97,19 +97,19 @@ const AdminPage = () => {
                 </div>
 
                 {activeTab === 'teachers' ? (
-                    <div className="teachers-section">
+                    <div className="admin-section">
                         <div className="admin-header">
-                            <h1>Управление преподавателями</h1>
-                            <button className="add-teacher-button" onClick={handleAddTeacher}>
+                            <h1 className="admin-header-title">Управление преподавателями</h1>
+                            <button className="admin-add-teacher-button" onClick={handleAddTeacher}>
                                 Добавить преподавателя
                             </button>
                         </div>
                         
                         <div className="admin-info">
-                            <p className="teachers-count">Всего преподавателей: {teachers.length}</p>
+                            <p className="admin-teachers-count">Всего преподавателей: {teachers.length}</p>
                         </div>
 
-                        <div className="teachers-list">
+                        <div className="admin-teachers-list">
                             {teachers.map(teacher => (
                                 <TeacherManagementCard
                                     key={teacher.userId}
@@ -121,7 +121,9 @@ const AdminPage = () => {
                         </div>
                     </div>
                 ) : (
-                    <SystemConfigPanel />
+                    <div className="admin-section">
+                        <SystemConfigPanel />
+                    </div>
                 )}
             </div>
 

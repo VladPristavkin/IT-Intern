@@ -2,102 +2,151 @@
     display: flex;
     min-height: 100vh;
     background-color: #F8F9FA;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
 }
 
-.admin-content-container {
+.admin-page-container .admin-content-container {
     flex: 1;
     padding: 32px;
-}
-
-.admin-page {
-    padding: 24px;
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
-.admin-tabs {
+.admin-page-container .admin-tabs {
     margin-bottom: 24px;
     border-bottom: 1px solid #E7E9ED;
     display: flex;
     gap: 16px;
+    padding: 0;
 }
 
-.tab-button {
+.admin-page-container .admin-tab-button {
     padding: 12px 24px;
     font-size: 16px;
+    font-weight: 500;
     color: #5E6670;
     background: none;
     border: none;
     border-bottom: 2px solid transparent;
     cursor: pointer;
     transition: all 0.2s ease;
+    font-family: inherit;
 }
 
-.tab-button:hover {
+.admin-page-container .admin-tab-button:hover {
     color: #3373E4;
 }
 
-.tab-button.active {
+.admin-page-container .admin-tab-button.active {
     color: #3373E4;
     border-bottom-color: #3373E4;
 }
 
-.admin-header {
+.admin-page-container .admin-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
+    padding: 0 16px;
 }
 
-.admin-header h1 {
+.admin-page-container .admin-header-title {
     font-size: 28px;
     color: #18191C;
     margin: 0;
+    font-weight: 600;
+    letter-spacing: -0.02em;
 }
 
-.add-teacher-button {
-    padding: 10px 20px;
+.admin-page-container .admin-add-teacher-button {
+    padding: 12px 24px;
     background-color: #3373E4;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 500;
     display: flex;
     align-items: center;
     gap: 8px;
+    transition: background-color 0.2s ease;
 }
 
-.add-teacher-button:hover {
+.admin-page-container .admin-add-teacher-button:hover {
     background-color: #2861c7;
 }
 
-.admin-info {
-    margin-bottom: 24px;
+.admin-page-container .admin-add-teacher-button:active {
+    transform: translateY(1px);
 }
 
-.teachers-count {
+.admin-page-container .admin-info {
+    margin-bottom: 24px;
+    padding: 0 16px;
+}
+
+.admin-page-container .admin-teachers-count {
     font-size: 16px;
     color: #5E6670;
     margin: 0;
-    font-family: 'Inter', sans-serif;
+    font-weight: 500;
 }
 
-.teachers-list {
+.admin-page-container .admin-teachers-list {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    padding: 16px;
 }
 
-.teachers-section, .config-section {
+.admin-page-container .admin-section {
     background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     padding: 24px;
+    margin-bottom: 24px;
 }
 
-.config-section h1 {
+.admin-page-container .admin-section-title {
     font-size: 28px;
     color: #18191C;
     margin: 0 0 24px 0;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+/* Loading state styles */
+.admin-page-container .admin-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    font-size: 18px;
+    color: #5E6670;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .admin-page-container .admin-content-container {
+        padding: 16px;
+    }
+
+    .admin-page-container .admin-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+
+    .admin-page-container .admin-tab-button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .admin-page-container .admin-header-title {
+        font-size: 24px;
+    }
 }
