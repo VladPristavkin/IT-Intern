@@ -1,6 +1,6 @@
 .user-info-form-container {
     width: 578px;
-    height: 100%;
+    height: 843px;
     background-color: var(--modal-bg-color);
     border-radius: 20px;
     position: relative;
@@ -8,7 +8,7 @@
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    margin-top: 63px;
+    /* margin-top: 23px; */
   }
   
   .modal-backdrop {
