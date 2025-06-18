@@ -25,7 +25,7 @@
 .form-group input[type="datetime-local"],
 .form-group input[type="number"] {
     width: 100%;
-    padding: 12px;
+    padding: 4px;
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 16px;
