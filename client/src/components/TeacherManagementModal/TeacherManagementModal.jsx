@@ -104,7 +104,6 @@ const TeacherManagementModal = ({ open, onClose, teacherData }) => {
         const isNew = !teacherData;
 
         const newErrors = {
-            name: validateName(formData.name),
             email: validateEmail(formData.email),
             username: validateUsername(formData.username),
             department: validateDepartment(formData.department),

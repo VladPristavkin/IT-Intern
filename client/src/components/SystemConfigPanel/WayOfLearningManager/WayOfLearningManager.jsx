@@ -41,7 +41,7 @@ const WayOfLearningManager = () => {
             name: editingName.trim()
         };
 
-        db.update('waysOfLearning', updatedWay);
+        db.update('waysOfLearning', id, updatedWay);
         setEditingId(null);
         setEditingName('');
         loadWays();
