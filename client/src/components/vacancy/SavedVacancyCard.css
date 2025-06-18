@@ -8,7 +8,7 @@
   position: relative;
   font-family: 'Noto-sans', sans-serif;
   overflow: hidden; /* Добавлено для корректного отображения флага */
-  width: 718px;
+  max-width: 900px;
 }
 
 .svc-card:hover {
