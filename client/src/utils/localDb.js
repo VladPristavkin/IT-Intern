@@ -95,6 +95,30 @@ class LocalDB {
             hasChanges = true;
         }
 
+        // Создаем преподавателя из mockTeacher если его нет
+        const teacherExists = users.data.some(user => user.userId === 'teacher_default_id');
+        if (!teacherExists) {
+            const teacherUser = {
+                userId: "teacher_default_id",
+                username: 'teacher',
+                email: 'teacher@example.com',
+                password: 'Teacher123',
+                name: 'Сергиенко Ольга Валерьевна',
+                position: 'Старший преподаватель',
+                department: 'ПОИТ',
+                role: 'teacher',
+                isAdmin: false,
+                createdTests: [1, 2, 3],
+                savedVacancies: [],
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
+            
+            users.data.push(teacherUser);
+            users.lastId = Math.max(users.lastId, 3);
+            hasChanges = true;
+        }
+
         // Создаем студента только если его точно нет
         if (!studentExists) {
             const studentUser = {
@@ -158,6 +182,37 @@ class LocalDB {
         
         // Сохраняем только если были изменения
         if (hasChanges) {
+            this.saveToStorage();
+        }
+
+        // Initialize empty tests if they don't exist
+        const tests = this.getCollection('testTemplates');
+        if (!tests.data.length) {
+            // Create 20 empty tests from Кутузов
+            const currentDate = new Date();
+            for (let i = 1; i <= 20; i++) {
+                const testTemplate = {
+                    id: uuidv4(),
+                    title: `Тест ${i}`,
+                    description: `Пустой тест ${i} от Кутузова В.В.`,
+                    categoryId: categoryIds[0], // Using "Программирование" category by default
+                    subCategoryId: null,
+                    startDate: currentDate.toISOString(),
+                    endDate: new Date(currentDate.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString(), // +30 days
+                    timeLimit: 60, // 60 minutes by default
+                    questions: [],
+                    teacherId: 'admin_default_id', // Кутузов's ID
+                    teacherName: 'Кутузов Виктор Владимирович',
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    deletedAt: null,
+                    isDeleted: false
+                };
+                
+                tests.data.push(testTemplate);
+            }
+            
+            tests.lastId = 20;
             this.saveToStorage();
         }
     }
@@ -235,31 +290,103 @@ class LocalDB {
     }
     
     // Обновить документ
-    update(collectionName, document) {
-        const collection = this.getCollection(collectionName);
-        let index;
-        
-        if (collectionName === 'users') {
-            index = collection.data.findIndex(doc => doc.userId === document.userId);
-        } else {
-            index = collection.data.findIndex(doc => doc.id === document.id);
-        }
-        
-        if (index !== -1) {
-            // Сохраняем оригинальные даты создания
-            const originalCreatedAt = collection.data[index].createdAt;
+    update(collectionName, id, document) {
+        try {
+            // Проверяем входные параметры
+            if (!collectionName || typeof collectionName !== 'string') {
+                console.error('Valid collection name is required');
+                return null;
+            }
             
-            collection.data[index] = {
-                ...collection.data[index],
-                ...document,
-                createdAt: originalCreatedAt, // Сохраняем оригинальную дату создания
-                updatedAt: new Date().toISOString()
-            };
-            this.saveToStorage();
-            return collection.data[index];
+            if (!id) {
+                console.error('ID is required for document update');
+                return null;
+            }
+            
+            if (!document || typeof document !== 'object' || Array.isArray(document)) {
+                console.error('Valid document object is required');
+                return null;
+            }
+    
+            const collection = this.getCollection(collectionName);
+    
+            // Проверяем существование коллекции
+            if (!collection || !collection.data || !Array.isArray(collection.data)) {
+                console.error(`Collection '${collectionName}' not found or invalid`);
+                return null;
+            }
+    
+            let index = -1;
+    
+            // Находим индекс документа для обновления
+            if (collectionName === 'users') {
+                index = collection.data.findIndex(doc => doc && doc.userId === id);
+            } else {
+                index = collection.data.findIndex(doc => doc && doc.id === id);
+            }
+    
+            console.log(`Searching for document with ID: ${id} in collection: ${collectionName}`);
+            console.log('Found document at index:', index);
+    
+            if (index !== -1) {
+                // Сохраняем оригинальные данные
+                const existingDocument = collection.data[index];
+                const originalCreatedAt = existingDocument.createdAt;
+                
+                // Определяем оригинальный ID
+                const originalId = collectionName === 'users' ? existingDocument.userId : existingDocument.id;
+    
+                // Создаем обновленный документ
+                const updatedDocument = {
+                    ...existingDocument,  // Сохраняем все существующие поля
+                    ...document,          // Применяем обновления
+                    createdAt: originalCreatedAt || new Date().toISOString(), // Сохраняем или создаем дату создания
+                    updatedAt: new Date().toISOString()
+                };
+    
+                // Убеждаемся, что ID не изменился
+                if (collectionName === 'users') {
+                    updatedDocument.userId = originalId;
+                } else {
+                    updatedDocument.id = originalId;
+                }
+    
+                // Обновляем документ в коллекции
+                collection.data[index] = updatedDocument;
+    
+                // Сохраняем изменения
+                if (typeof this.saveToStorage === 'function') {
+                    this.saveToStorage();
+                } else {
+                    console.warn('saveToStorage method not found');
+                }
+    
+                console.log('Document updated successfully:', {
+                    collection: collectionName,
+                    id: originalId,
+                    updatedFields: Object.keys(document)
+                });
+                
+                return updatedDocument;
+            } else {
+                console.warn(`Document with ID '${id}' not found in collection '${collectionName}'`);
+                console.log('Available documents:', collection.data.map(doc => ({
+                    id: collectionName === 'users' ? doc.userId : doc.id,
+                    preview: Object.keys(doc).slice(0, 3)
+                })));
+                return null;
+            }
+        } catch (error) {
+            console.error('Error updating document:', {
+                error: error.message,
+                collection: collectionName,
+                id: id,
+                stack: error.stack
+            });
+            return null;
         }
-        return null;
     }
+    
     
     // Удалить документ
     delete(collectionName, id) {

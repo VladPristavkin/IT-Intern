@@ -2,6 +2,7 @@ class TestTemplate {
     constructor() {
         this.id = null;
         this.title = '';
+        this.description = '';
         this.categoryId = null;
         this.subCategoryId = null;
         this.startDate = null;

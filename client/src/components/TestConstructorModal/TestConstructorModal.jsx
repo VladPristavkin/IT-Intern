@@ -16,6 +16,7 @@ import AuthContext from '../../context/AuthContext';
 
 const TestConstructorModal = ({ open, onClose, testData = null }) => {
     const [testName, setTestName] = useState('');
+    const [testDescription, setTestDescription] = useState('');
     const [isDateConfigOpen, setIsDateConfigOpen] = useState(false);
     const [isQuestionsConfigOpen, setIsQuestionsConfigOpen] = useState(false);
     const [dateConfig, setDateConfig] = useState(null);
@@ -27,8 +28,10 @@ const TestConstructorModal = ({ open, onClose, testData = null }) => {
 
     useEffect(() => {
         if (testData) {
+            console.log('Received testData:', testData);
             setTest(testData);
             setTestName(testData.title || '');
+            setTestDescription(testData.description || testData.desc || '');
             setDateConfig({
                 startDate: testData.startDate,
                 endDate: testData.endDate,
@@ -38,6 +41,7 @@ const TestConstructorModal = ({ open, onClose, testData = null }) => {
         } else {
             setTest(null);
             setTestName('');
+            setTestDescription('');
             setDateConfig(null);
             setQuestions([]);
         }
@@ -46,6 +50,7 @@ const TestConstructorModal = ({ open, onClose, testData = null }) => {
 
     const handleClose = () => {
         setTestName('');
+        setTestDescription('');
         setDateConfig(null);
         setTest(null);
         setQuestions([]);
@@ -95,6 +100,10 @@ const TestConstructorModal = ({ open, onClose, testData = null }) => {
             setError('Пожалуйста, введите название теста');
             return false;
         }
+        if (!testDescription.trim()) {
+            setError('Пожалуйста, добавьте описание теста');
+            return false;
+        }
         if (!dateConfig) {
             setError('Пожалуйста, настройте даты доступа к тесту');
             return false;
@@ -116,6 +125,7 @@ const TestConstructorModal = ({ open, onClose, testData = null }) => {
         const testData = {
             id: test?.id || uuidv4(),
             title: testName.trim(),
+            description: testDescription.trim(),
             startDate: dateConfig.startDate,
             endDate: dateConfig.endDate,
             timeLimit: dateConfig.timeLimit,
@@ -130,7 +140,31 @@ const TestConstructorModal = ({ open, onClose, testData = null }) => {
             updatedAt: new Date().toISOString(),
         };
 
+        console.log('Saving test data:', testData);
         onClose(testData);
+    };
+
+    const textFieldStyles = {
+        mb: 2,
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                border: 'none',
+            },
+            '&.Mui-focused fieldset': {
+                border: '1px solid #1976d2',
+            },
+            '& input': {
+                textAlign: 'center',
+            },
+        },
+        '& .MuiInputLabel-root': {
+            width: '100%',
+            textAlign: 'center',
+            left: 0,
+        },
+        '& .MuiInputLabel-shrink': {
+            textAlign: 'left',
+        },
     };
 
     return (
@@ -168,28 +202,28 @@ const TestConstructorModal = ({ open, onClose, testData = null }) => {
                             value={testName}
                             onChange={(e) => setTestName(e.target.value)}
                             error={!!error && !testName.trim()}
+                            sx={textFieldStyles}
+                        />
+
+                        <TextField
+                            fullWidth
+                            label="Введите описание теста"
+                            variant="outlined"
+                            value={testDescription}
+                            onChange={(e) => setTestDescription(e.target.value)}
+                            error={!!error && !testDescription.trim()}
+                            multiline
+                            rows={3}
                             sx={{
-                                mb: 2,
+                                ...textFieldStyles,
                                 '& .MuiOutlinedInput-root': {
-                                  '& fieldset': {
-                                    border: 'none',
-                                  },
-                                  '&.Mui-focused fieldset': {
-                                    border: '1px solid #1976d2',
-                                  },
-                                  '& input': {
-                                    textAlign: 'center',
-                                  },
-                                },
-                                '& .MuiInputLabel-root': {
-                                  width: '100%',
-                                  textAlign: 'center',
-                                  left: 0,
-                                },
-                                '& .MuiInputLabel-shrink': {
-                                  textAlign: 'left',
-                                },
-                              }}
+                                    ...textFieldStyles['& .MuiOutlinedInput-root'],
+                                    '& textarea': {
+                                        textAlign: 'left',
+                                    },
+                                    backgroundColor: '#f5f5f5',
+                                }
+                            }}
                         />
                         
                         <Button
