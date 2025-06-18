@@ -170,7 +170,7 @@ const TestConstructorModal = ({ open, onClose, testData = null }) => {
     return (
         <>
             <Dialog 
-                open={open} 
+                open={open && !isDateConfigOpen && !isQuestionsConfigOpen} 
                 onClose={handleClose}
                 maxWidth="sm"
                 sx={{
@@ -298,4 +298,4 @@ const TestConstructorModal = ({ open, onClose, testData = null }) => {
     );
 };
 
-export default TestConstructorModal; 
+export default TestConstructorModal;
