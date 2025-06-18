@@ -53,8 +53,8 @@ const mockTestData = {
       type: 'closed',
       question: 'Какой модификатор доступа позволяет использовать метод только внутри текущего класса?',
       options: ['public', 'private', 'protected', 'internal'],
-      selectedAnswers: ['private', 'protected'],
-      correctness: 50
+      selectedAnswers: ['private'],
+      correctness: 100
     },
   ]
 };
@@ -65,77 +65,89 @@ export default function TestAnswersView({ isOpen, onClose, testData }) {
   const question = mockTestData.questions[current];
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-container" onClick={e => e.stopPropagation()}>
-        <div className="modal-header">
-          <div className="modal-header-left">
-            <div className="modal-icon">IT</div>
+    <div className="test-answers-modal-overlay" onClick={onClose}>
+      <div className="test-answers-modal-container" onClick={e => e.stopPropagation()}>
+        <div className="test-answers-modal-header">
+          <div className="test-answers-modal-header-left">
+            <div className="test-answers-modal-icon">IT</div>
             <div>
-              <h2 className="modal-title">{mockTestData.testName}</h2>
-              <div className="modal-meta">
-                <Calendar className="icon-small" />
+              <h2 className="test-answers-modal-title">{mockTestData.testName}</h2>
+              <div className="test-answers-modal-meta">
+                <Calendar className="test-answers-icon-small" />
                 <span>{mockTestData.date}</span>
-                <span className="separator"></span>
+                <div className="test-answers-separator" />
                 <span>{mockTestData.teacher}</span>
               </div>
             </div>
           </div>
-          <button onClick={onClose} className="modal-close-btn">
-            <X className="icon-medium" />
+          <button onClick={onClose} className="test-answers-modal-close-btn">
+            <X className="test-answers-icon-medium" />
           </button>
         </div>
 
-        <div className="modal-progress">
-          <div className="progress-info">Вопрос {current + 1} из {total}</div>
-          <div className="progress-dots">
+        <div className="test-answers-modal-progress">
+          <div className="test-answers-progress-info">Вопрос {current + 1} из {total}</div>
+          <div className="test-answers-progress-dots">
             {Array.from({ length: total }, (_, i) => (
               <div
                 key={i}
-                className={`dot ${i === current ? 'dot-current' : 'dot-default'}`}
+                className={`test-answers-dot ${i === current ? 'test-answers-dot-current' : 'test-answers-dot-default'}`}
               />
             ))}
           </div>
         </div>
 
-        <div className="modal-content">
-          <div className="tags">
-            <span className="tag tag-blue">{question.category}</span>
-            <span className="tag tag-purple">{question.type === 'open' ? 'Открытый' : 'Закрытый'}</span>
+        <div className="test-answers-modal-content">
+          <div className="test-answers-tags">
+            <span className="test-answers-tag test-answers-tag-blue">{question.category}</span>
+            <span className="test-answers-tag test-answers-tag-purple">
+              {question.type === 'open' ? 'Открытый' : 'Закрытый'}
+            </span>
           </div>
-          <h3 className="question-text">{question.question}</h3>
+          <h3 className="test-answers-question-text">{question.question}</h3>
 
           {question.type === 'closed' ? (
-            <div className="answers-options">
+            <div className="test-answers-options">
               {question.options.map((option, i) => (
                 <div
                   key={i}
-                  className={`answer-option ${question.selectedAnswers.includes(option) ? 'selected' : ''}`}
+                  className={`test-answers-option ${
+                    question.selectedAnswers.includes(option) ? 'test-answers-option-selected' : ''
+                  }`}
                 >
                   {option}
                 </div>
               ))}
             </div>
           ) : (
-            <div className="answer-open">
+            <div className="test-answers-open">
               <strong>Ответ:</strong>
               <p>{question.selectedAnswers[0]}</p>
             </div>
           )}
 
-          <div className="correctness-result">
+          <div className="test-answers-correctness">
             Отвечено верно на: <strong>{question.correctness}%</strong>
           </div>
         </div>
 
-        <div className="modal-footer">
-          <button onClick={() => setCurrent(current - 1)} disabled={current === 0} className="btn btn-secondary">
-            <ChevronLeft className="icon-small" /> Предыдущий
+        <div className="test-answers-modal-footer">
+          <button 
+            onClick={() => setCurrent(current - 1)} 
+            disabled={current === 0} 
+            className="test-answers-btn test-answers-btn-secondary"
+          >
+            <ChevronLeft className="test-answers-icon-small" /> Предыдущий
           </button>
 
-          <div className="footer-progress">{current + 1} / {total}</div>
+          <div className="test-answers-footer-progress">{current + 1} / {total}</div>
 
-          <button onClick={() => setCurrent(current + 1)} disabled={current === total - 1} className="btn btn-blue">
-            Следующий <ChevronRight className="icon-small" />
+          <button 
+            onClick={() => setCurrent(current + 1)} 
+            disabled={current === total - 1} 
+            className="test-answers-btn test-answers-btn-blue"
+          >
+            Следующий <ChevronRight className="test-answers-icon-small" />
           </button>
         </div>
       </div>
