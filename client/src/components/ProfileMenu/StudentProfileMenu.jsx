@@ -13,9 +13,12 @@ import db from '../../utils/localDb';
 
 const StudentProfileMenu = () => {
     const [openMenu, setOpenMenu] = useState(null);
+    const [transitioning, setTransitioning] = useState(false);
     const location = useLocation();
     const testingIndicatorRef = useRef(null);
     const analyticsIndicatorRef = useRef(null);
+    const testingSubmenuRef = useRef(null);
+    const analyticsSubmenuRef = useRef(null);
     const { user, isAuthenticated } = useContext(AuthContext);
 
     // Функция для получения активной секции и подсекции
@@ -44,45 +47,148 @@ const StudentProfileMenu = () => {
         
         if (!indicatorRef.current) return;
 
-        // Используем requestAnimationFrame для плавной анимации
         requestAnimationFrame(() => {
             const translateY = subsection === 'main' ? '0px' : '42px';
             indicatorRef.current.style.transform = `translateY(${translateY})`;
         });
     };
 
+    // Функция для плавного открытия/закрытия подменю с использованием transform
+    const animateSubmenu = (submenuRef, shouldOpen) => {
+        if (!submenuRef.current) return Promise.resolve();
+
+        return new Promise((resolve) => {
+            const submenu = submenuRef.current;
+            
+            if (shouldOpen) {
+                // Открываем подменю
+                submenu.style.transform = 'scaleY(0)';
+                submenu.style.opacity = '0';
+                submenu.style.transformOrigin = 'top';
+                submenu.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease';
+                
+                requestAnimationFrame(() => {
+                    submenu.style.transform = 'scaleY(1)';
+                    submenu.style.opacity = '1';
+                });
+                
+                setTimeout(() => {
+                    resolve();
+                }, 300);
+            } else {
+                // Закрываем подменю
+                submenu.style.transformOrigin = 'top';
+                submenu.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease';
+                
+                requestAnimationFrame(() => {
+                    submenu.style.transform = 'scaleY(0)';
+                    submenu.style.opacity = '0';
+                });
+                
+                setTimeout(() => {
+                    resolve();
+                }, 300);
+            }
+        });
+    };
+
     useEffect(() => {
         const { section, subsection } = getActiveSection(location.pathname);
         
-        // Открываем нужное меню
-        if (section === 'testing' || section === 'analytics') {
-            setOpenMenu(section);
+        if (transitioning) return;
+
+        setTransitioning(true);
+
+        const handleMenuTransition = async () => {
+            // Определяем, какие подменю должны быть открыты
+            const shouldOpenTesting = section === 'testing';
+            const shouldOpenAnalytics = section === 'analytics';
             
-            // Небольшая задержка для завершения анимации открытия меню
-            const timer = setTimeout(() => {
+            // Если нужно изменить состояние подменю
+            if (openMenu !== section && (shouldOpenTesting || shouldOpenAnalytics)) {
+                // Сначала закрываем текущее открытое подменю, если оно есть
+                if (openMenu === 'testing' && !shouldOpenTesting) {
+                    await animateSubmenu(testingSubmenuRef, false);
+                }
+                if (openMenu === 'analytics' && !shouldOpenAnalytics) {
+                    await animateSubmenu(analyticsSubmenuRef, false);
+                }
+                
+                // Обновляем состояние
+                setOpenMenu(section);
+                
+                // Ждём следующий кадр для применения состояния
+                await new Promise(resolve => requestAnimationFrame(resolve));
+                
+                // Открываем нужное подменю
+                if (shouldOpenTesting) {
+                    await animateSubmenu(testingSubmenuRef, true);
+                }
+                if (shouldOpenAnalytics) {
+                    await animateSubmenu(analyticsSubmenuRef, true);
+                }
+                
+                // Обновляем позицию индикатора
+                setTimeout(() => {
+                    updateIndicatorPosition(section, subsection);
+                }, 50);
+                
+            } else if (openMenu && !shouldOpenTesting && !shouldOpenAnalytics) {
+                // Закрываем все подменю если переходим в секцию без подменю
+                if (openMenu === 'testing') {
+                    await animateSubmenu(testingSubmenuRef, false);
+                }
+                if (openMenu === 'analytics') {
+                    await animateSubmenu(analyticsSubmenuRef, false);
+                }
+                setOpenMenu(null);
+            } else if (openMenu === section) {
+                // Если подменю уже открыто, только обновляем индикатор
                 updateIndicatorPosition(section, subsection);
-            }, 100);
+            }
             
-            return () => clearTimeout(timer);
-        } else {
-            // Закрываем подменю если мы не в секциях с подменю
-            setOpenMenu(null);
-        }
+            setTransitioning(false);
+        };
+
+        handleMenuTransition();
     }, [location.pathname]);
 
-    const toggleMenu = (menu) => {
-        const newOpenState = openMenu === menu ? null : menu;
-        setOpenMenu(newOpenState);
+    const toggleMenu = async (menu) => {
+        if (transitioning) return;
         
-        // Если открываем меню, обновляем позицию индикатора
-        if (newOpenState) {
+        setTransitioning(true);
+        
+        const newOpenState = openMenu === menu ? null : menu;
+        const submenuRef = menu === 'testing' ? testingSubmenuRef : analyticsSubmenuRef;
+        
+        if (openMenu === menu) {
+            // Закрываем подменю
+            await animateSubmenu(submenuRef, false);
+            setOpenMenu(null);
+        } else {
+            // Сначала закрываем текущее подменю, если оно открыто
+            if (openMenu === 'testing' && menu !== 'testing') {
+                await animateSubmenu(testingSubmenuRef, false);
+            }
+            if (openMenu === 'analytics' && menu !== 'analytics') {
+                await animateSubmenu(analyticsSubmenuRef, false);
+            }
+            
+            // Открываем новое подменю
+            setOpenMenu(newOpenState);
+            await new Promise(resolve => requestAnimationFrame(resolve));
+            await animateSubmenu(submenuRef, true);
+            
+            // Обновляем индикатор, если мы в соответствующей секции
             const { section, subsection } = getActiveSection(location.pathname);
             if (section === newOpenState) {
                 setTimeout(() => {
                     updateIndicatorPosition(section, subsection);
-                }, 150); // Даем время для анимации открытия
+                }, 50);
             }
         }
+        
+        setTransitioning(false);
     };
 
     // Redirect to login if not authenticated
@@ -118,54 +224,68 @@ const StudentProfileMenu = () => {
                     <button 
                         onClick={() => toggleMenu('testing')} 
                         className={`menu-item menu-toggle ${openMenu === 'testing' ? 'menu-active' : ''} ${activeSection === 'testing' ? 'active' : ''}`}
+                        disabled={transitioning}
                     >
                         <div className="menu-item-label">
                             <img src={StudentsTesting} alt="Student testing" className="menu-icon" />
                             <span>Тестирование</span>
                         </div>
                     </button>
-                    {openMenu === 'testing' && (
-                        <div className="submenu">
-                            <div className="indicator-bar">
-                                <div className="indicator-active" ref={testingIndicatorRef}></div>
-                            </div>
-                            <div className='submenu-items'>
-                                <NavLink to="/student/testing" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>
-                                    Прохождение теста
-                                </NavLink>
-                                <NavLink to="/student/testing/history" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>
-                                    История прохождений
-                                </NavLink>
-                            </div>
+                    <div 
+                        ref={testingSubmenuRef}
+                        className={`submenu ${openMenu === 'testing' ? 'submenu-open' : 'submenu-closed'}`}
+                        style={{ 
+                            transform: openMenu === 'testing' ? 'scaleY(1)' : 'scaleY(0)', 
+                            opacity: openMenu === 'testing' ? '1' : '0',
+                            transformOrigin: 'top'
+                        }}
+                    >
+                        <div className="indicator-bar">
+                            <div className="indicator-active" ref={testingIndicatorRef}></div>
                         </div>
-                    )}
+                        <div className='submenu-items'>
+                            <NavLink to="/student/testing" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>
+                                Прохождение теста
+                            </NavLink>
+                            <NavLink to="/student/testing/history" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>
+                                История прохождений
+                            </NavLink>
+                        </div>
+                    </div>
                 </div>
                 
                 <div>
                     <button 
                         onClick={() => toggleMenu('analytics')} 
                         className={`menu-item menu-toggle ${openMenu === 'analytics' ? 'menu-active' : ''} ${activeSection === 'analytics' ? 'active' : ''}`}
+                        disabled={transitioning}
                     >
                         <div className="menu-item-label">
                             <img src={StudentsAnalytics} alt="Students Analytics" className="menu-icon" />
                             <span>Аналитика</span>
                         </div>
                     </button>
-                    {openMenu === 'analytics' && (
-                        <div className="submenu">
-                            <div className="indicator-bar">
-                                <div className="indicator-active" ref={analyticsIndicatorRef}></div>
-                            </div>
-                            <div className='submenu-items'>
-                                <NavLink to="/student/analytics" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>
-                                    Сравнение навыков
-                                </NavLink>
-                                <NavLink to="/student/suggested" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>
-                                    Подбор вакансий
-                                </NavLink>
-                            </div>
+                    <div 
+                        ref={analyticsSubmenuRef}
+                        className={`submenu ${openMenu === 'analytics' ? 'submenu-open' : 'submenu-closed'}`}
+                        style={{ 
+                            transform: openMenu === 'analytics' ? 'scaleY(1)' : 'scaleY(0)', 
+                            opacity: openMenu === 'analytics' ? '1' : '0',
+                            transformOrigin: 'top'
+                        }}
+                    >
+                        <div className="indicator-bar">
+                            <div className="indicator-active" ref={analyticsIndicatorRef}></div>
                         </div>
-                    )}
+                        <div className='submenu-items'>
+                            <NavLink to="/student/analytics" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>
+                                Сравнение навыков
+                            </NavLink>
+                            <NavLink to="/student/suggested" className={({ isActive }) => `submenu-item ${isActive ? 'submenu-item-active' : ''}`}>
+                                Подбор вакансий
+                            </NavLink>
+                        </div>
+                    </div>
                 </div>
                 
                 <NavLink to="/student/saved" className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`}>
