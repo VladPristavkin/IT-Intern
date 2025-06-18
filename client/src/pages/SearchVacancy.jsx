@@ -6,6 +6,7 @@ import VacancyListNormal from '../components/vacancy/VacancyListNormal';
 import LeftBarFilter from '../components/LeftBarFilter/LeftBarFilter';
 import RightSideBar from '../components/RightSideBar/RightSideBar';
 import './SearchVacancy.css';
+import BackgroundComplex from '../UI/shared/background/BackgroundComplex';
 
 const PageSearch = () => {
   const navigate = useNavigate();
@@ -49,12 +50,14 @@ const PageSearch = () => {
 
   return (
     <div className="background">
-      <Header />
-      <HeaderMain 
-        onSearch={handleSearch}
-        initialCountry={searchParams.country}
-        initialSearchText={searchParams.searchText}
-      />
+      <BackgroundComplex>
+        <Header />
+        <HeaderMain 
+          onSearch={handleSearch}
+          initialCountry={searchParams.country}
+          initialSearchText={searchParams.searchText}
+        />
+      </BackgroundComplex>
       <div className="main-page-content">
         <div className="content-wrapper">
           <LeftBarFilter 
