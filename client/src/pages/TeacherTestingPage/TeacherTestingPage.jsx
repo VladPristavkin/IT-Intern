@@ -6,6 +6,8 @@ import TestConstructorModal from '../../components/TestConstructorModal/TestCons
 import TestCard from '../../components/TestCard/TestCard';
 import db from '../../utils/localDb'; 
 import { v4 as uuidv4 } from 'uuid';
+import BackgroundProfile from '../../UI/shared/profileBackground/profileBackground';
+import ProfileHeader from '../../UI/shared/ProfileHeader/ProfileHeader';
 
 const TeacherTestingPage = () => {
     const [isAnalysisModalOpen, setIsAnalysisModalOpen] = useState(false);
@@ -67,42 +69,40 @@ const TeacherTestingPage = () => {
     return (
         <div className="teacher-page-container">
             <TeacherProfileMenu />
-            <div className="teacher-content-container">
-                <div className="teacher-testing-header">
-                    <h1>Тестирование студентов</h1>
-                    <button className="teacher-add-test-button" onClick={() => handleOpenModal()}>
-                        <span>+</span>
-                    </button>
-                </div>
-                
-                <div className="teacher-tests-info">
-                    <p className="teacher-tests-count">Вы создали тестов: {tests.length}</p>
-                </div>
-
-                <div className="teacher-tests-list">
-                    {tests.map(test => (
-                        <TestCard
-                            key={test.id}
-                            test={test}
-                            onEdit={handleOpenModal}
-                            onDelete={handleDeleteTest}
-                            onAnalysis={handleOpenAnalysisModal}
-                        />
-                    ))}
-                </div>
-            </div>
-
+            {/* <div className="teacher-content-container"> */}
+                <BackgroundProfile>
+                    <div className="teacher-testing-header">
+                        <ProfileHeader text="Тестирование студентов" />
+                        <button className="teacher-add-test-button" onClick={() => handleOpenModal()}>
+                            <span>+</span>
+                        </button>
+                    </div>
+                    <div className="teacher-tests-info">
+                        <p className="teacher-tests-count">Вы создали тестов: {tests.length}</p>
+                    </div>
+                    <div className="teacher-tests-list">
+                        {tests.map(test => (
+                            <TestCard
+                                key={test.id}
+                                test={test}
+                                onEdit={handleOpenModal}
+                                onDelete={handleDeleteTest}
+                                onAnalysis={handleOpenAnalysisModal}
+                            />
+                        ))}
+                    </div>
+                </BackgroundProfile>
             <MarketAnalysisModal 
                 isOpen={isAnalysisModalOpen} 
                 onClose={handleCloseAnalysisModal}
             />
-
             <TestConstructorModal
                 open={isModalOpen}
                 onClose={handleCloseModal}
                 testData={selectedTest}
             />
         </div>
+        // </div>
     );
 };
 

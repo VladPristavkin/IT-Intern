@@ -69,17 +69,17 @@ export default function TestsToPassPage() {
     return <Navigate to="/" replace />;
   }
 
-  if (loading) {
-    return (
-      <div className='tests-pass'>
-        <StudentProfileMenu />
-        <BackgroundProfile>
-          <ProfileHeader text="Прохождение тестирования" />
-          <div className="loading-spinner">Загрузка тестов...</div>
-        </BackgroundProfile>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className='tests-pass'>
+  //       <StudentProfileMenu />
+  //       <BackgroundProfile>
+  //         <ProfileHeader text="Прохождение тестирования" />
+  //         <div className="loading-spinner">Загрузка тестов...</div>
+  //       </BackgroundProfile>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className='tests-pass'>

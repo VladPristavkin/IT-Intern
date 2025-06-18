@@ -1,17 +1,20 @@
 .teacher-page-container {
     display: flex;
-    min-height: 100vh;
-    background-color: #F8F9FA;
+    gap: 56px;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 0px auto;
 }
 
-.teacher-content-container {
+/* .teacher-content-container {
     flex: 1;
     padding: 32px;
-}
+} */
 
 .teacher-testing-header {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    gap: 30px;
     align-items: center;
     margin-bottom: 24px;
 }
@@ -43,14 +46,19 @@
 }
 
 .teacher-tests-info {
-    margin-bottom: 24px;
+    font-size: 26px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    color: #18191C;
+    margin-top: 41px;
+    margin-bottom: 40px;
 }
 
-.teacher-tests-count {
+/* .teacher-tests-count {
     font-size: 16px;
     color: #6C757D;
     margin: 0;
-}
+} */
 
 .teacher-tests-list {
     display: flex;
