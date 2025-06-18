@@ -1,0 +1,30 @@
+.suggested-vacancies-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.no-suggestions {
+  text-align: center;
+  padding: 40px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.no-suggestions p {
+  color: #666;
+  font-size: 16px;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .suggested-vacancies-container {
+    padding: 10px;
+  }
+}
