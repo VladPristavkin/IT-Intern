@@ -368,8 +368,8 @@ const TeacherAnalyticsPage = () => {
         }
 
         // Calculate dimensions based on chartScale
-        const baseWidth = 900;
-        const baseHeight = 500;
+        const baseWidth = 800;
+        const baseHeight = 400;
         const width = (baseWidth * chartScale) / 100;
         const height = (baseHeight * chartScale) / 100;
         const pieRadius = (160 * chartScale) / 100;
@@ -399,9 +399,9 @@ const TeacherAnalyticsPage = () => {
                         ))}
                     </Pie>
                     <Legend
-                        align="right"
-                        verticalAlign="middle"
-                        layout="vertical"
+                        align="center"
+                        verticalAlign="bottom"
+                        layout="horizontal"
                         formatter={(value) => (
                             <span 
                                 className="teacher-analytics__legend"
@@ -605,7 +605,10 @@ const TeacherAnalyticsPage = () => {
             <ExportModal
                 isOpen={isExportModalOpen}
                 onClose={() => setIsExportModalOpen(false)}
-                data={prepareExportData()}
+                data={{
+                    type: 'analytics',
+                    chartData: prepareExportData()
+                }}
             />
         </div>
     );

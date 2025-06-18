@@ -1,285 +1,157 @@
-/* Styles for Teacher Discipline Analytics Page */
+/* TeacherDisciplineAnalyticsPage.css */
 
-.teacher-discipline-analytics {
-    display: flex;
-    gap: 56px;
-    align-items: flex-start;
-    justify-content: center;
-    margin: 0px auto;
-}
-
+/* Корневой контейнер компонента */
 .teacher-discipline-analytics__container {
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: 'Noto Sans', 'Inter', sans-serif;
-}
-
-.teacher-discipline-analytics__top-controls {
+    padding: 16px;
+    box-sizing: border-box;
+  }
+  
+  /* Верхняя панель с контролами: тип анализа и экспорт */
+  .teacher-discipline-analytics__top-controls {
     display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
     flex-wrap: wrap;
-    gap: 340px;
-    align-items: flex-start;
-}
-
-.teacher-discipline-analytics__right-section {
-    display: flex;
-}
-
-.teacher-discipline-analytics__control-group:last-child {
-    margin-left: auto;
-}
-
-.teacher-discipline-analytics__control-group {
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  /* Группа одного контрола (метка + селект) */
+  .teacher-discipline-analytics__control-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-}
-
-.teacher-discipline-analytics__control-label {
-    font-size: 16px;
-    color: #18191C;
-    font-weight: 400;
-    margin-bottom: 8px;
-}
-
-.teacher-discipline-analytics__actions {
-    display: flex;
-    gap: 16px;
-}
-
-.teacher-discipline-analytics__action-button {
-    height: 48px;
-    padding: 0 24px;
-    background: #4284FF;
-    border: none;
-    border-radius: 12px;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    white-space: nowrap;
-}
-
-.teacher-discipline-analytics__action-button:hover {
-    background: #3474F0;
-}
-
-.teacher-discipline-analytics__action-button:active {
-    transform: translateY(1px);
-}
-
-.teacher-discipline-analytics__parameters {
-    margin-bottom: 32px;
-    margin-top: 26px;
-}
-
-.teacher-discipline-analytics__parameters-label {
-    display: block;
-    font-size: 16px;
-    color: #18191C;
-    font-weight: 400;
-    margin-bottom: 16px;
-}
-
-.teacher-discipline-analytics__parameters-controls {
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
-}
-
-.teacher-discipline-analytics__select-wrapper {
-    position: relative;
-    min-width: 180px;
-}
-
-.teacher-discipline-analytics__select-wrapper::after {
-    content: '';
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 10px;
-    background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23333333' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    pointer-events: none;
-}
-
-.teacher-discipline-analytics__info-icon-select {
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    pointer-events: none;
-}
-
-.teacher-discipline-analytics__select {
-    width: 100%;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    padding: 12px 32px 12px 40px;
-    border: 1px solid #E7E9ED;
-    border-radius: 12px;
-    background-color: white;
-    font-size: 16px;
-    color: #18191C;
-    cursor: pointer;
-    font-family: 'Noto Sans', 'Inter', sans-serif;
-}
-
-.teacher-discipline-analytics__select:hover {
-    border-color: #d0d0d0;
-}
-
-/* Summary section styles */
-.teacher-discipline-analytics__summary {
-    background: #FFFFFF;
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 32px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.teacher-discipline-analytics__summary-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #18191C;
-    margin-bottom: 20px;
-}
-
-.teacher-discipline-analytics__summary-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 24px;
-}
-
-.teacher-discipline-analytics__summary-stat {
-    padding: 16px;
-    background: #F8F9FA;
-    border-radius: 8px;
-    text-align: center;
-}
-
-.teacher-discipline-analytics__summary-label {
+  }
+  
+  /* Метка контрола */
+  .teacher-discipline-analytics__control-label {
     font-size: 14px;
-    color: #4B4E54;
-    margin-bottom: 8px;
-}
-
-.teacher-discipline-analytics__summary-value {
-    font-size: 24px;
-    font-weight: 600;
-    color: #18191C;
-}
-
-/* Content section styles */
-.teacher-discipline-analytics__content {
-    background: #FFFFFF;
-    border-radius: 12px;
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.teacher-discipline-analytics__title {
-    font-size: 18px;
-    color: #18191C;
+    margin-bottom: 4px;
+    color: #333333;
+  }
+  
+  /* Обёртка для <select> с иконкой */
+  .teacher-discipline-analytics__select-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Сам <select> */
+  .teacher-discipline-analytics__select {
+    appearance: none; /* убираем нативную стрелку, оставляем фон */
+    padding: 8px 32px 8px 12px; /* справа оставляем место под иконку */
+    font-size: 14px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #111111;
+    min-width: 160px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  
+  /* Иконка рядом с селектом */
+  .teacher-discipline-analytics__info-icon-select {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    color: #666666;
+    pointer-events: none; /* чтобы клики шли на селект */
+  }
+  
+  /* Правая секция в верхней панели (для кнопки Экспорт) */
+  .teacher-discipline-analytics__right-section {
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  /* Обёртка для действий (напр., кнопка Экспорт) */
+  .teacher-discipline-analytics__actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  /* Кнопка Экспорт */
+  .teacher-discipline-analytics__action-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    background-color: #3b82f6; /* синий */
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .teacher-discipline-analytics__action-button:hover {
+    background-color: #2563eb; /* темнее при ховере */
+  }
+  
+  /* Иконка внутри кнопки Экспорт (если задаёте класс) */
+  .teacher-discipline-analytics__action-icon {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+  }
+  
+  /* Блок с параметрами (фильтрами) ниже */
+  .teacher-discipline-analytics__parameters {
     margin-bottom: 24px;
-    font-weight: 500;
-}
-
-/* Enhanced styles for discipline analytics stats */
-.teacher-discipline-analytics__stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-}
-
-.teacher-discipline-analytics__stat-box {
-    background: #FFFFFF;
-    border: 1px solid #E7E9ED;
-    border-radius: 12px;
-    padding: 24px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.teacher-discipline-analytics__stat-box:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-}
-
-.teacher-discipline-analytics__stat-title {
-    font-size: 20px;
+  }
+  
+  /* Метка перед группой фильтров */
+  .teacher-discipline-analytics__parameters-label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #333333;
+  }
+  
+  /* Контейнер для фильтров: способ обучения и тест */
+  .teacher-discipline-analytics__parameters-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  /* Содержимое результата / статистики */
+  .teacher-discipline-analytics__content {
+    margin-top: 24px;
+  }
+  
+  /* Заголовок секции контента */
+  .teacher-discipline-analytics__title {
+    font-size: 18px;
     font-weight: 600;
-    color: #18191C;
+    color: #111111;
     margin-bottom: 12px;
-}
-
-.teacher-discipline-analytics__stat-subtitle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid #E7E9ED;
-    margin-bottom: 16px;
-    font-size: 15px;
-    color: #4B4E54;
-}
-
-.teacher-discipline-analytics__stat-section-title {
-    font-size: 16px;
-    font-weight: 500;
-    color: #18191C;
-    margin: 16px 0 12px;
-}
-
-.teacher-discipline-analytics__stat-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    font-size: 15px;
-    color: #4B4E54;
-    border-bottom: 1px solid #F5F5F7;
-}
-
-.teacher-discipline-analytics__stat-row:last-child {
-    border-bottom: none;
-}
-
-.teacher-discipline-analytics__no-data {
-    text-align: center;
-    padding: 40px;
-    color: #4B4E54;
-    font-size: 16px;
-    background: #F8F9FA;
-    border-radius: 12px;
-    border: 1px dashed #E7E9ED;
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
+  }
+  
+  /* Заглушка, когда нет данных */
+  .teacher-discipline-analytics__empty {
+    font-size: 14px;
+    color: #666666;
+    padding: 16px;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+  }
+  
+  /* Если нужно, можно добавить адаптивные правки: 
+     например, чтобы селекты занимали 100% на узких экранах: */
+  
+  @media (max-width: 600px) {
+    .teacher-discipline-analytics__select {
+      min-width: 100%;
+    }
+    .teacher-discipline-analytics__top-controls,
     .teacher-discipline-analytics__parameters-controls {
-        flex-direction: column;
+      flex-direction: column;
     }
-    
-    .teacher-discipline-analytics__select-wrapper {
-        width: 100%;
-    }
-    
-    .teacher-discipline-analytics__stats {
-        grid-template-columns: 1fr;
-    }
-
-    .teacher-discipline-analytics__summary-stats {
-        grid-template-columns: 1fr;
-    }
-
-    .teacher-discipline-analytics__stat-subtitle {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
-} 
+  }
+  

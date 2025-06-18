@@ -1,10 +1,10 @@
 .bg-profile {
     margin-top: 12px;
-    height: 988px;
     width: 1071px;
     border: 2px solid #E7E9ED;
     border-radius: 17px;
     background-color: #fff;
     padding-top: 20px;
     padding-left: 50px;
+    min-height: 100vh; /* вместо height: 100vh */
 }

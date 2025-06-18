@@ -19,10 +19,12 @@ class LocalDB {
         // Initialize ways of learning if empty
         if (!waysOfLearning.data.length) {
             const defaultWays = [
-                { id: uuidv4(), name: 'Лекции' },
-                { id: uuidv4(), name: 'Практические занятия' },
-                { id: uuidv4(), name: 'Лабораторные работы' },
-                { id: uuidv4(), name: 'Самостоятельное обучение' }
+                { id: uuidv4(), name: 'Программирование' },
+                { id: uuidv4(), name: 'Веб-разработка' },
+                { id: uuidv4(), name: 'Базы данных' },
+                { id: uuidv4(), name: 'Алгоритмы и структуры данных' },
+                { id: uuidv4(), name: 'Объектно-ориентированное программирование' },
+                { id: uuidv4(), name: 'Самостоятельное обучение' },
             ];
 
             defaultWays.forEach(way => {
@@ -81,7 +83,7 @@ class LocalDB {
                 username: 'admin',
                 email: 'admin@example.com',
                 password: 'Admin123',
-                name: 'Кутузов Виктор Владимирович',
+                name: 'Кутузов В.В.',
                 department: 'ПОИТ',
                 role: 'teacher',
                 isAdmin: true,
@@ -103,7 +105,7 @@ class LocalDB {
                 username: 'teacher',
                 email: 'teacher@example.com',
                 password: 'Teacher123',
-                name: 'Сергиенко Ольга Валерьевна',
+                name: 'Сергиенко О.В.',
                 position: 'Старший преподаватель',
                 department: 'ПОИТ',
                 role: 'teacher',
@@ -185,34 +187,50 @@ class LocalDB {
             this.saveToStorage();
         }
 
-        // Initialize empty tests if they don't exist
         const tests = this.getCollection('testTemplates');
         if (!tests.data.length) {
-            // Create 20 empty tests from Кутузов
-            const currentDate = new Date();
-            for (let i = 1; i <= 20; i++) {
-                const testTemplate = {
+            const testData = [
+                { title: "Основы Java", description: "Проверка базовых знаний по синтаксису Java и ООП.", categoryName: "Программирование", subCategoryName: "Java", daysOffset: -10 },
+                { title: "Python: Работа с файлами", description: "Тест по чтению, записи и сериализации данных в Python.", categoryName: "Программирование", subCategoryName: "Python", daysOffset: -8 },
+                { title: "JavaScript: DOM и события", description: "Проверка понимания событий и работы с DOM-деревом.", categoryName: "Программирование", subCategoryName: "JavaScript", daysOffset: -7 },
+                { title: "SQL: Запросы SELECT", description: "Базовые запросы на выборку данных в SQL.", categoryName: "Базы данных", subCategoryName: "SQL", daysOffset: -6 },
+                { title: "NoSQL и MongoDB", description: "Понимание основ документов MongoDB и запросов.", categoryName: "Базы данных", subCategoryName: "NoSQL", daysOffset: -5 },
+                { title: "ORM и Entity Framework", description: "Тест по использованию ORM в работе с базами данных.", categoryName: "Базы данных", subCategoryName: "ORM", daysOffset: -4 },
+                { title: "Основы Frontend", description: "Вопросы по HTML, CSS и JS в контексте клиентской разработки.", categoryName: "Web-разработка", subCategoryName: "Frontend", daysOffset: -3 },
+                { title: "Backend: Node.js", description: "Введение в серверную разработку на Node.js.", categoryName: "Web-разработка", subCategoryName: "Backend", daysOffset: -2 },
+                { title: "Full-stack подход", description: "Сценарии взаимодействия клиентской и серверной частей.", categoryName: "Web-разработка", subCategoryName: "Full-stack", daysOffset: -1 },
+                { title: "ООП в практике", description: "Тест на понимание полиморфизма, наследования и инкапсуляции.", categoryName: "Программирование", subCategoryName: "Java", daysOffset: 0 },
+            ];
+    
+            const catMap = Object.fromEntries(categories.data.map(c => [c.name, c.id]));
+            const subMap = Object.fromEntries(subcategories.data.map(s => [`${s.name}_${s.categoryId}`, s.id]));
+    
+            testData.forEach((t, index) => {
+                const categoryId = catMap[t.categoryName];
+                const subCategoryId = subMap[`${t.subCategoryName}_${categoryId}`];
+                const createdDate = new Date();
+                createdDate.setDate(createdDate.getDate() + t.daysOffset);
+    
+                tests.data.push({
                     id: uuidv4(),
-                    title: `Тест ${i}`,
-                    description: `Пустой тест ${i} от Кутузова В.В.`,
-                    categoryId: categoryIds[0], // Using "Программирование" category by default
-                    subCategoryId: null,
-                    startDate: currentDate.toISOString(),
-                    endDate: new Date(currentDate.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString(), // +30 days
-                    timeLimit: 60, // 60 minutes by default
+                    title: t.title,
+                    description: t.description,
+                    categoryId,
+                    subCategoryId,
+                    startDate: createdDate.toISOString(),
+                    endDate: new Date(createdDate.getTime() + 15 * 24 * 60 * 60 * 1000).toISOString(),
+                    timeLimit: 60,
                     questions: [],
-                    teacherId: 'admin_default_id', // Кутузов's ID
-                    teacherName: 'Кутузов Виктор Владимирович',
-                    createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString(),
+                    teacherId: 'admin_default_id',
+                    teacherName: 'Кутузов В.В.',
+                    createdAt: createdDate.toISOString(),
+                    updatedAt: createdDate.toISOString(),
                     deletedAt: null,
                     isDeleted: false
-                };
-                
-                tests.data.push(testTemplate);
-            }
-            
-            tests.lastId = 20;
+                });
+            });
+    
+            tests.lastId = testData.length;
             this.saveToStorage();
         }
     }
