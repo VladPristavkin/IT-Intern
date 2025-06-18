@@ -1,22 +1,29 @@
 .left-bar-filter {
-    width: 280px;
+    width: 290px;
     background: white;
     border-radius: 17px;
     padding: 24px;
     height: fit-content;
     border: 1px solid #E7E9ED;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
   }
   
   .filter-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    /* justify-content: space-between; */
+    gap: 14px;
+    align-items: baseline;
     margin-bottom: 24px;
   }
   
   .filter-header h2 {
+    line-height: 1.5;
+    font-family: 'Noto-sans', sans-serif;
     font-size: 24px;
-    font-weight: 500;
+    font-weight: bold;
     margin: 0;
     color: var(--header-text-color);
   }
@@ -26,7 +33,7 @@
     border: none;
     color: var(--button-color);
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     padding: 0;
     text-decoration: underline;
   }
@@ -40,7 +47,7 @@
   }
   
   .filter-section h3 {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 400;
     margin: 0 0 12px 0;
     color: var(--header-text-color);
@@ -50,8 +57,8 @@
     display: flex;
     align-items: center;
     margin-bottom: 8px;
-    font-size: 15px;
-    color: var(--main-text-color);
+    font-size: 16px;
+    color: #393F47;
     cursor: pointer;
   }
   
@@ -97,12 +104,13 @@
   }
   
   .region-search {
-    width: 100%;
+    height: 30px;
+    width: 254px;
     padding: 8px 12px;
     border: 1px solid #E7E9ED;
-    border-radius: 8px;
-    font-size: 15px;
-    margin-bottom: 12px;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-bottom: 18px;
     color: var(--main-text-color);
     background-color: white;
   }

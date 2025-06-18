@@ -1,7 +1,7 @@
 .main-page-content-main {
   display: flex;
-  /* justify-content: space-between; */
-  gap: 1.5rem;
+  justify-content: space-between;
+  /* gap: 1.5rem; */
   max-width: 1440px;
   margin: 0 auto;
   padding: 2rem 0;
