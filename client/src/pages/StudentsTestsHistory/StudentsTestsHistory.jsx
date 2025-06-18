@@ -31,7 +31,7 @@ export default function StudentsTestsHistory() {
       <StudentProfileMenu />
       <BackgroundProfile>
         <ProfileHeader text="История прохождения тестирований" />
-        <div className="tests-counter">
+        <div className="tests-counter-history">
           Тестов пройдено: {testHistory.length}
         </div>
         {testHistory.map(test => (

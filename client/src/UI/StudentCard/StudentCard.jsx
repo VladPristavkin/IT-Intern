@@ -48,10 +48,6 @@ const StudentCard = () => {
               <div className="value">{dbUser.speciality}</div>
             </div>
           </div>
-          <div className="info-group">
-            <div className="label">Пол</div>
-            <div className="value">{dbUser.gender}</div>
-          </div>
           
           <div className="info-row">
             <div className="info-column">

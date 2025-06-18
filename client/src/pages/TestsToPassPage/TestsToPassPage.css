@@ -1,18 +1,18 @@
-.tests {
+.tests-pass {
     display: flex;
-    min-height: 100vh;
-    background-color: #F3F4F6;
+    gap: 56px;
+    align-items: flex-start;
+    justify-content: center;
+    margin: 0px auto;
 }
 
-.tests-counter {
-    font-size: 1.1rem;
-    color: #4B5563;
-    margin-bottom: 1.5rem;
-    padding: 0 1.5rem;
-}
-
-.tests-list {
-    padding: 0 1.5rem;
+.tests-counter-pass {
+    font-size: 26px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    color: #18191C;
+    margin-top: 41px;
+    margin-bottom: 40px;
 }
 
 .loading-spinner {

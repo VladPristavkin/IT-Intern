@@ -71,7 +71,7 @@ export default function TestsToPassPage() {
 
   if (loading) {
     return (
-      <div className='tests'>
+      <div className='tests-pass'>
         <StudentProfileMenu />
         <BackgroundProfile>
           <ProfileHeader text="Прохождение тестирования" />
@@ -82,11 +82,11 @@ export default function TestsToPassPage() {
   }
 
   return (
-    <div className='tests'>
+    <div className='tests-pass'>
       <StudentProfileMenu />
       <BackgroundProfile>
         <ProfileHeader text="Прохождение тестирования" />
-        <div className="tests-counter">
+        <div className="tests-counter-pass">
           Тестов для прохождения доступно: {testHistory.length}
         </div>
         <div className="tests-list">
