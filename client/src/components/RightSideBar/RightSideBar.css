@@ -5,10 +5,9 @@
   font-weight: regular;
   width: 250px;
   height: fit-content;
-  padding: 24px;
-  background-color: white;
-  border-right: 1px solid var(--border-color);
-  border-radius: 17px;
+
+  /* border: 1px solid #E7E9ED; */
+
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -18,12 +17,20 @@
     font-size: 16px;
     margin-bottom: 10px;
   }
+
+  .advertisement {
+    height: 267px;
+    align-items: center;
+    text-align: center;
+  }
   
-  .advertisement, .newsletter-subscription, .quick-profile {
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+  .advertisement, .quick-profile {
     background-color: white;
+    padding: 10px;
+    border: 1px solid #E7E9ED;
+    border-radius: 17px;
+    background-color: white;
+    padding: 24px;
   }
   
   .newsletter-subscription input {
@@ -34,12 +41,40 @@
   }
   
   .newsletter-subscription button, .quick-profile button {
-    width: 100%;
-    padding: 5px;
-    background-color: #3173E4;
+    font-size: 16px;
+    font-family: 'Inter';
+    font-weight: 400;
+    text-align: center;
+    width: 202px;
+    height: 40px;
+    background-color: #3575E2;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 17px;
     cursor: pointer;
+  }
+
+  .bru-logo {
+    height: 100%;
+  }
+
+  .quick-profile h3 {
+    margin-top: 0px;
+    margin-bottom: 16px;
+    font-family: 'Noto-Sans', sans-serif;
+    font-weight: bold;
+    font-size: 19px;
+    color: #18191C;
+    line-height: 1.5;
+  }
+
+  .quick-profile p {
+    font-family: 'Inter';
+    font-size: 14px;
+    line-height: 1.5;
+    color: #393F47;
+    margin-bottom: 16px;
+    font-weight: 400;
+    text-align: unset;
   }
   
