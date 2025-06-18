@@ -92,6 +92,7 @@ import StudentAnalyticsPage from './pages/StudentAnalyticsPage/StudentAnalyticsP
 import StudentSelectedTestAnalyticsPage from './pages/StudentAnalyticsPage/StudentSelectedTestAnalyticsPage';
 import TeacherHomePage from './pages/TeacherHomePage/TeacherHomePage';
 import TeacherTestingPage from './pages/TeacherTestingPage/TeacherTestingPage';
+import TeacherAnalyticsPage from './pages/TeacherAnalyticsPage/TeacherAnalyticsPage';
 import AdminPage from './pages/AdminPage/AdminPage';
 
 const App = () => {
@@ -112,6 +113,7 @@ const App = () => {
 
           <Route path="/teacher" element={<TeacherHomePage />} /> {/* Временный маршрут для разработки */}
           <Route path="/teacher/testing" element={<TeacherTestingPage />} /> {/* Временный маршрут для разработки */}
+          <Route path="/teacher/analytics/students" element={<TeacherAnalyticsPage />} />
 
           <Route path="/admin" element={<AdminPage />} />
           <Route

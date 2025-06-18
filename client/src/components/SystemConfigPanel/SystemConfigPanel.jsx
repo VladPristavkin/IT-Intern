@@ -182,29 +182,31 @@ const SystemConfigPanel = () => {
 
     return (
         <div className="system-config-panel">
-            <h1>Настройки системы</h1>
+            <h1 className="config-panel-title">Настройки системы</h1>
 
             {/* Ways of Learning */}
             <section className="config-section">
-                <h2>Способы обучения</h2>
-                <div className="add-form">
+                <h2 className="config-section-title">Способы обучения</h2>
+                <div className="config-add-form">
                     <input
                         type="text"
+                        className="config-add-input"
                         placeholder="Название"
                         value={newWay}
                         onChange={(e) => setNewWay(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleAddWay()}
                     />
-                    <button onClick={handleAddWay}>Добавить</button>
+                    <button className="config-add-button" onClick={handleAddWay}>Добавить</button>
                 </div>
 
-                <div className="items-list">
+                <div className="config-items-list">
                     {ways && ways.map(way => (
-                        <div key={way.id} className="item">
+                        <div key={way.id} className="config-item">
                             {editingWay && editingWay.id === way.id ? (
-                                <div className="edit-form">
+                                <div className="config-edit-form">
                                     <input
                                         type="text"
+                                        className="config-edit-input"
                                         value={editingWay.name || ''}
                                         onChange={(e) => setEditingWay({
                                             ...editingWay,
@@ -213,17 +215,17 @@ const SystemConfigPanel = () => {
                                         onKeyPress={(e) => e.key === 'Enter' && handleUpdateWay()}
                                         autoFocus
                                     />
-                                    <div className="actions">
-                                        <button onClick={handleUpdateWay}>✓</button>
-                                        <button onClick={() => setEditingWay(null)}>✕</button>
+                                    <div className="config-actions">
+                                        <button className="config-action-button" onClick={handleUpdateWay}>✓</button>
+                                        <button className="config-action-button" onClick={() => setEditingWay(null)}>✕</button>
                                     </div>
                                 </div>
                             ) : (
-                                <div className="item-content">
-                                    <span>{way.name}</span>
-                                    <div className="actions">
-                                        <button onClick={() => startEditingWay(way)}>✎</button>
-                                        <button onClick={() => handleDeleteWay(way.id)}>✕</button>
+                                <div className="config-item-content">
+                                    <span className="config-item-text">{way.name}</span>
+                                    <div className="config-actions">
+                                        <button className="config-action-button" onClick={() => startEditingWay(way)}>✎</button>
+                                        <button className="config-action-button" onClick={() => handleDeleteWay(way.id)}>✕</button>
                                     </div>
                                 </div>
                             )}
@@ -234,53 +236,55 @@ const SystemConfigPanel = () => {
 
             {/* Categories and Subcategories */}
             <section className="config-section">
-                <h2>Категории</h2>
-                <div className="add-form">
+                <h2 className="config-section-title">Категории</h2>
+                <div className="config-add-form">
                     <input
                         type="text"
+                        className="config-add-input"
                         placeholder="Название категории"
                         value={newCategory}
                         onChange={(e) => setNewCategory(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleAddCategory()}
                     />
-                    <button onClick={handleAddCategory}>Добавить</button>
+                    <button className="config-add-button" onClick={handleAddCategory}>Добавить</button>
                 </div>
 
-                <div className="items-list">
+                <div className="config-items-list">
                     {categories.map(category => (
-                        <div key={category.id} className="category-item">
-                            <div className="item">
+                        <div key={category.id} className="config-category-item">
+                            <div className="config-item">
                                 {editingCategoryId === category.id ? (
-                                    <div className="edit-form">
+                                    <div className="config-edit-form">
                                         <input
                                             type="text"
+                                            className="config-edit-input"
                                             value={editingCategoryName}
                                             onChange={(e) => setEditingCategoryName(e.target.value)}
                                             onKeyPress={(e) => e.key === 'Enter' && handleUpdateCategory(category.id)}
                                             autoFocus
                                         />
-                                        <div className="actions">
-                                            <button onClick={() => handleUpdateCategory(category.id)}>✓</button>
-                                            <button onClick={() => setEditingCategoryId(null)}>✕</button>
+                                        <div className="config-actions">
+                                            <button className="config-action-button" onClick={() => handleUpdateCategory(category.id)}>✓</button>
+                                            <button className="config-action-button" onClick={() => setEditingCategoryId(null)}>✕</button>
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className="item-content">
-                                        <div className="category-name">
+                                    <div className="config-item-content">
+                                        <div className="config-category-name">
                                             <button 
-                                                className={`expand-button ${expandedCategories.has(category.id) ? 'expanded' : ''}`}
+                                                className={`config-expand-button ${expandedCategories.has(category.id) ? 'expanded' : ''}`}
                                                 onClick={() => toggleCategory(category.id)}
                                             >
                                                 {expandedCategories.has(category.id) ? '▼' : '▶'}
                                             </button>
-                                            <span>{category.name}</span>
+                                            <span className="config-item-text">{category.name}</span>
                                         </div>
-                                        <div className="actions">
-                                            <button onClick={() => {
+                                        <div className="config-actions">
+                                            <button className="config-action-button" onClick={() => {
                                                 setEditingCategoryId(category.id);
                                                 setEditingCategoryName(category.name);
                                             }}>✎</button>
-                                            <button onClick={() => handleDeleteCategory(category.id)}>✕</button>
+                                            <button className="config-action-button" onClick={() => handleDeleteCategory(category.id)}>✕</button>
                                         </div>
                                     </div>
                                 )}
@@ -288,44 +292,46 @@ const SystemConfigPanel = () => {
 
                             {/* Subcategories */}
                             {expandedCategories.has(category.id) && (
-                                <div className="subcategories">
-                                    <div className="add-form">
+                                <div className="config-subcategories">
+                                    <div className="config-add-form">
                                         <input
                                             type="text"
+                                            className="config-add-input"
                                             placeholder="Название подкатегории"
                                             value={newSubcategory}
                                             onChange={(e) => setNewSubcategory(e.target.value)}
                                             onKeyPress={(e) => e.key === 'Enter' && handleAddSubcategory(category.id)}
                                         />
-                                        <button onClick={() => handleAddSubcategory(category.id)}>Добавить</button>
+                                        <button className="config-add-button" onClick={() => handleAddSubcategory(category.id)}>Добавить</button>
                                     </div>
 
-                                    <div className="items-list">
+                                    <div className="config-items-list">
                                         {category.subcategories.map(subcategory => (
-                                            <div key={subcategory.id} className="item">
+                                            <div key={subcategory.id} className="config-item">
                                                 {editingSubcategoryId === subcategory.id ? (
-                                                    <div className="edit-form">
+                                                    <div className="config-edit-form">
                                                         <input
                                                             type="text"
+                                                            className="config-edit-input"
                                                             value={editingSubcategoryName}
                                                             onChange={(e) => setEditingSubcategoryName(e.target.value)}
                                                             onKeyPress={(e) => e.key === 'Enter' && handleUpdateSubcategory(subcategory.id, category.id)}
                                                             autoFocus
                                                         />
-                                                        <div className="actions">
-                                                            <button onClick={() => handleUpdateSubcategory(subcategory.id, category.id)}>✓</button>
-                                                            <button onClick={() => setEditingSubcategoryId(null)}>✕</button>
+                                                        <div className="config-actions">
+                                                            <button className="config-action-button" onClick={() => handleUpdateSubcategory(subcategory.id, category.id)}>✓</button>
+                                                            <button className="config-action-button" onClick={() => setEditingSubcategoryId(null)}>✕</button>
                                                         </div>
                                                     </div>
                                                 ) : (
-                                                    <div className="item-content">
-                                                        <span>{subcategory.name}</span>
-                                                        <div className="actions">
-                                                            <button onClick={() => {
+                                                    <div className="config-item-content">
+                                                        <span className="config-item-text">{subcategory.name}</span>
+                                                        <div className="config-actions">
+                                                            <button className="config-action-button" onClick={() => {
                                                                 setEditingSubcategoryId(subcategory.id);
                                                                 setEditingSubcategoryName(subcategory.name);
                                                             }}>✎</button>
-                                                            <button onClick={() => handleDeleteSubcategory(subcategory.id)}>✕</button>
+                                                            <button className="config-action-button" onClick={() => handleDeleteSubcategory(subcategory.id)}>✕</button>
                                                         </div>
                                                     </div>
                                                 )}

@@ -7,18 +7,48 @@ const ExportModal = ({ isOpen, onClose, data }) => {
 
     const handleExport = async (type) => {
         try {
-            switch (type) {
-                case 'docx':
-                    await exportToWord(data);
+            const exportData = {
+                ...data,
+                exportType: type
+            };
+
+            switch (data.type) {
+                case 'analytics':
+                    // Analytics page export (charts, test results)
+                    switch (type) {
+                        case 'docx':
+                            await exportToWord(exportData);
+                            break;
+                        case 'pdf':
+                            await exportToPDF(exportData);
+                            break;
+                        case 'excel':
+                            await exportToExcel(exportData);
+                            break;
+                        default:
+                            console.error('Неизвестный тип экспорта');
+                    }
                     break;
-                case 'pdf':
-                    exportToPDF(data);
+
+                case 'market-analysis':
+                    // Market analysis export (skills comparison)
+                    switch (type) {
+                        case 'docx':
+                            await exportToWord(exportData);
+                            break;
+                        case 'pdf':
+                            await exportToPDF(exportData);
+                            break;
+                        case 'excel':
+                            await exportToExcel(exportData);
+                            break;
+                        default:
+                            console.error('Неизвестный тип экспорта');
+                    }
                     break;
-                case 'excel':
-                    exportToExcel(data);
-                    break;
+
                 default:
-                    console.error('Неизвестный тип экспорта');
+                    console.error('Неизвестный тип данных для экспорта');
             }
             onClose();
         } catch (error) {
@@ -36,19 +66,19 @@ const ExportModal = ({ isOpen, onClose, data }) => {
                 
                 <div className="teacher-export-options">
                     <button 
-                        className="teacher-export-button"
+                        className="teacher-export-button docx"
                         onClick={() => handleExport('docx')}
                     >
                         Экспорт в docx
                     </button>
                     <button 
-                        className="teacher-export-button"
+                        className="teacher-export-button pdf"
                         onClick={() => handleExport('pdf')}
                     >
                         Экспорт в pdf
                     </button>
                     <button 
-                        className="teacher-export-button"
+                        className="teacher-export-button excel"
                         onClick={() => handleExport('excel')}
                     >
                         Экспорт в excel

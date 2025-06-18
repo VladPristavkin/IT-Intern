@@ -59,6 +59,18 @@ const MarketAnalysisModal = ({ isOpen, onClose }) => {
         }
     ];
 
+    const prepareExportData = () => {
+        return {
+            type: 'market-analysis',
+            skills: skills.map(skill => ({
+                name: skill.name,
+                demand: skill.demand,
+                coverage: skill.coverage,
+                status: skill.status
+            }))
+        };
+    };
+
     const handleExportClick = () => {
         setIsExportModalOpen(true);
     };
@@ -103,7 +115,7 @@ const MarketAnalysisModal = ({ isOpen, onClose }) => {
             <ExportModal 
                 isOpen={isExportModalOpen}
                 onClose={handleExportModalClose}
-                data={skills}
+                data={prepareExportData()}
             />
         </>
     );

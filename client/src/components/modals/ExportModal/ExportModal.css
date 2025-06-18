@@ -17,6 +17,7 @@
     width: 400px;
     max-width: 90%;
     padding: 24px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .teacher-export-modal-header {
@@ -33,7 +34,7 @@
 .teacher-export-options {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
 }
 
 .teacher-export-button {
@@ -42,10 +43,11 @@
     background-color: #0D6EFD;
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 8px;
     font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -53,4 +55,22 @@
 
 .teacher-export-button:hover {
     background-color: #0b5ed7;
+    transform: translateY(-1px);
+}
+
+.teacher-export-button:active {
+    transform: translateY(0);
+}
+
+/* Specific button styles */
+.teacher-export-button.docx {
+    background-color: #4284FF;
+}
+
+.teacher-export-button.pdf {
+    background-color: #4284FF;
+}
+
+.teacher-export-button.excel {
+    background-color: #4284FF;
 } 

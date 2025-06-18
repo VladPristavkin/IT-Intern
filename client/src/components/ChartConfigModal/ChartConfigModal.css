@@ -1,0 +1,108 @@
+.chart-config-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(33, 37, 41, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.chart-config-modal-content {
+    background: white;
+    border-radius: 16px;
+    width: 400px;
+    max-width: 90%;
+    padding: 24px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.chart-config-modal-content h2 {
+    font-size: 24px;
+    font-weight: 500;
+    color: #212529;
+    margin: 0 0 24px 0;
+    text-align: center;
+}
+
+.chart-config-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.config-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.config-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    color: #495057;
+    font-weight: 500;
+}
+
+.config-icon {
+    font-size: 20px;
+}
+
+.config-select, .config-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #DEE2E6;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #212529;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.config-select:hover, .config-input:hover {
+    border-color: #ADB5BD;
+}
+
+.config-select:focus, .config-input:focus {
+    outline: none;
+    border-color: #4284FF;
+    box-shadow: 0 0 0 2px rgba(66, 132, 255, 0.1);
+}
+
+.config-input {
+    cursor: text;
+}
+
+.config-input::-webkit-inner-spin-button,
+.config-input::-webkit-outer-spin-button {
+    opacity: 1;
+    height: 30px;
+    cursor: pointer;
+}
+
+.apply-button {
+    margin-top: 8px;
+    padding: 12px;
+    background-color: #4284FF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.apply-button:hover {
+    background-color: #3373E4;
+}
+
+.apply-button:active {
+    background-color: #2862D3;
+} 
