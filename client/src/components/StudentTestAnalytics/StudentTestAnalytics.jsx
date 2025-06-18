@@ -17,14 +17,6 @@ const StudentTestAnalytics = () => {
         { name: 'DB', value: 75, color: '#FF7043' },
         { name: 'React', value: 46, color: '#0288D1' },
       ]
-    },
-    2: { 
-      name: 'Тест по JavaScript',
-      data: [
-        { name: 'JavaScript', value: 25, color: '#6A1B9A' },
-        { name: 'React', value: 43, color: '#FF7043' },
-        { name: 'Node.js', value: 19, color: '#0288D1' },
-      ]
     }
   };
 
