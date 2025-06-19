@@ -28,7 +28,7 @@ const TestModal = ({ isOpen, onClose, testData }) => {
         id: 1,
         testName: 'Проверка знаний',
         teacher: 'Сергиенко О.В.',
-        date: '29.05.2025',
+        date: '18.06.2025',
         questions: [
             {
                 id: 1,

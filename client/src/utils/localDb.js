@@ -49,16 +49,18 @@ class LocalDB {
         }
         
         const CATEGORIES = [
-            { id: categoryIds[0], name: 'Программирование' },
+            { id: categoryIds[0], name: 'C#' },
             { id: categoryIds[1], name: 'Базы данных' },
-            { id: categoryIds[2], name: 'Web-разработка' }
+            { id: categoryIds[2], name: 'Web-разработка' },
+            { id: categoryIds[3], name: 'React' }
         ];
         
         const SUBCATEGORIES = {
             [categoryIds[0]]: [
-                { name: 'Java' },
-                { name: 'Python' },
-                { name: 'JavaScript' }
+                { name: 'ASP.Net' },
+                { name: 'EntityFramework' },
+                { name: 'RazorPages' },
+                { name: 'OOP' }
             ],
             [categoryIds[1]]: [
                 { name: 'SQL' },
@@ -69,6 +71,9 @@ class LocalDB {
                 { name: 'Frontend' },
                 { name: 'Backend' },
                 { name: 'Full-stack' }
+            ],
+            [categoryIds[3]]: [
+                { name: 'Hooks' },
             ]
         };
         
@@ -80,8 +85,8 @@ class LocalDB {
         if (!adminExists) {
             const adminUser = {
                 userId: "admin_default_id",
-                username: 'admin',
-                email: 'admin@example.com',
+                username: 'Victor',
+                email: 'victor@gmail.com',
                 password: 'Admin123',
                 name: 'Кутузов В.В.',
                 department: 'ПОИТ',
@@ -102,8 +107,8 @@ class LocalDB {
         if (!teacherExists) {
             const teacherUser = {
                 userId: "teacher_default_id",
-                username: 'teacher',
-                email: 'teacher@example.com',
+                username: 'Olga',
+                email: 'olga@gmail.com',
                 password: 'Teacher123',
                 name: 'Сергиенко О.В.',
                 position: 'Старший преподаватель',
