@@ -5,6 +5,7 @@ import ModalInput from '../../../UI/ModalInput/ModalInput';
 import lOGO from '../../../assets/lOGO.svg';
 import AuthContext from '../../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import db from '../../../utils/localDb';
 
 const LogInForm = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -46,7 +47,7 @@ const LogInForm = ({ onClose }) => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const newErrors = {
@@ -61,29 +62,41 @@ const LogInForm = ({ onClose }) => {
       return;
     }
 
-    try {
-      const userData = await login(formData);
-      
-      if (!userData) {
-        throw new Error('Не удалось получить данные пользователя');
-      }
+    const users = db.getAll('users');
+    console.log(users);
+    const user = users.find(u => u.username === formData.username);
+    console.log(user);
 
-      onClose(); // Close the modal first
-
-      // Проверяем роли пользователя
-      const roles = userData.roles || [];
-      if (roles.includes('Student')) {
-        navigate("/student");
-      } else if (roles.includes('Teacher') || roles.includes('Administrator')) {
-        navigate("/teacher");
-      }
-    } catch (error) {
-      console.error('Login error:', error);
+    if (!user) {
       setErrors({
         ...newErrors,
-        general: error.response?.data?.message || 'Неверный логин или пароль'
+        username: 'Пользователь не найден'
       });
+      return;
     }
+
+    if (user.password !== formData.password) {
+      setErrors({
+        ...newErrors,
+        password: 'Неверный пароль'
+      });
+      return;
+    }
+
+    switch (user.role) {
+      case 'student':
+        login(user.userId);
+        navigate("/student");
+        break;
+      case 'teacher':
+        login(user.userId);
+        navigate("/teacher");
+        break;
+        case 'admin':
+        login(user.userId);
+        navigate("/teacher");
+    }
+    onClose();
   };
 
   return (

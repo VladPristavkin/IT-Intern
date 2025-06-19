@@ -3,23 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import './UserInfoForm.css';
 import ModalButton from '../../../UI/ModalButton/ModalButton';
 import ModalInput from '../../../UI/ModalInput/ModalInput';
+import db from '../../../utils/localDb';
+import { v4 as uuidv4 } from 'uuid';
 import AuthContext from '../../../context/AuthContext';
 
 const UserInfoForm = ({ onClose, onRegister, registrationData }) => {
-  const { register } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     speciality: '',
     year: '',
-    department: 'Computer Science'
+    role: 'student'
   });
 
   const [errors, setErrors] = useState({
     name: '',
     speciality: '',
-    year: '',
-    general: ''
+    year: ''
   });
 
   const validateName = (name) => {
@@ -67,7 +68,7 @@ const UserInfoForm = ({ onClose, onRegister, registrationData }) => {
     onClose();
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const newErrors = {
@@ -83,24 +84,21 @@ const UserInfoForm = ({ onClose, onRegister, registrationData }) => {
       return;
     }
 
-    try {
-      const fullRegistrationData = {
-        ...registrationData,
-        name: formData.name,
-        speciality: formData.speciality,
-        year: formData.year,
-        department: formData.department
-      };
+    const yearShort = formData.year % 100;   // последние две цифры
+    const groupNumber = `${yearShort}1`; // добавляем "1" в конец
 
-      await register(fullRegistrationData);
-      onRegister();
-      navigate('/student');
-    } catch (error) {
-      setErrors(prevErrors => ({
-        ...prevErrors,
-        general: 'Ошибка при регистрации. Пожалуйста, попробуйте снова.'
-      }));
-    }
+    const userId = uuidv4();
+    const newUser = {
+      userId,
+      ...registrationData,
+      ...formData,
+      speciality: formData.speciality.toUpperCase() + '-' + groupNumber
+    };
+
+    const savedUser = db.insert('users', newUser);
+    login(savedUser.userId);
+    onRegister();
+    navigate('/student'); // Перенаправляем на страницу студента
   };
 
   return (
@@ -145,8 +143,6 @@ const UserInfoForm = ({ onClose, onRegister, registrationData }) => {
             />
             {errors.year && <span className="user-info-error-message">{errors.year}</span>}
           </div>
-
-          {errors.general && <span className="user-info-error-message general">{errors.general}</span>}
 
           <div className="button-group-uinfo">
             <ModalButton type="button" onClick={handleBack}>Назад</ModalButton>

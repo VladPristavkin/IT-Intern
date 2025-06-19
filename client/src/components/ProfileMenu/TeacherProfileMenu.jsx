@@ -38,8 +38,7 @@ const TeacherProfileMenu = () => {
         // Update indicator position after re-render
         setTimeout(() => {
             if (indicatorRef.current) {
-                // Для 'Дисциплины' вниз, для 'Студенты' вверх
-                if (path.includes('/teacher/analytics/disciplines')) {
+                if (path.includes('/teacher/testing/results') || path.includes('/teacher/analytics/students')) {
                     indicatorRef.current.style.transform = 'translateY(42px)';
                 } else {
                     indicatorRef.current.style.transform = 'translateY(0px)';

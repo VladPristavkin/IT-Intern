@@ -22,15 +22,21 @@ const MarketAnalysisModal = ({ isOpen, onClose }) => {
 
     const skills = [
         {
-            name: 'TypeScript',
+            name: 'Docker',
             demand: 67,
-            coverage: 80,
-            status: 'Отлично'
+            coverage: 0,
+            status: 'Требует внимания'
+        },
+        {
+            name: 'SQL',
+            demand: 81,
+            coverage: 60,
+            status: 'Удовлетворительно'
         },
         {
             name: 'Git',
-            demand: 20,
-            coverage: 10,
+            demand: 55,
+            coverage: 40,
             status: 'Требует улучшения'
         },
         {
@@ -48,7 +54,7 @@ const MarketAnalysisModal = ({ isOpen, onClose }) => {
         {
             name: 'AWS',
             demand: 62,
-            coverage: 10,
+            coverage: 25,
             status: 'Требует внимания'
         }
     ];
