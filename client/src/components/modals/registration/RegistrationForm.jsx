@@ -4,6 +4,7 @@ import ModalButton from '../../../UI/ModalButton/ModalButton';
 import ModalInput from '../../../UI/ModalInput/ModalInput';
 import UserInfoForm from '../userInfo/UserInfoForm';
 import lOGO from '../../../assets/lOGO.svg';
+import db from '../../../utils/localDb';
 
 const RegistrationForm = ({ onClose }) => {
   const [isUserInfoOpen, setIsUserInfoOpen] = useState(false);
@@ -18,14 +19,19 @@ const RegistrationForm = ({ onClose }) => {
     email: '',
     username: '',
     password: '',
-    confirmPassword: '',
-    general: ''
+    confirmPassword: ''
   });
 
   const validateEmail = (email) => {
     if (!email) return 'Email обязателен для заполнения';
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) return 'Введите корректный email';
+    
+    // Проверяем, существует ли пользователь с таким email
+    const users = db.getAll('users');
+    const existingUser = users.find(user => user.email === email);
+    if (existingUser) return 'Пользователь с таким email уже существует';
+    
     return '';
   };
 
@@ -33,6 +39,12 @@ const RegistrationForm = ({ onClose }) => {
     if (!username) return 'Никнейм обязателен для заполнения';
     if (username.length < 3) return 'Никнейм должен быть не менее 3 символов';
     if (!/^[a-zA-Z0-9_]+$/.test(username)) return 'Никнейм может содержать только буквы, цифры и подчеркивания';
+
+    // Проверяем, существует ли пользователь с таким username
+    const users = db.getAll('users');
+    const existingUser = users.find(user => user.username === username);
+    if (existingUser) return 'Пользователь с таким никнеймом уже существует';
+
     return '';
   };
 
@@ -87,8 +99,7 @@ const RegistrationForm = ({ onClose }) => {
     // Очищаем ошибку при изменении поля
     setErrors(prevState => ({
       ...prevState,
-      [name]: '',
-      general: ''
+      [name]: ''
     }));
   };
 
@@ -145,8 +156,6 @@ const RegistrationForm = ({ onClose }) => {
             />
             {errors.confirmPassword && <span className="registration-error-message">{errors.confirmPassword}</span>}
           </div>
-
-          {errors.general && <span className="registration-error-message general">{errors.general}</span>}
 
           <ModalButton onClick={handleContinue}>Продолжить</ModalButton>
         </form>
