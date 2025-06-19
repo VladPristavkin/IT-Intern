@@ -371,12 +371,11 @@ export const analysisData = {
     advanced: {
         course1: {
             1: {
-                name: 'Углубленное изучение C# и веб-разработки',
+                name: 'Углубленное изучение C#',
                 data: [
                     { name: 'C# Advanced', value: 65, color: '#6A1B9A' },
                     { name: 'LINQ', value: 58, color: '#9C27B0' },
                     { name: 'ASP.NET Core', value: 52, color: '#FF7043' },
-                    { name: 'React Hooks', value: 48, color: '#FF9800' },
                     { name: 'SQL Optimization', value: 55, color: '#0288D1' },
                     { name: 'Микросервисы', value: 42, color: '#03A9F4' },
                 ]

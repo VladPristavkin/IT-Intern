@@ -6,7 +6,6 @@ import LogInForm from '../../../components/modals/login/LogInForm';
 import RegistrationForm from '../../../components/modals/registration/RegistrationForm';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../../../context/AuthContext';
-import db from '../../../utils/localDb';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -32,14 +31,16 @@ const Header = () => {
   };
 
   const handleAccountClick = () => {
-    if (isAuthenticated && user) {
-
-      var userRole = db.getUserById(user.userId).role;
-      if (userRole === 'student') {
-        navigate(`/student`);
-      } else if (userRole === 'teacher') {
-        navigate(`/teacher`);
+    if (isAuthenticated && user && user.roles) {
+      console.log('User roles:', user.roles); // Debug log
+      
+      if (user.roles.includes('Student')) {
+        navigate('/student');
+      } else if (user.roles.includes('Teacher') || user.roles.includes('Administrator')) {
+        navigate('/teacher');
       }
+    } else {
+      console.log('Auth state:', { isAuthenticated, user }); // Debug log
     }
   };
 
@@ -55,7 +56,7 @@ const Header = () => {
                   src={AccountLogo}
                   alt="Account"
                   className="account-logo-header"
-                  onClick={handleAccountClick} // Обработчик клика для AccountLogo
+                  onClick={handleAccountClick}
                 />
                 <button className="logout-button" onClick={logout}>Выйти</button>
               </>

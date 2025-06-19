@@ -22,6 +22,7 @@ const TeacherAnalyticsPage = () => {
     const [isChartConfigOpen, setIsChartConfigOpen] = useState(false);
     const [chartColor, setChartColor] = useState('standard');
     const [chartScale, setChartScale] = useState(100);
+    const [isChartSelected, setIsChartSelected] = useState(false);
 
     // Расширенные моковые данные
     const analysisData = {
@@ -117,12 +118,11 @@ const TeacherAnalyticsPage = () => {
         advanced: {
             course1: {
                 1: {
-                    name: 'Углубленное изучение C# и веб-разработки',
+                    name: 'Углубленное изучение C#',
                     data: [
                         { name: 'C# Advanced', value: 65, color: '#6A1B9A' },
                         { name: 'LINQ', value: 58, color: '#9C27B0' },
                         { name: 'ASP.NET Core', value: 52, color: '#FF7043' },
-                        { name: 'React Hooks', value: 48, color: '#FF9800' },
                         { name: 'SQL Optimization', value: 55, color: '#0288D1' },
                         { name: 'Микросервисы', value: 42, color: '#03A9F4' },
                     ]
@@ -272,15 +272,18 @@ const TeacherAnalyticsPage = () => {
         const firstTestId = Object.keys(analysisData[analysisType]?.[newCourse] || {})[0] || 1;
         setSelectedTest(firstTestId);
         setSelectedLanguage('');
+        setIsChartSelected(true);
     };
 
     const handleTestChange = (e) => {
         setSelectedTest(Number(e.target.value));
         setSelectedLanguage('');
+        setIsChartSelected(true);
     };
 
     const handleLanguageChange = (e) => {
         setSelectedLanguage(e.target.value);
+        setIsChartSelected(true);
     };
 
     const handleAnalysisTypeChange = (e) => {
@@ -292,10 +295,12 @@ const TeacherAnalyticsPage = () => {
         const firstTestId = Object.keys(analysisData[newType]?.[firstCourse] || {})[0] || 1;
         setSelectedTest(firstTestId);
         setSelectedLanguage('');
+        setIsChartSelected(true);
     };
 
-    const handleChartTypeChange = (type) => {
-        setChartType(type);
+    const handleChartTypeChange = (e) => {
+        setChartType(e.target.value);
+        setIsChartSelected(true);
     };
 
     const handleChartColorChange = (color) => {
@@ -587,7 +592,11 @@ const TeacherAnalyticsPage = () => {
                     <div className="teacher-analytics__title">График по предоставленному запросу:</div>
 
                     <div className="teacher-analytics__chart">
-                        {renderChart()}
+                        {isChartSelected ? renderChart() : (
+                            <div className="teacher-analytics__no-data">
+                                Задайте параметры аналитики
+                            </div>
+                        )}
                     </div>
                 </div>
             </BackgroundProfile>
