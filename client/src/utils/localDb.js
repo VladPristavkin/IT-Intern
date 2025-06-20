@@ -5,8 +5,15 @@ class LocalDB {
         this.collections = {};
         this.loadFromStorage();
         this.initializeDefaultData();
+        // Add base delay configuration
+        this.delays = {
+            read: 200,    // Basic read operations
+            write: 400,   // Write operations (insert/update)
+            delete: 300,  // Delete operations
+            query: 250    // Complex query operations
+        };
     }
-    
+
     // Инициализация базовых данных
     initializeDefaultData() {
         const users = this.getCollection('users');
@@ -49,16 +56,18 @@ class LocalDB {
         }
         
         const CATEGORIES = [
-            { id: categoryIds[0], name: 'Программирование' },
+            { id: categoryIds[0], name: 'C#' },
             { id: categoryIds[1], name: 'Базы данных' },
-            { id: categoryIds[2], name: 'Web-разработка' }
+            { id: categoryIds[2], name: 'Web-разработка' },
+            { id: categoryIds[3], name: 'React' }
         ];
         
         const SUBCATEGORIES = {
             [categoryIds[0]]: [
-                { name: 'Java' },
-                { name: 'Python' },
-                { name: 'JavaScript' }
+                { name: 'ASP.Net' },
+                { name: 'EntityFramework' },
+                { name: 'RazorPages' },
+                { name: 'OOP' }
             ],
             [categoryIds[1]]: [
                 { name: 'SQL' },
@@ -69,6 +78,9 @@ class LocalDB {
                 { name: 'Frontend' },
                 { name: 'Backend' },
                 { name: 'Full-stack' }
+            ],
+            [categoryIds[3]]: [
+                { name: 'Hooks' },
             ]
         };
         
@@ -80,8 +92,8 @@ class LocalDB {
         if (!adminExists) {
             const adminUser = {
                 userId: "admin_default_id",
-                username: 'admin',
-                email: 'admin@example.com',
+                username: 'Victor',
+                email: 'victor@gmail.com',
                 password: 'Admin123',
                 name: 'Кутузов В.В.',
                 department: 'ПОИТ',
@@ -102,8 +114,8 @@ class LocalDB {
         if (!teacherExists) {
             const teacherUser = {
                 userId: "teacher_default_id",
-                username: 'teacher',
-                email: 'teacher@example.com',
+                username: 'Olga',
+                email: 'olga@gmail.com',
                 password: 'Teacher123',
                 name: 'Сергиенко О.В.',
                 position: 'Старший преподаватель',
@@ -252,7 +264,8 @@ class LocalDB {
     }
     
     // Добавить документ в коллекцию с проверкой дубликатов
-    insert(collectionName, document) {
+    async insert(collectionName, document) {
+        await this.delay('write');
         const collection = this.getCollection(collectionName);
         
         // Проверка на дубликаты для пользователей
@@ -291,24 +304,28 @@ class LocalDB {
     }
     
     // Получить все документы из коллекции
-    getAll(collectionName) {
+    async getAll(collectionName) {
+        await this.delay('read');
         const collection = this.getCollection(collectionName);
         return [...collection.data];
     }
     
     // Получить документ по ID
-    getById(collectionName, id) {
+    async getById(collectionName, id) {
+        await this.delay('read');
         const collection = this.getCollection(collectionName);
         return collection.data.find(doc => doc.id === id);
     }
 
-    getUserById(id) {
+    async getUserById(id) {
+        await this.delay('read');
         const collection = this.getCollection('users');
         return collection.data.find(doc => doc.userId === id);
     }
     
     // Обновить документ
-    update(collectionName, id, document) {
+    async update(collectionName, id, document) {
+        await this.delay('write');
         try {
             // Проверяем входные параметры
             if (!collectionName || typeof collectionName !== 'string') {
@@ -407,7 +424,8 @@ class LocalDB {
     
     
     // Удалить документ
-    delete(collectionName, id) {
+    async delete(collectionName, id) {
+        await this.delay('delete');
         const collection = this.getCollection(collectionName);
         const initialLength = collection.data.length;
         
@@ -425,13 +443,14 @@ class LocalDB {
     }
     
     // Поиск документов по условию
-    find(collectionName, condition) {
+    async find(collectionName, condition) {
+        await this.delay('query');
         const collection = this.getCollection(collectionName);
         return collection.data.filter(condition);
     }
-    
-    // Подсчет документов
-    count(collectionName) {
+
+    async count(collectionName) {
+        await this.delay('read');
         const collection = this.getCollection(collectionName);
         return collection.data.length;
     }
@@ -489,6 +508,13 @@ class LocalDB {
         this.saveToStorage();
         
         return collection.data.length;
+    }
+
+    // Add delay utility method
+    async delay(type = 'read') {
+        const baseDelay = this.delays[type] || 200;
+        const randomVariation = Math.random() * 100; // Add some random variation
+        await new Promise(resolve => setTimeout(resolve, baseDelay + randomVariation));
     }
 }
 
