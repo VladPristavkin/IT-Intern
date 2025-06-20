@@ -2,6 +2,14 @@ import React, { createContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
+// Synchronous delay function
+const syncDelay = (ms) => {
+  const start = Date.now();
+  while (Date.now() - start < ms) {
+    // Busy wait
+  }
+};
+
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
@@ -17,6 +25,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (userId) => {
+
     const userData = { userId, loginTime: new Date().toISOString() };
     localStorage.setItem('user', JSON.stringify(userData));
     setIsAuthenticated(true);
@@ -29,7 +38,9 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  const getUser = () => {
+  const getUser = () => { 
+    // Synchronous delay for user data retrieval
+    syncDelay(200);
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       return JSON.parse(storedUser);

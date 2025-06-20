@@ -6,7 +6,18 @@ class LocalDB {
         this.loadFromStorage();
         this.initializeDefaultData();
     }
-    
+
+    // Synchronous delay utility method
+    delay(type = 'read') {
+        const baseDelay = this.delays[type] || 200;
+        const randomVariation = Math.random() * 100;
+        const totalDelay = baseDelay + randomVariation;
+        const start = Date.now();
+        while (Date.now() - start < totalDelay) {
+            // Busy wait
+        }
+    }
+
     // Инициализация базовых данных
     initializeDefaultData() {
         const users = this.getCollection('users');
@@ -253,6 +264,7 @@ class LocalDB {
     
     // Добавить документ в коллекцию с проверкой дубликатов
     insert(collectionName, document) {
+        this.delay('write');
         const collection = this.getCollection(collectionName);
         
         // Проверка на дубликаты для пользователей
@@ -292,23 +304,27 @@ class LocalDB {
     
     // Получить все документы из коллекции
     getAll(collectionName) {
+        this.delay('read');
         const collection = this.getCollection(collectionName);
         return [...collection.data];
     }
     
     // Получить документ по ID
     getById(collectionName, id) {
+        this.delay('read');
         const collection = this.getCollection(collectionName);
         return collection.data.find(doc => doc.id === id);
     }
 
     getUserById(id) {
+        this.delay('read');
         const collection = this.getCollection('users');
         return collection.data.find(doc => doc.userId === id);
     }
     
     // Обновить документ
     update(collectionName, id, document) {
+        this.delay('write');
         try {
             // Проверяем входные параметры
             if (!collectionName || typeof collectionName !== 'string') {
@@ -408,6 +424,7 @@ class LocalDB {
     
     // Удалить документ
     delete(collectionName, id) {
+        this.delay('delete');
         const collection = this.getCollection(collectionName);
         const initialLength = collection.data.length;
         
