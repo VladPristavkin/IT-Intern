@@ -1,10 +1,18 @@
 import { v4 as uuidv4 } from 'uuid';
 
+
+
 class LocalDB {
     constructor() {
         this.collections = {};
         this.loadFromStorage();
         this.initializeDefaultData();
+                this.delays = {
+            read: 200,    // Basic read operations
+            write: 400,   // Write operations (insert/update)
+            delete: 300,  // Delete operations
+            query: 250    // Complex query operations
+        };
     }
 
     // Synchronous delay utility method
